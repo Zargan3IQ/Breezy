@@ -11,6 +11,12 @@
 .DS_Store
 Thumbs.db
 
+**/node_modules/
+dist/
+build/
+.env
+*.log
+
 # Docker & local databases logs/data
 .docker/
 postgres_data/
