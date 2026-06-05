@@ -1,13 +1,7 @@
 FROM node:20-alpine
-
 WORKDIR /usr/src/app
-
 COPY package*.json ./
-
-RUN npm ci --only=production
-
+RUN npm install
 COPY . .
-
 EXPOSE 3001
-
-CMD ["node", "src/app.js"]
+CMD ["npm", "run", "dev"]

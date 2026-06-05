@@ -1,7 +1,7 @@
 {
   "name": "post-service",
   "version": "1.0.0",
-  "description": "Service de gestion des posts en TypeScript",
+  "description": "Breezy Post Service",
   "main": "dist/index.js",
   "type": "commonjs",
   "scripts": {
