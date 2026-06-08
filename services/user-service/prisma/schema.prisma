@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                  String   @id @default(uuid()) @db.Uuid
+  username            String   @unique @db.VarChar(50)
+  email               String   @unique @db.VarChar(255)
+  role                String   @default("user") @db.VarChar(50)
+  isBanned            Boolean  @default(false) @map("is_banned")
+  languagePreference  String   @default("fr") @map("language_preference") @db.VarChar(10)
+  themePreference     String   @default("light") @map("theme_preference") @db.VarChar(20)
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @default(now()) @map("updated_at")
+
+  @@map("users")
+}

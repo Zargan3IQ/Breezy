@@ -1,9 +1,6 @@
 import { Request, Response } from 'express';
-import pool from '../config/db';
+import prisma from '../config/db';
 
-/**
- * Create a new user in the database
- */
 export const createUserInfos = async (req: Request, res: Response) => {
   const { id, username, email, role } = req.body;
 
@@ -12,89 +9,69 @@ export const createUserInfos = async (req: Request, res: Response) => {
   }
 
   try {
-    const query = `
-      INSERT INTO users (id, username, email, role)
-      VALUES ($1, $2, $3, $4)
-      RETURNING *;
-    `;
-    const result = await pool.query(query, [id, username, email, role ?? 'user']);
-    return res.status(201).json(result.rows[0]);
+    const user = await prisma.user.create({
+      data: { id, username, email, role: role ?? 'user' },
+    });
+    return res.status(201).json(user);
   } catch (error) {
     return res.status(500).json({ error: (error as Error).message });
   }
 };
 
-/**
- * Retrieve a user by ID
- */
-export const getUserInfos = async (req: Request, res: Response) => {
+export const getUserInfos = async (req: Request<{ id: string }>, res: Response) => {
   const { id } = req.params;
 
   try {
-    const result = await pool.query('SELECT * FROM users WHERE id = $1;', [id]);
+    const user = await prisma.user.findUnique({ where: { id } });
 
-    if (result.rows.length === 0) {
+    if (!user) {
       return res.status(404).json({ message: 'User not found.' });
     }
 
-    return res.status(200).json(result.rows[0]);
+    return res.status(200).json(user);
   } catch (error) {
     return res.status(500).json({ error: (error as Error).message });
   }
 };
 
-/**
- * Update user information (language, theme, username)
- */
-export const updateUserInfos = async (req: Request, res: Response) => {
+export const updateUserInfos = async (req: Request<{ id: string }>, res: Response) => {
   const { id } = req.params;
   const { language_preference, theme_preference, username } = req.body;
 
   try {
-    const query = `
-      UPDATE users
-      SET language_preference = COALESCE($1, language_preference),
-          theme_preference = COALESCE($2, theme_preference),
-          username = COALESCE($3, username),
-          updated_at = CURRENT_TIMESTAMP
-      WHERE id = $4
-      RETURNING *;
-    `;
-    const result = await pool.query(query, [language_preference, theme_preference, username, id]);
+    const user = await prisma.user.update({
+      where: { id },
+      data: {
+        languagePreference: language_preference ?? undefined,
+        themePreference: theme_preference ?? undefined,
+        username: username ?? undefined,
+      },
+    });
 
-    if (result.rows.length === 0) {
+    return res.status(200).json(user);
+  } catch (error) {
+    if ((error as { code?: string }).code === 'P2025') {
       return res.status(404).json({ message: 'User not found.' });
     }
-
-    return res.status(200).json(result.rows[0]);
-  } catch (error) {
     return res.status(500).json({ error: (error as Error).message });
   }
 };
 
-/**
- * Delete a user
- */
-export const deleteUserInfos = async (req: Request, res: Response) => {
+export const deleteUserInfos = async (req: Request<{ id: string }>, res: Response) => {
   const { id } = req.params;
 
   try {
-    const result = await pool.query('DELETE FROM users WHERE id = $1 RETURNING *;', [id]);
-
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'User not found.' });
-    }
-
+    await prisma.user.delete({ where: { id } });
     return res.status(200).json({ message: 'Account deleted successfully.' });
   } catch (error) {
+    if ((error as { code?: string }).code === 'P2025') {
+      return res.status(404).json({ message: 'User not found.' });
+    }
     return res.status(500).json({ error: (error as Error).message });
   }
 };
 
-/**
- * Update user ban status (admin action)
- */
-export const setBanStatus = async (req: Request, res: Response) => {
+export const setBanStatus = async (req: Request<{ id: string }>, res: Response) => {
   const { id } = req.params;
   const { is_banned } = req.body;
 
@@ -103,28 +80,20 @@ export const setBanStatus = async (req: Request, res: Response) => {
   }
 
   try {
-    const query = `
-      UPDATE users
-      SET is_banned = $1, updated_at = CURRENT_TIMESTAMP
-      WHERE id = $2
-      RETURNING *;
-    `;
-    const result = await pool.query(query, [is_banned, id]);
-
-    if (result.rows.length === 0) {
+    const user = await prisma.user.update({
+      where: { id },
+      data: { isBanned: is_banned },
+    });
+    return res.status(200).json(user);
+  } catch (error) {
+    if ((error as { code?: string }).code === 'P2025') {
       return res.status(404).json({ message: 'User not found.' });
     }
-
-    return res.status(200).json(result.rows[0]);
-  } catch (error) {
     return res.status(500).json({ error: (error as Error).message });
   }
 };
 
-/**
- * Update user role (admin action)
- */
-export const updateUserRole = async (req: Request, res: Response) => {
+export const updateUserRole = async (req: Request<{ id: string }>, res: Response) => {
   const { id } = req.params;
   const { role } = req.body;
 
@@ -133,20 +102,15 @@ export const updateUserRole = async (req: Request, res: Response) => {
   }
 
   try {
-    const query = `
-      UPDATE users
-      SET role = $1, updated_at = CURRENT_TIMESTAMP
-      WHERE id = $2
-      RETURNING *;
-    `;
-    const result = await pool.query(query, [role, id]);
-
-    if (result.rows.length === 0) {
+    const user = await prisma.user.update({
+      where: { id },
+      data: { role },
+    });
+    return res.status(200).json(user);
+  } catch (error) {
+    if ((error as { code?: string }).code === 'P2025') {
       return res.status(404).json({ message: 'User not found.' });
     }
-
-    return res.status(200).json(result.rows[0]);
-  } catch (error) {
     return res.status(500).json({ error: (error as Error).message });
   }
 };
