@@ -106,9 +106,9 @@ services:
       dockerfile: Dockerfile
     container_name: breezy-auth-service
     ports:
-      - "5000:5000"
+      - "5001:5001"
     environment:
-      - PORT=5000
+      - PORT=5001
       - DATABASE_URL=postgresql://postgres:password@auth-db:5432/breezy_auth_db
       - JWT_SECRET=change_this_secret_in_production
       - JWT_REFRESH_SECRET=change_this_refresh_secret_in_production
