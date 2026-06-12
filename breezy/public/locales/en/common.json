@@ -1,0 +1,35 @@
+{
+  "home_page": {
+    "title": "Home",
+    "empty_message": "No posts to display. Try following some accounts to see content here."
+  },
+  "sidebar": {
+    "nav": {
+      "home": "Home",
+      "explore": "Explore",
+      "notifications": "Notifications",
+      "messages": "Messages",
+      "profile": "Profile",
+      "more": "More"
+    },
+    "post_button": "Post"
+  },
+  "right_sidebar": {
+    "search_placeholder": "Search",
+    "who_to_follow": {
+      "title": "Who to follow",
+      "empty_message": "Suggested users will appear here."
+    },
+    "trending": {
+      "title": "Trending Topics"
+    }
+  },
+  "compose_post": {
+    "placeholder": "What's happening?",
+    "submit_button": "Post"
+  },
+  "post_card": {
+    "reply_placeholder": "Post your reply...",
+    "reply_button": "Reply"
+  }
+}

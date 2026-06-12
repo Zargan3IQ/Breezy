@@ -1,15 +1,19 @@
+'use client';
+
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 import Avatar from '@/components/ui/Avatar';
 import Button from '@/components/ui/Button';
 
 export default function Sidebar() {
+  const { t } = useTranslation('common');
   const navItems = [
-    { name: 'Home', icon: '🏠', href: '/' },
-    { name: 'Explore', icon: '🔍', href: '#' },
-    { name: 'Notifications', icon: '🔔', href: '#' },
-    { name: 'Messages', icon: '✉️', href: '#' },
-    { name: 'Profile', icon: '👤', href: '#' },
-    { name: 'More', icon: '⋯', href: '#' },
+    { key: 'home', icon: '🏠', href: '/' },
+    { key: 'explore', icon: '🔍', href: '#' },
+    { key: 'notifications', icon: '🔔', href: '#' },
+    { key: 'messages', icon: '✉️', href: '#' },
+    { key: 'profile', icon: '👤', href: '#' },
+    { key: 'more', icon: '⋯', href: '#' },
   ];
 
   return (
@@ -24,19 +28,18 @@ export default function Sidebar() {
       <nav className="flex flex-col gap-2">
         {navItems.map((item) => (
           <Link 
-            key={item.name} 
+            key={item.key} 
             href={item.href}
-            className="flex items-center gap-4 text-xl p-3 hover:bg-gray-100 rounded-full transition-colors w-max lg:w-full"
-          >
+            className="flex items-center gap-4 text-xl p-3 hover:bg-gray-100 rounded-full transition-colors w-max lg:w-full">
             <span>{item.icon}</span>
-            <span className="hidden lg:block font-semibold">{item.name}</span>
+            <span className="hidden lg:block font-semibold">{t(`sidebar.nav.${item.key}`)}</span>
           </Link>
         ))}
       </nav>
 
       {/* Primary Action Button */}
       <Button className="mt-6" variant="primary" size="lg">
-        <span className="hidden lg:block">Post</span>
+        <span className="hidden lg:block">{t('sidebar.post_button')}</span>
         <span className="block lg:hidden">+</span>
       </Button>
 

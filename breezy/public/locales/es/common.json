@@ -1,0 +1,35 @@
+{
+  "home_page": {
+    "title": "Inicio",
+    "empty_message": "No hay publicaciones para mostrar. Intenta seguir algunas cuentas para ver contenido aquí."
+  },
+  "sidebar": {
+    "nav": {
+      "home": "Inicio",
+      "explore": "Explorar",
+      "notifications": "Notificaciones",
+      "messages": "Mensajes",
+      "profile": "Perfil",
+      "more": "Más"
+    },
+    "post_button": "Publicar"
+  },
+  "right_sidebar": {
+    "search_placeholder": "Buscar",
+    "who_to_follow": {
+      "title": "A quién seguir",
+      "empty_message": "Las cuentas recomendadas aparecerán aquí."
+    },
+    "trending": {
+      "title": "Tendencias"
+    }
+  },
+  "compose_post": {
+    "placeholder": "¿Qué está pasando?",
+    "submit_button": "Publicar"
+  },
+  "post_card": {
+    "reply_placeholder": "Responder a esta publicación...",
+    "reply_button": "Responder"
+  }
+}

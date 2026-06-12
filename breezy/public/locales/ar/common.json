@@ -1,0 +1,35 @@
+{
+  "home_page": {
+    "title": "الرئيسية",
+    "empty_message": "ما كانش منشورات باش تبان. سيّي تتبع حسابات باش تشوف المحتوى هنايا."
+  },
+  "sidebar": {
+    "nav": {
+      "home": "الرئيسية",
+      "explore": "اكتشف",
+      "notifications": "الاشعارات",
+      "messages": "الرسائل",
+      "profile": "البروفايل",
+      "more": "بزاف"
+    },
+    "post_button": "انشر"
+  },
+  "right_sidebar": {
+    "search_placeholder": "حوس هنا...",
+    "who_to_follow": {
+      "title": "اقتراحات الحسابات",
+      "empty_message": "المستخدمين المقترحين راح يبانو هنايا."
+    },
+    "trending": {
+      "title": "الترندات"
+    }
+  },
+  "compose_post": {
+    "placeholder": "واش كاين جديد؟",
+    "submit_button": "انشر"
+  },
+  "post_card": {
+    "reply_placeholder": "رجع على هاد المنشور...",
+    "reply_button": "رجع"
+  }
+}

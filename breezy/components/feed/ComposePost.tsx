@@ -1,6 +1,7 @@
 "use client"; // Required because we use React state and event listeners
 
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Avatar from '@/components/ui/Avatar';
 import Button from '@/components/ui/Button';
 
@@ -12,6 +13,7 @@ interface ComposePostProps {
 
 // 2. Destructure the onPost function from props
 export default function ComposePost({ onPost }: ComposePostProps) {
+  const { t } = useTranslation('common');
   const [content, setContent] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -37,7 +39,7 @@ export default function ComposePost({ onPost }: ComposePostProps) {
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="What's happening?"
+            placeholder={t('compose_post.placeholder')}
             className="w-full bg-transparent text-xl outline-none resize-none min-h-15 placeholder-gray-500"
             maxLength={280}
           />
@@ -51,7 +53,7 @@ export default function ComposePost({ onPost }: ComposePostProps) {
               disabled={content.trim().length === 0}
               className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-1.5 px-4 rounded-full disabled:opacity-50"
             >
-              Post
+              {t('compose_post.submit_button')}
             </Button>
           </div>
         </form>

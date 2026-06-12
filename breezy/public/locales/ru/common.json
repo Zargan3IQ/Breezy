@@ -1,0 +1,35 @@
+{
+  "home_page": {
+    "title": "Главная",
+    "empty_message": "Нет публикаций для отображения. Попробуйте подписаться на кого-нибудь, чтобы увидеть контент."
+  },
+  "sidebar": {
+    "nav": {
+      "home": "Главная",
+      "explore": "Поиск",
+      "notifications": "Уведомления",
+      "messages": "Сообщения",
+      "profile": "Профиль",
+      "more": "Еще"
+    },
+    "post_button": "Опубликовать"
+  },
+  "right_sidebar": {
+    "search_placeholder": "Поиск",
+    "who_to_follow": {
+      "title": "Кого читать",
+      "empty_message": "Рекомендованные пользователи появятся здесь."
+    },
+    "trending": {
+      "title": "Актуальные темы"
+    }
+  },
+  "compose_post": {
+    "placeholder": "Что происходит?",
+    "submit_button": "Опубликовать"
+  },
+  "post_card": {
+    "reply_placeholder": "Ответить на этот пост...",
+    "reply_button": "Ответить"
+  }
+}

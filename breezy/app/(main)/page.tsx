@@ -1,6 +1,7 @@
 "use client"; // Required because we are managing State here now
 
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import ComposePost from '@/components/feed/ComposePost';
 import PostCard from '@/components/feed/PostCard';
 import { MOCK_POSTS } from '@/lib/utils/mockData';
@@ -9,6 +10,7 @@ import { Post, Reply } from '@/types/post';
 export default function HomeFeed() {
   // 1. Initialize state with our fake data
   const [posts, setPosts] = useState<Post[]>(MOCK_POSTS);
+  const { t } = useTranslation('common');
 
   // 2. Create a function to handle creating a new post
   // TODO - Later, this will call the backend API to create a post and get the full post object back 
@@ -73,7 +75,7 @@ export default function HomeFeed() {
   return (
     <main className="w-full max-w-150 border-x border-gray-200 min-h-screen">
       <header className="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-gray-200 p-4">
-        <h1 className="text-xl font-bold">Home</h1>
+        <h1 className="text-xl font-bold">{t('home_page.title')}</h1>
       </header>
 
       <ComposePost onPost={handleAddNewPost} />

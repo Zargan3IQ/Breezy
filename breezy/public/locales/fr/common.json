@@ -1,0 +1,35 @@
+{
+  "home_page": {
+    "title": "Accueil",
+    "empty_message": "Aucun post à afficher. Essayez de suivre des comptes pour voir du contenu ici."
+  },
+  "sidebar": {
+    "nav": {
+      "home": "Accueil",
+      "explore": "Explorer",
+      "notifications": "Notifications",
+      "messages": "Messages",
+      "profile": "Profil",
+      "more": "Plus"
+    },
+    "post_button": "Publier"
+  },
+  "right_sidebar": {
+    "search_placeholder": "Rechercher",
+    "who_to_follow": {
+      "title": "Suggestions de comptes",
+      "empty_message": "Les utilisateurs suggérés apparaîtront ici."
+    },
+    "trending": {
+      "title": "Tendances"
+    }
+  },
+  "compose_post": {
+    "placeholder": "Quoi de neuf ?",
+    "submit_button": "Publier"
+  },
+  "post_card": {
+    "reply_placeholder": "Répondre à ce post...",
+    "reply_button": "Répondre"
+  }
+}

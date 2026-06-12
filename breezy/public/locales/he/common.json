@@ -1,0 +1,35 @@
+{
+  "home_page": {
+    "title": "בית",
+    "empty_message": "אין פוסטים להצגה. נסה לעקוב אחר חשבונות כדי לראות תוכן כאן."
+  },
+  "sidebar": {
+    "nav": {
+      "home": "בית",
+      "explore": "סייר",
+      "notifications": "התראות",
+      "messages": "הודעות",
+      "profile": "פרופיל",
+      "more": "עוד"
+    },
+    "post_button": "פרסם"
+  },
+  "right_sidebar": {
+    "search_placeholder": "חיפוש",
+    "who_to_follow": {
+      "title": "הצעות למעקב",
+      "empty_message": "משתמשים מומלצים יופיעו כאן."
+    },
+    "trending": {
+      "title": "טרנדים"
+    }
+  },
+  "compose_post": {
+    "placeholder": "מה חדש?",
+    "submit_button": "פרסם"
+  },
+  "post_card": {
+    "reply_placeholder": "הגב לפוסט זה...",
+    "reply_button": "הגב"
+  }
+}

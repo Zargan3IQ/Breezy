@@ -2,6 +2,7 @@
 
 import Avatar from "@/components/ui/Avatar";
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Post } from '@/types/post';
 
 interface PostCardProps {
@@ -11,6 +12,7 @@ interface PostCardProps {
 }
 
 export default function PostCard({ post, onLike, onReply }: PostCardProps) {
+  const { t } = useTranslation('common');
   // Local state just to toggle the reply input box open and closed
   const [isReplying, setIsReplying] = useState(false);
   const [replyText, setReplyText] = useState('');
@@ -73,7 +75,7 @@ export default function PostCard({ post, onLike, onReply }: PostCardProps) {
                 type="text"
                 value={replyText}
                 onChange={(e) => setReplyText(e.target.value)}
-                placeholder="Post your reply..."
+                placeholder={t('post_card.reply_placeholder')}
                 className="flex-1 bg-transparent border-b border-gray-300 outline-none focus:border-teal-500 py-1"
               />
               <button 
@@ -81,7 +83,7 @@ export default function PostCard({ post, onLike, onReply }: PostCardProps) {
                 disabled={!replyText.trim()}
                 className="bg-teal-600 text-white px-4 py-1 rounded-full text-sm font-bold disabled:opacity-50"
               >
-                Reply
+                {t('post_card.reply_button')}
               </button>
             </div>
           )}

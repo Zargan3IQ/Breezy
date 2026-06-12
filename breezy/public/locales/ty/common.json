@@ -1,0 +1,35 @@
+{
+  "home_page": {
+    "title": "E rēfara",
+    "empty_message": "Kahore he tātā’ura’a e hō’ata. Tāmata i te pe’e i te tahi mau 'āfata rorouira nō te 'ite i te mau parau i ’onei."
+  },
+  "sidebar": {
+    "nav": {
+      "home": "E rēfara",
+      "explore": "Tāha’amana’o",
+      "notifications": "Fā’ara’a",
+      "messages": "Karere",
+      "profile": "Pāpa’ira’a parau",
+      "more": "Hā’uti ā"
+    },
+    "post_button": "Piha’iho"
+  },
+  "right_sidebar": {
+    "search_placeholder": "Paha’imi...",
+    "who_to_follow": {
+      "title": "Mau 'āfata rorouira e pe’e",
+      "empty_message": "E fā mai te mau ta’ata e fa’ahiahia hia i ’onei."
+    },
+    "trending": {
+      "title": "Te parau nui"
+    }
+  },
+  "compose_post": {
+    "placeholder": "E aha te parau hou?",
+    "submit_button": "Piha’iho"
+  },
+  "post_card": {
+    "reply_placeholder": "Pāhono i teie parau...",
+    "reply_button": "Pāhono"
+  }
+}
