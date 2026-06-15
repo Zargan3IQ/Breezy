@@ -35,7 +35,6 @@ export interface IPost extends Document {
 const PostSchema = new Schema<IPost>(
   {
     authorId: { type: String, required: true },
-    authorUsername: { type: String, required: true },
     content: { type: String, required: true, maxlength: 280 },
     media: {
       type: {
@@ -47,7 +46,6 @@ const PostSchema = new Schema<IPost>(
     },
     likesCount: { type: Number, default: 0 },
     commentsCount: { type: Number, default: 0 },
-    parentPost: { type: Schema.Types.ObjectId, ref: 'Post', default: null }
   },
   {
     timestamps: true

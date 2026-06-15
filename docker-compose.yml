@@ -16,7 +16,7 @@ services:
 
   user-service:
     build:
-      context: ./services/user-service
+      context: ./backend/services/user-service
       dockerfile: Dockerfile
     container_name: breezy-user-service
     ports:
@@ -25,7 +25,7 @@ services:
       - PORT=3001
       - DATABASE_URL=postgresql://postgres:password@user-db:5432/breezy_user_db
     volumes:
-      - ./services/user-service:/usr/src/app
+      - ./backend/services/user-service:/usr/src/app
       - /usr/src/app/node_modules
     depends_on:
       - user-db
@@ -46,7 +46,7 @@ services:
 
   post-service:
     build:
-      context: ./services/post-service
+      context: ./backend/services/post-service
       dockerfile: Dockerfile
     container_name: breezy-post-service
     ports:
@@ -55,7 +55,7 @@ services:
       - PORT=3003
       - MONGO_URI=mongodb://root:password@post-db:27017/breezy_post_db?authSource=admin
     volumes:
-      - ./services/post-service:/usr/src/app
+      - ./backend/services/post-service:/usr/src/app
       - /usr/src/app/node_modules
     depends_on:
       - post-db
@@ -69,20 +69,20 @@ services:
     ports:
       - "27018:27017"
     volumes:
-      - profil_db_data:/data/db
+      - profile_db_data:/data/db
 
   profil-service:
-    build: ./services/profil-service
-    container_name: breezy-profil-service
+    build: ./backend/services/profile-service
+    container_name: breezy-profile-service
     ports:
       - "3004:3004"
     environment:
-      - MONGO_URI=mongodb://profil-db:27017/profil-service
+      - MONGO_URI=mongodb://profile-db:27017/profile-service
       - PORT=3004
     depends_on:
       - profil-db
     volumes:
-      - ./services/profil-service:/app
+      - ./backend/services/profile-service:/app
       - /app/node_modules
 
   # ==========================================
@@ -102,7 +102,7 @@ services:
 
   auth-service:
     build:
-      context: ./services/auth-service
+      context: ./backend/services/auth-service
       dockerfile: Dockerfile
     container_name: breezy-auth-service
     ports:
@@ -119,7 +119,7 @@ services:
       - auth-db
       - user-service
     volumes:
-      - ./services/auth-service:/app
+      - ./backend/services/auth-service:/app
       - /app/node_modules
 
  # ==========================================
@@ -127,7 +127,7 @@ services:
   # ==========================================
   api-gateway:
     build:
-      context: ./services/api-gateway
+      context: ./backend/services/api-gateway
       dockerfile: Dockerfile
     container_name: breezy-api-gateway
     ports:
@@ -146,11 +146,11 @@ services:
       - post-service
       - profil-service
     volumes:
-      - ./services/api-gateway:/usr/src/app
+      - ./backend/services/api-gateway:/usr/src/app
       - /usr/src/app/node_modules
 
 volumes:
   user_db_data:
   post_db_data:
-  profil_db_data:
+  profile_db_data:
   auth_db_data:

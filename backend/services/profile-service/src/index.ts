@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import profileRoutes from './routes/profile.routes';
 import followsRoutes from './routes/follows.routes';
-import likesRoutes from './routes/likes.routes';
 
 dotenv.config();
 
@@ -25,9 +24,8 @@ mongoose.connect(MONGO_URI)
 
 app.use('/api/profile', profileRoutes);
 app.use('/api/profile', followsRoutes);
-app.use('/api/profile', likesRoutes);
 
 const PORT = process.env.PORT || 3004;
 app.listen(PORT, () => {
-  console.log(`Profil service running on port ${PORT}`);
+  console.log(`Profile service running on port ${PORT}`);
 });
