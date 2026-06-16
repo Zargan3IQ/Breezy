@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Post from '../models/post.model';
-import { Tag } from '../models/tag.model';
+import { Tag } from '../models/post-tag.model';
 
 // Helper function to validate MongoDB ObjectId
 const isValidObjectId = (id: string) => mongoose.Types.ObjectId.isValid(id);
@@ -44,7 +44,7 @@ export const createPost = async (req: Request, res: Response) => {
   }
 };
 
-const attachTags = async (posts: any[]) => {
+const attachPostTags = async (posts: any[]) => {
   const ids = posts.map((p) => p._id);
   const tagDocs = await Tag.find({ post_id: { $in: ids } });
 
@@ -65,7 +65,7 @@ const attachTags = async (posts: any[]) => {
 export const getAllMainPosts = async (_req: Request, res: Response) => {
   try {
     const posts = await Post.find({ parentPost: null }).sort({ createdAt: -1 }); // Pour le moment on filtrr que les parents pour le get all a voir si on garde ça ?
-    return res.status(200).json(await attachTags(posts));
+    return res.status(200).json(await attachPostTags(posts));
   } catch (error) {
     return res.status(500).json({ error: (error as Error).message });
   }
@@ -86,8 +86,8 @@ export const getPostWithReplies = async (req: Request, res: Response) => {
     if (!post) return res.status(404).json({ message: 'Post not found.' });
 
     const replies = await Post.find({ parentPost: id }).sort({ createdAt: 1 });
-    const [postWithTags] = await attachTags([post]);
-    const repliesWithTags = await attachTags(replies);
+    const [postWithTags] = await attachPostTags([post]);
+    const repliesWithTags = await attachPostTags(replies);
     return res.status(200).json({ post: postWithTags, replies: repliesWithTags });
   } catch (error) {
     return res.status(500).json({ error: (error as Error).message });
@@ -105,7 +105,7 @@ export const getRepliesForPost = async (req: Request, res: Response) => {
 
   try {
     const replies = await Post.find({ parentPost: id }).sort({ createdAt: 1 });
-    return res.status(200).json(await attachTags(replies));
+    return res.status(200).json(await attachPostTags(replies));
   } catch (error) {
     return res.status(500).json({ error: (error as Error).message });
   }
@@ -120,7 +120,7 @@ export const getPostsByTag = async (req: Request, res: Response) => {
     const postIds = tagDocs.map((d) => d.post_id);
 
     const posts = await Post.find({ _id: { $in: postIds }, parentPost: null }).sort({ createdAt: -1 });
-    return res.status(200).json(await attachTags(posts));
+    return res.status(200).json(await attachPostTags(posts));
   } catch (error) {
     return res.status(500).json({ error: (error as Error).message });
   }
