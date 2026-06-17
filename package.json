@@ -1,0 +1,7 @@
+{
+  "name": "projet-api-groupe3",
+  "private": true,
+  "scripts": {
+    "seed:all": "npm --prefix backend/services/user-service run seed && npm --prefix backend/services/auth-service run seed && npm --prefix backend/services/profile-service run seed && npm --prefix backend/services/post-service run seed"
+  }
+}
