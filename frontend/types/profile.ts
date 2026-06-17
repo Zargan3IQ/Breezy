@@ -9,3 +9,8 @@ export interface BackendProfile {
   avatar_url?: string;
   counters?: BackendProfileCounters | null;
 }
+
+export interface BackendFollowing {
+  user_id: string;
+  following: string[];
+}

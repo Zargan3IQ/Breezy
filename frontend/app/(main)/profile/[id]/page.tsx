@@ -3,10 +3,11 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Avatar from '@/components/ui/Avatar';
+import Button from '@/components/ui/Button';
 import PostCard from '@/components/feed/PostCard';
 import { useAuth } from '@/context/AuthContext';
 import { createComment, fetchPosts, fetchUserLikedPostIds, likePost, unlikePost } from '@/lib/api/posts';
-import { fetchProfileById } from '@/lib/api/profile';
+import { fetchFollowingById, fetchProfileById, followUser, unfollowUser } from '@/lib/api/profile';
 import { fetchPublicUserById } from '@/lib/api/users';
 import { Post, Reply, mapBackendComment, mapBackendPost } from '@/types/post';
 import { User } from '@/types/user';
@@ -20,6 +21,8 @@ export default function ProfilePage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [isFollowPending, setIsFollowPending] = useState(false);
 
   useEffect(() => {
     if (authLoading) return;
@@ -37,11 +40,12 @@ export default function ProfilePage() {
         setIsLoading(true);
         setError(null);
 
-        const [publicUser, backendPosts, likedIds, backendProfile] = await Promise.all([
+        const [publicUser, backendPosts, likedIds, backendProfile, currentUserFollowing] = await Promise.all([
           fetchPublicUserById(profileId),
           fetchPosts(),
           fetchUserLikedPostIds(currentUser.id),
           fetchProfileById(profileId).catch(() => null),
+          fetchFollowingById(currentUser.id).catch((): string[] => []),
         ]);
 
         const nextProfileUser: User = {
@@ -66,6 +70,7 @@ export default function ProfilePage() {
 
         setProfileUser(nextProfileUser);
         setPosts(nextPosts);
+        setIsFollowing(currentUserFollowing.includes(profileId));
       } catch {
         setError('Impossible de charger ce profil.');
       } finally {
@@ -138,6 +143,44 @@ export default function ProfilePage() {
     }
   };
 
+  const handleToggleFollow = async () => {
+    if (!user || !profileUser || user.id === profileUser.id || isFollowPending) {
+      return;
+    }
+
+    const wasFollowing = isFollowing;
+    setIsFollowPending(true);
+    setIsFollowing(!wasFollowing);
+    setProfileUser((currentProfileUser) => {
+      if (!currentProfileUser) return currentProfileUser;
+
+      return {
+        ...currentProfileUser,
+        followersCount: Math.max(0, (currentProfileUser.followersCount ?? 0) + (wasFollowing ? -1 : 1)),
+      };
+    });
+
+    try {
+      if (wasFollowing) {
+        await unfollowUser(user.id, profileUser.id);
+      } else {
+        await followUser(user.id, profileUser.id);
+      }
+    } catch {
+      setIsFollowing(wasFollowing);
+      setProfileUser((currentProfileUser) => {
+        if (!currentProfileUser) return currentProfileUser;
+
+        return {
+          ...currentProfileUser,
+          followersCount: Math.max(0, (currentProfileUser.followersCount ?? 0) + (wasFollowing ? 1 : -1)),
+        };
+      });
+    } finally {
+      setIsFollowPending(false);
+    }
+  };
+
   return (
     <main className="w-full max-w-150 border-x border-gray-200 min-h-screen bg-white">
       <header className="sticky top-0 z-10 border-b border-gray-200 bg-white/90 px-4 py-4 backdrop-blur-md">
@@ -159,6 +202,19 @@ export default function ProfilePage() {
                   <p className="text-sm text-gray-500">@{profileUser.username}</p>
                 </div>
               </div>
+
+              {user && user.id !== profileUser.id && (
+                <Button
+                  type="button"
+                  variant={isFollowing ? 'secondary' : 'primary'}
+                  size="md"
+                  disabled={isFollowPending}
+                  onClick={handleToggleFollow}
+                  className="sm:self-start"
+                >
+                  {isFollowPending ? 'Chargement...' : isFollowing ? 'Ne plus suivre' : 'Suivre'}
+                </Button>
+              )}
 
               <div className="flex gap-6 text-sm text-gray-600">
                 <p>
