@@ -5,7 +5,7 @@ on:
   push:
     branches: [main, feat/add-ci]
   pull_request:
-    branches: [main]
+    branches: [main, feat/add-ci]
 
 jobs:
   build-and-check:
