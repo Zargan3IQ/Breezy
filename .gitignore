@@ -22,6 +22,14 @@ build/
 postgres_data/
 mongo_data/
 
+# Next.js build artifacts (all apps/workspaces)
+.next/
+**/.next/
+out/
+**/out/
+next-env.d.ts
+**/next-env.d.ts
+
 # Local environment files that might slip through
 .env
 .env.local
