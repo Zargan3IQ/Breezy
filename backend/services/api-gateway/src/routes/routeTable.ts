@@ -23,6 +23,7 @@ export const routeTable: RouteRule[] = [
 
   // Users
   { method: 'get', path: '/api/users/:id', target: 'user', auth: 'required' },
+  { method: 'get', path: '/api/users/search', target: 'user', auth: 'required' },
   { method: 'put', path: '/api/users/:id', target: 'user', auth: 'required', selfParam: 'id', bypassRoles: ['admin'] },
   { method: 'delete', path: '/api/users/:id', target: 'user', auth: 'required', selfParam: 'id', bypassRoles: ['admin'] },
   //{ method: 'patch', path: '/api/users/:id/ban', target: 'user', auth: 'required', roles: ['admin'] },
@@ -34,6 +35,7 @@ export const routeTable: RouteRule[] = [
   { method: 'get', path: '/api/posts', target: 'post', auth: 'required' },
   { method: 'get', path: '/api/posts/:id', target: 'post', auth: 'required' },
   { method: 'get', path: '/api/posts/:id/replies', target: 'post', auth: 'required' },
+  { method: 'get', path: '/api/posts/search', target: 'post', auth: 'required' },
   { method: 'put', path: '/api/posts/:id', target: 'post', auth: 'required' },
   { method: 'delete', path: '/api/posts/:id', target: 'post', auth: 'required' },
 
@@ -42,6 +44,7 @@ export const routeTable: RouteRule[] = [
   { method: 'get', path: '/api/comments/tags/:tag', target: 'post', auth: 'required' },
   { method: 'get', path: '/api/comments/post/:postId', target: 'post', auth: 'required' },
   { method: 'get', path: '/api/comments/:id/replies', target: 'post', auth: 'required' },
+  { method: 'get', path: '/api/comments/search', target: 'post', auth: 'required' },
   { method: 'put', path: '/api/comments/:id', target: 'post', auth: 'required' },
   { method: 'delete', path: '/api/comments/:id', target: 'post', auth: 'required' },
 

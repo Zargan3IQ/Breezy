@@ -125,3 +125,26 @@ export const updateUserRole = async (req: Request<{ id: string }>, res: Response
     return res.status(500).json({ error: (error as Error).message });
   }
 };
+
+/**
+ * Search users by username
+ */
+export const searchUsers = async (req: Request, res: Response) => {
+  const q = (req.query.q as string | undefined)?.trim();
+  if (!q) return res.status(400).json({ message: 'Query parameter "q" is required.' });
+
+  try {
+    const users = await prisma.user.findMany({
+      where: {
+        username: { contains: q, mode: 'insensitive' },
+        isBanned: false,
+      },
+      select: { id: true, username: true },
+      take: 20,
+    });
+
+    return res.status(200).json(users);
+  } catch (error) {
+    return res.status(500).json({ error: (error as Error).message });
+  }
+};
