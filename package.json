@@ -7,7 +7,8 @@
     "backend/services/auth-service",
     "backend/services/post-service",
     "backend/services/profile-service",
-    "backend/services/user-service"
+    "backend/services/user-service",
+    "backend/services/media-service"
   ],
   "scripts": {
     "seed:all": "docker compose up -d user-db auth-db post-db profile-db user-service auth-service profile-service post-service && docker compose exec -T user-service npm run seed && docker compose exec -T auth-service npm run seed && docker compose exec -T profile-service npm run seed && docker compose exec -T post-service npm run seed"
