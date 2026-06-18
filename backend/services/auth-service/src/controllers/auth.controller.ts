@@ -9,6 +9,7 @@ const JWT_REFRESH_SECRET     = process.env.JWT_REFRESH_SECRET     || 'refresh_se
 const JWT_EXPIRES_IN         = process.env.JWT_EXPIRES_IN         || '15m';
 const JWT_REFRESH_EXPIRES_IN = process.env.JWT_REFRESH_EXPIRES_IN || '7d';
 const USER_SERVICE_URL       = process.env.USER_SERVICE_URL       || 'http://user-service:3001';
+const PROFILE_SERVICE_URL    = process.env.PROFILE_SERVICE_URL    || 'http://profile-service:3004';
 const IS_PROD                = process.env.NODE_ENV === 'production';
 
 const ACCESS_COOKIE_MAX_AGE  = 15 * 60 * 1000;           // 15 min in ms
@@ -62,6 +63,16 @@ const clearAuthCookies = (res: Response) => {
   res.clearCookie('breezy_refresh', COOKIE_BASE);
 };
 
+const rollbackRegisteredUser = async (userId: string) => {
+  await prisma.authUser.delete({ where: { userId } }).catch(() => {});
+
+  try {
+    await fetch(`${USER_SERVICE_URL}/api/users/${userId}`, { method: 'DELETE' });
+  } catch {
+    // Best-effort cleanup only.
+  }
+};
+
 export const register = async (req: Request, res: Response): Promise<void> => {
   const { username, email, password } = req.body;
 
@@ -91,13 +102,27 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     if (!userRes.ok) {
       const body = await userRes.text();
       console.error(`[auth] user-service rejected user creation: ${userRes.status} ${body}`);
-      await prisma.authUser.delete({ where: { userId } });
+      await rollbackRegisteredUser(userId);
       res.status(502).json({ message: 'Failed to create user profile' });
       return;
     }
+
+    const profileRes = await fetch(`${PROFILE_SERVICE_URL}/api/profile/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id: userId }),
+    });
+
+    if (!profileRes.ok) {
+      const body = await profileRes.text();
+      console.error(`[auth] profile-service rejected profile creation: ${profileRes.status} ${body}`);
+      await rollbackRegisteredUser(userId);
+      res.status(502).json({ message: 'Failed to initialize user profile' });
+      return;
+    }
   } catch (err) {
-    console.error('[auth] user-service unreachable during register:', err);
-    await prisma.authUser.delete({ where: { userId } }).catch(() => {});
+    console.error('[auth] downstream service unreachable during register:', err);
+    await rollbackRegisteredUser(userId);
     throw err;
   }
 
