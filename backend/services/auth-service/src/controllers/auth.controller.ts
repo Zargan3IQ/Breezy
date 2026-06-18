@@ -3,6 +3,8 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { randomUUID } from 'crypto';
 import prisma from '../config/db';
+import { isValidEmail, getPasswordIssues, isValidUsername } from '../utils/validators';
+
 
 const JWT_SECRET             = process.env.JWT_SECRET             || 'secret';
 const JWT_REFRESH_SECRET     = process.env.JWT_REFRESH_SECRET     || 'refresh_secret';
@@ -81,6 +83,23 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     return;
   }
 
+    if (!isValidUsername(username)) {
+    res.status(400).json({ message: 'Username must be 3-30 characters (letters, digits, "_", ".").' });
+    return;
+  }
+
+  const normalizedEmail = email.trim().toLowerCase();
+  if (!isValidEmail(normalizedEmail)) {
+    res.status(400).json({ message: 'Invalid email format.' });
+    return;
+  }
+
+  const passwordIssues = getPasswordIssues(password);
+  if (passwordIssues.length > 0) {
+    res.status(400).json({ message: 'Password does not meet security requirements.', issues: passwordIssues });
+    return;
+  }
+
   const existing = await prisma.authUser.findUnique({ where: { email } });
   if (existing) {
     res.status(409).json({ message: 'Email already in use' });
@@ -90,13 +109,13 @@ export const register = async (req: Request, res: Response): Promise<void> => {
   const userId = randomUUID();
   const passwordHash = await bcrypt.hash(password, 10);
 
-  await prisma.authUser.create({ data: { userId, email, passwordHash } });
+  await prisma.authUser.create({ data: { userId, email: normalizedEmail, passwordHash } });
 
   try {
     const userRes = await fetch(`${USER_SERVICE_URL}/api/users/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: userId, username, email, role: 'user' }),
+      body: JSON.stringify({ id: userId, username, email: normalizedEmail, role: 'user' }),
     });
 
     if (!userRes.ok) {
