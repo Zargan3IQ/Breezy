@@ -9,7 +9,7 @@ import { useAuth } from '@/context/AuthContext';
 export default function Sidebar() {
   const { t } = useTranslation('common');
   const { user, logout } = useAuth();
-  const profileHref = user ? `/profile/${user.id}` : '/';
+  const profileHref = user ? `/profile/${encodeURIComponent(user.username)}` : '/';
 
   const navItems = [
     { key: 'home', icon: '🏠', href: '/' },

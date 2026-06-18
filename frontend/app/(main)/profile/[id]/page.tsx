@@ -8,14 +8,15 @@ import PostCard from '@/components/feed/PostCard';
 import { useAuth } from '@/context/AuthContext';
 import { createComment, fetchPosts, fetchUserLikedPostIds, likePost, unlikePost } from '@/lib/api/posts';
 import { fetchFollowingById, fetchProfileById, followUser, unfollowUser } from '@/lib/api/profile';
-import { fetchPublicUserById } from '@/lib/api/users';
+import { fetchPublicUserByUsername } from '@/lib/api/users';
 import { Post, Reply, mapBackendComment, mapBackendPost } from '@/types/post';
 import { User } from '@/types/user';
 
 export default function ProfilePage() {
   const params = useParams<{ id: string }>();
-  const profileId = Array.isArray(params.id) ? params.id[0] : params.id;
+  const routeUsername = Array.isArray(params.id) ? params.id[0] : params.id;
   const { user, isLoading: authLoading } = useAuth();
+  const isProfileUnavailable = !authLoading && (!user || !routeUsername);
 
   const [profileUser, setProfileUser] = useState<User | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
@@ -25,11 +26,7 @@ export default function ProfilePage() {
   const [isFollowPending, setIsFollowPending] = useState(false);
 
   useEffect(() => {
-    if (authLoading) return;
-
-    if (!user || !profileId) {
-      setIsLoading(false);
-      setError('Profil indisponible.');
+    if (authLoading || !user || !routeUsername) {
       return;
     }
 
@@ -40,8 +37,10 @@ export default function ProfilePage() {
         setIsLoading(true);
         setError(null);
 
-        const [publicUser, backendPosts, likedIds, backendProfile, currentUserFollowing] = await Promise.all([
-          fetchPublicUserById(profileId),
+        const publicUser = await fetchPublicUserByUsername(routeUsername);
+        const profileId = publicUser.id;
+
+        const [backendPosts, likedIds, backendProfile, currentUserFollowing] = await Promise.all([
           fetchPosts(),
           fetchUserLikedPostIds(currentUser.id),
           fetchProfileById(profileId).catch(() => null),
@@ -72,6 +71,8 @@ export default function ProfilePage() {
         setPosts(nextPosts);
         setIsFollowing(currentUserFollowing.includes(profileId));
       } catch {
+        setProfileUser(null);
+        setPosts([]);
         setError('Impossible de charger ce profil.');
       } finally {
         setIsLoading(false);
@@ -79,7 +80,7 @@ export default function ProfilePage() {
     }
 
     loadProfilePage();
-  }, [authLoading, profileId, user]);
+  }, [authLoading, routeUsername, user]);
 
   const handleToggleLike = async (postId: string) => {
     const post = posts.find((entry) => entry.id === postId);
@@ -189,9 +190,11 @@ export default function ProfilePage() {
 
       {isLoading && <p className="px-4 py-8 text-center text-gray-400">Chargement du profil...</p>}
 
+      {isProfileUnavailable && <p className="px-4 py-8 text-center text-red-500">Profil indisponible.</p>}
+
       {error && <p className="px-4 py-8 text-center text-red-500">{error}</p>}
 
-      {!isLoading && !error && profileUser && (
+      {!isLoading && !isProfileUnavailable && !error && profileUser && (
         <>
           <section className="border-b border-gray-200 px-4 py-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -238,9 +241,8 @@ export default function ProfilePage() {
             )}
 
             {posts.map((post) => {
-              const PostCardAny = PostCard as any;
               return (
-                <PostCardAny
+                <PostCard
                   key={post.id}
                   post={post}
                   onLike={() => handleToggleLike(post.id)}

@@ -10,3 +10,8 @@ export async function fetchPublicUserById(id: string): Promise<BackendPublicUser
   const res = await api.get<BackendPublicUser>(`/users/${id}/public`);
   return res.data;
 }
+
+export async function fetchPublicUserByUsername(username: string): Promise<BackendPublicUser> {
+  const res = await api.get<BackendPublicUser>(`/users/username/${encodeURIComponent(username)}/public`);
+  return res.data;
+}

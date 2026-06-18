@@ -5,7 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 
 export default function MobileBottomNav() {
   const { logout, user } = useAuth();
-  const profileHref = user ? `/profile/${user.id}` : '/';
+  const profileHref = user ? `/profile/${encodeURIComponent(user.username)}` : '/';
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-3 px-6 z-50 md:hidden">

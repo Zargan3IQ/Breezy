@@ -22,6 +22,7 @@ export const routeTable: RouteRule[] = [
   { method: 'get', path: '/api/auth/verify', target: 'auth', auth: 'public' },
 
   // Users
+  { method: 'get', path: '/api/users/username/:username/public', target: 'user', auth: 'required' },
   { method: 'get', path: '/api/users/:id/public', target: 'user', auth: 'required' },
   { method: 'get', path: '/api/users/:id', target: 'user', auth: 'required' },
   { method: 'get', path: '/api/users/search', target: 'user', auth: 'required' },

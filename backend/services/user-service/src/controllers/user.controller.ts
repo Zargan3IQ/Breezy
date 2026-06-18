@@ -63,6 +63,31 @@ export const getPublicUserSummary = async (req: Request<{ id: string }>, res: Re
   }
 };
 
+export const getPublicUserSummaryByUsername = async (req: Request<{ username: string }>, res: Response) => {
+  const { username } = req.params;
+
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        username: { equals: username, mode: 'insensitive' },
+      },
+      select: {
+        id: true,
+        username: true,
+        avatarUrl: true,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    return res.status(200).json(user);
+  } catch (error) {
+    return res.status(500).json({ error: (error as Error).message });
+  }
+};
+
 export const updateUserInfos = async (req: Request<{ id: string }>, res: Response) => {
   const { id } = req.params;
   const { language_preference, theme_preference, username, avatar_url, email } = req.body;
