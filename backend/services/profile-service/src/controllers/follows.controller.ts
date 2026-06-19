@@ -15,7 +15,6 @@ export const followUser = async (req: Request, res: Response): Promise<void> => 
 
   if (follower_id === following_id) {
     throw new AppError(400, 'Cannot follow yourself');
-    return;
   }
 
   try {

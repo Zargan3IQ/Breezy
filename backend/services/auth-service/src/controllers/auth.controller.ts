@@ -97,7 +97,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     throw new AppError(400, 'Password does not meet security requirements.');
   }
 
-  const existing = await prisma.authUser.findUnique({ where: { email } });
+  const existing = await prisma.authUser.findUnique({ where: { email: normalizedEmail } });
   if (existing) {
     throw new AppError(409, 'Email already in use');
   }
@@ -107,12 +107,11 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 
   await prisma.authUser.create({ data: { userId, email: normalizedEmail, passwordHash } });
 
-  try {
-    const userRes = await fetch(`${USER_SERVICE_URL}/api/users/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: userId, username, email: normalizedEmail, role: 'user' }),
-    });
+  const userRes = await fetch(`${USER_SERVICE_URL}/api/users/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: userId, username, email: normalizedEmail, role: 'user' }),
+  });
 
     if (!userRes.ok) {
       const body = await userRes.text();
@@ -133,13 +132,8 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       await rollbackRegisteredUser(userId);
       throw new AppError(502, 'Failed to initialize user profile');
     }
-  } catch (err) {
-    console.error('[auth] downstream service unreachable during register:', err);
-    await rollbackRegisteredUser(userId);
-    throw err;
-  }
-
-  const { accessToken, refreshToken } = generateTokens(userId, email, 'user');
+ 
+  const { accessToken, refreshToken } = generateTokens(userId, normalizedEmail, 'user');
 
   const expiresAt = new Date();
   expiresAt.setDate(expiresAt.getDate() + 7);

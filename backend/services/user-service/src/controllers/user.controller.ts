@@ -16,20 +16,15 @@ export const createUserInfos = async (req: Request, res: Response) => {
     throw new AppError(400, `role must be one of: ${VALID_ROLES.join(', ')}`);
   }
 
-  try {
     const user = await prisma.user.create({
       data: { id, username, email, role: role ?? 'user' },
     });
     return res.status(201).json(user);
-  } catch (error) {
-    throw new AppError(500, (error as Error).message);
-  }
 };
 
 export const getUserInfos = async (req: Request<{ id: string }>, res: Response) => {
   const { id } = req.params;
 
-  try {
     const user = await prisma.user.findUnique({ where: { id } });
 
     if (!user) {
@@ -37,15 +32,12 @@ export const getUserInfos = async (req: Request<{ id: string }>, res: Response) 
     }
 
     return res.status(200).json(user);
-  } catch (error) {
-    throw new AppError(500, (error as Error).message);
-  }
+
 };
 
 export const getPublicUserSummary = async (req: Request<{ id: string }>, res: Response) => {
   const { id } = req.params;
 
-  try {
     const user = await prisma.user.findUnique({
       where: { id },
       select: {
@@ -59,15 +51,12 @@ export const getPublicUserSummary = async (req: Request<{ id: string }>, res: Re
     }
 
     return res.status(200).json(user);
-  } catch (error) {
-    throw new AppError(500, (error as Error).message);
-  }
+
 };
 
 export const getPublicUserSummaryByUsername = async (req: Request<{ username: string }>, res: Response) => {
   const { username } = req.params;
 
-  try {
     const user = await prisma.user.findFirst({
       where: {
         username: { equals: username, mode: 'insensitive' },
@@ -84,9 +73,7 @@ export const getPublicUserSummaryByUsername = async (req: Request<{ username: st
     }
 
     return res.status(200).json(user);
-  } catch (error) {
-    throw new AppError(500, (error as Error).message);
-  }
+ 
 };
 
 export const updateUserInfos = async (req: Request<{ id: string }>, res: Response) => {
@@ -110,7 +97,7 @@ export const updateUserInfos = async (req: Request<{ id: string }>, res: Respons
     if ((error as { code?: string }).code === 'P2025') {
       throw new AppError(404, 'User not found.');
     }
-    throw new AppError(500, (error as Error).message);
+    throw error;
   }
 };
 
@@ -124,7 +111,7 @@ export const deleteUserInfos = async (req: Request<{ id: string }>, res: Respons
     if ((error as { code?: string }).code === 'P2025') {
       throw new AppError(404, 'User not found.');
     }
-    throw new AppError(500, (error as Error).message);
+    throw error;
   }
 };
 
@@ -172,7 +159,7 @@ export const updateUserRole = async (req: Request<{ id: string }>, res: Response
     if ((error as { code?: string }).code === 'P2025') {
       throw new AppError(404, 'User not found.');
     }
-    throw new AppError(500, (error as Error).message);
+    throw error;
   }
 };
 
@@ -183,7 +170,6 @@ export const searchUsers = async (req: Request, res: Response) => {
   const q = (req.query.q as string | undefined)?.trim();
   if (!q) throw new AppError(400, 'Query parameter "q" is required.');
 
-  try {
     const users = await prisma.user.findMany({
       where: {
         username: { contains: q, mode: 'insensitive' },
@@ -194,7 +180,5 @@ export const searchUsers = async (req: Request, res: Response) => {
     });
 
     return res.status(200).json(users);
-  } catch (error) {
-    throw new AppError(500, (error as Error).message);
-  }
+
 };

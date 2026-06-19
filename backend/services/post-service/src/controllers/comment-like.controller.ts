@@ -30,7 +30,7 @@ export const likeComment = async (req: Request, res: Response) => {
     if (error.code === 11000) {
       throw new AppError(409, 'Comment already liked.');
     }
-    throw new AppError(500, (error as Error).message);
+    throw error;
   }
 };
 
@@ -44,14 +44,10 @@ export const unlikeComment = async (req: Request, res: Response) => {
     throw new AppError(400, 'user_id and comment_id are required.');
   }
 
-  try {
     const deleted = await CommentLike.findOneAndDelete({ user_id, comment_id });
     if (!deleted) throw new AppError(404, 'Like not found.');
 
     return res.status(200).json({ message: 'Comment unliked successfully.' });
-  } catch (error) {
-    throw new AppError(500, (error as Error).message);
-  }
 };
 
 /**
@@ -60,12 +56,9 @@ export const unlikeComment = async (req: Request, res: Response) => {
 export const getUserCommentLikes = async (req: Request, res: Response) => {
   const userId = Array.isArray(req.params.userId) ? req.params.userId[0] : req.params.userId;
 
-  try {
     const docs = await CommentLike.find({ user_id: userId }).select('comment_id');
     return res.status(200).json({ user_id: userId, liked_comments: docs.map((d) => d.comment_id) });
-  } catch (error) {
-    throw new AppError(500, (error as Error).message);
-  }
+
 };
 
 /**
@@ -78,10 +71,7 @@ export const getCommentLikers = async (req: Request, res: Response) => {
     throw new AppError(400, 'Comment ID is invalid.');
   }
 
-  try {
     const docs = await CommentLike.find({ comment_id: commentId }).select('user_id');
     return res.status(200).json({ comment_id: commentId, likers: docs.map((d) => d.user_id) });
-  } catch (error) {
-    throw new AppError(500, (error as Error).message);
-  }
+
 };

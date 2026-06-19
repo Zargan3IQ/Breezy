@@ -18,7 +18,6 @@ export const createPost = async (req: Request, res: Response) => {
     throw new AppError(400, 'Authenticated user and content are required.');
   }
 
-  try {
     const newPost = new Post({
       authorId,
       content,
@@ -41,9 +40,7 @@ export const createPost = async (req: Request, res: Response) => {
     }
 
     return res.status(201).json({ ...savedPost.toObject(), tags: tags ?? [] });
-  } catch (error) {
-    return res.status(500).json({ error: (error as Error).message });
-  }
+
 };
 
 const attachPostTags = async (posts: any[]) => {
@@ -65,12 +62,9 @@ const attachPostTags = async (posts: any[]) => {
  * Retrieve all main posts (excluding replies)
  */
 export const getAllMainPosts = async (_req: Request, res: Response) => {
-  try {
     const posts = await Post.find({ parentPost: null }).sort({ createdAt: -1 }); // Pour le moment on filtrr que les parents pour le get all a voir si on garde ça ?
     return res.status(200).json(await attachPostTags(posts));
-  } catch (error) {
-    return res.status(500).json({ error: (error as Error).message });
-  }
+
 };
 
 /**
@@ -83,7 +77,6 @@ export const getPostWithReplies = async (req: Request, res: Response) => {
     throw new AppError(400, 'Post ID is invalid.');
   }
 
-  try {
     const post = await Post.findById(id);
     if (!post) throw new AppError(404, 'Post not found.');
 
@@ -91,9 +84,7 @@ export const getPostWithReplies = async (req: Request, res: Response) => {
     const [postWithTags] = await attachPostTags([post]);
     const repliesWithTags = await attachPostTags(replies);
     return res.status(200).json({ post: postWithTags, replies: repliesWithTags });
-  } catch (error) {
-    throw new AppError(500, (error as Error).message);
-  }
+
 };
 
 /**
@@ -105,27 +96,21 @@ export const getRepliesForPost = async (req: Request, res: Response) => {
     throw new AppError(400, 'Post ID is invalid.');
   }
 
-  try {
     const replies = await Post.find({ parentPost: id }).sort({ createdAt: 1 });
     return res.status(200).json(await attachPostTags(replies));
-  } catch (error) {
-    throw new AppError(500, (error as Error).message);
-  }
+
 };
 
 export const getPostsByTag = async (req: Request, res: Response) => {
   const rawTag = Array.isArray(req.params.tag) ? req.params.tag[0] : req.params.tag;
   const tag = (rawTag || '').toLowerCase().trim();
 
-  try {
     const tagDocs = await Tag.find({ tag }).select('post_id');
     const postIds = tagDocs.map((d) => d.post_id);
 
     const posts = await Post.find({ _id: { $in: postIds }, parentPost: null }).sort({ createdAt: -1 });
     return res.status(200).json(await attachPostTags(posts));
-  } catch (error) {
-    throw new AppError(500, (error as Error).message);
-  }
+
 };
 
 /**
@@ -139,7 +124,6 @@ export const updatePost = async (req: Request, res: Response) => {
     throw new AppError(400, 'Post ID is invalid.');
   }
 
-  try {
     const updatedPost = await Post.findByIdAndUpdate(
       id,
       {
@@ -164,9 +148,7 @@ export const updatePost = async (req: Request, res: Response) => {
     }
 
     return res.status(200).json({ ...updatedPost.toObject(), tags: resultTags });
-  } catch (error) {
-    throw new AppError(500, (error as Error).message);
-  }
+
 };
 
 /**
@@ -178,7 +160,6 @@ const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
     throw new AppError(400, 'Post ID is invalid.');
   }
 
-  try {
     const postToDelete = await Post.findById(id);
     if (!postToDelete) throw new AppError(404, 'Post not found.');
 
@@ -189,9 +170,7 @@ const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
     await Post.findByIdAndDelete(id);
     await Tag.deleteMany({ post_id: id });
     return res.status(200).json({ message: 'Post deleted successfully.' });
-  } catch (error) {
-    throw new AppError(500, (error as Error).message);
-  }
+
 };
 
 /**
@@ -201,7 +180,6 @@ export const searchPosts = async (req: Request, res: Response) => {
   const q = (req.query.q as string | undefined)?.trim();
   if (!q) throw new AppError(400, 'Query parameter "q" is required.');
 
-  try {
     const [byText, tagDocs] = await Promise.all([
       Post.find(
         { $text: { $search: q } },
@@ -215,7 +193,5 @@ export const searchPosts = async (req: Request, res: Response) => {
     const byTag = tagPostIds.length > 0 ? await Post.find({ _id: { $in: tagPostIds } }) : [];
 
     return res.status(200).json(await attachPostTags([...byText, ...byTag]));
-  } catch (error) {
-    throw new AppError(500, (error as Error).message);
-  }
+
 };

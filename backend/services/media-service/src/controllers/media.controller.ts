@@ -15,7 +15,6 @@ export const uploadMedia = async (req: Request, res: Response) => {
   const objectName = `${randomUUID()}.${ext}`;
   const mediaType = req.file.mimetype.startsWith('video') ? 'video' : 'image';
 
-  try {
     await minioClient.putObject(BUCKET_NAME, objectName, req.file.buffer, req.file.size, {
       'Content-Type': req.file.mimetype,
     });
@@ -23,9 +22,6 @@ export const uploadMedia = async (req: Request, res: Response) => {
     const publicUrl = `${process.env.MINIO_PUBLIC_URL || 'http://localhost:9000'}/${BUCKET_NAME}/${objectName}`;
 
     return res.status(201).json({ type: mediaType, url: publicUrl, object_name: objectName });
-  } catch (error) {
-    throw new AppError(500, 'Failed to upload media file');
-  }
 };
 
 /**
@@ -34,10 +30,6 @@ export const uploadMedia = async (req: Request, res: Response) => {
 export const deleteMedia = async (req: Request, res: Response) => {
   const objectName = Array.isArray(req.params.objectName) ? req.params.objectName[0] : req.params.objectName;
 
-  try {
     await minioClient.removeObject(BUCKET_NAME, objectName);
     return res.status(200).json({ message: 'Media deleted successfully.' });
-  } catch (error) {
-    throw new AppError(500, 'Failed to delete media file');
-  }
 };
