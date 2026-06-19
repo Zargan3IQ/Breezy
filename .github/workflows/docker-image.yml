@@ -73,14 +73,10 @@ jobs:
       - name: Création du fichier .env pour Docker Compose
         run: |
           cat > .env << EOF
-          USER_PORT=${{ vars.USER_PORT }}
-          USER_DATABASE_URL=${{ secrets.USER_DATABASE_URL }}
           USER_DB_USER=${{ vars.USER_DB_USER }}
           USER_DB_NAME=${{ secrets.USER_DB_NAME }}
           USER_DB_PASSWORD=${{ secrets.USER_DB_PASSWORD }}
 
-          POST_PORT=${{ vars.POST_PORT }}
-          POST_MONGO_URI=${{ secrets.POST_MONGO_URI }}
           POST_DB_USER=${{ vars.POST_DB_USER }}
           POST_DB_PASSWORD=${{ secrets.POST_DB_PASSWORD }}
 
@@ -89,17 +85,12 @@ jobs:
           PROFILE_DB_USER=${{ vars.PROFILE_DB_USER }}
           PROFILE_DB_PASSWORD=${{ secrets.PROFILE_DB_PASSWORD }}
 
-          AUTH_PORT=${{ vars.AUTH_PORT }}
-          AUTH_DATABASE_URL=${{ secrets.AUTH_DATABASE_URL }}
           AUTH_DB_USER=${{ vars.AUTH_DB_USER }}
           AUTH_DB_NAME=${{ secrets.AUTH_DB_NAME }}
           AUTH_DB_PASSWORD=${{ secrets.AUTH_DB_PASSWORD }}
-          AUTH_JWT_SECRET=${{ secrets.AUTH_JWT_SECRET }}
-          AUTH_JWT_REFRESH_SECRET=${{ secrets.AUTH_JWT_REFRESH_SECRET }}
-
-          API_GATEWAY_PORT=${{ vars.API_GATEWAY_PORT }}
-          API_GATEWAY_JWT_SECRET=${{ secrets.API_GATEWAY_JWT_SECRET }}
-          API_GATEWAY_CORS_ORIGIN=${{ vars.API_GATEWAY_CORS_ORIGIN }}
+          
+          JWT_SECRET=${{ secrets.AUTH_JWT_SECRET }}
+          JWT_REFRESH_SECRET=${{ secrets.AUTH_JWT_REFRESH_SECRET }}
 
           MINIO_ROOT_USER=${{ vars.MINIO_ROOT_USER }}
           MINIO_ROOT_PASSWORD=${{ secrets.MINIO_ROOT_PASSWORD }}
