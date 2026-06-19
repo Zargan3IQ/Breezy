@@ -32,5 +32,11 @@
   "post_card": {
     "reply_placeholder": "Pāhono i teie parau...",
     "reply_button": "Pāhono"
+  },
+  "profile": {
+    "no_bio": "Aita pāpa'ira'a parau.",
+    "edit_bio": "Huri i te pāpa'ira'a parau",
+    "save": "Fa'atāpura'a",
+    "cancel": "Ha'uti"
   }
 }

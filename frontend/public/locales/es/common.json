@@ -32,5 +32,11 @@
   "post_card": {
     "reply_placeholder": "Responder a esta publicación...",
     "reply_button": "Responder"
+  },
+  "profile": {
+    "no_bio": "Sin biografía aún.",
+    "edit_bio": "Editar bio",
+    "save": "Guardar",
+    "cancel": "Cancelar"
   }
 }

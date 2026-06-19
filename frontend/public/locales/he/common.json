@@ -32,5 +32,11 @@
   "post_card": {
     "reply_placeholder": "הגב לפוסט זה...",
     "reply_button": "הגב"
+  },
+  "profile": {
+    "no_bio": "אין ביוגרפיה עדיין.",
+    "edit_bio": "ערוך ביוגרפיה",
+    "save": "שמור",
+    "cancel": "בטל"
   }
 }

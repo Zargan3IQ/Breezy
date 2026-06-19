@@ -32,5 +32,11 @@
   "post_card": {
     "reply_placeholder": "رجع على هاد المنشور...",
     "reply_button": "رجع"
+  },
+  "profile": {
+    "no_bio": "ما كانش وصف بعد.",
+    "edit_bio": "عدّل الوصف",
+    "save": "حفظ",
+    "cancel": "إلغاء"
   }
 }
