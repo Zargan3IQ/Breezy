@@ -144,12 +144,9 @@ export default function PostDetailPage() {
   const handleReplyToComment = async (parentCommentId: string, content: string) => {
     if (!user || !post) return;
     try {
-      const bc = await createComment(post.id, content, parentCommentId);
-      const newReply = mapBackendComment(bc, user);
-      setComments(prev => prev.flatMap(c =>
-        c.id === parentCommentId
-          ? [{ ...c, commentsCount: c.commentsCount + 1 }, newReply]
-          : [c]
+      await createComment(post.id, content, parentCommentId);
+      setComments(prev => prev.map(c =>
+        c.id === parentCommentId ? { ...c, commentsCount: c.commentsCount + 1 } : c
       ));
     } catch {
       // silently fail
