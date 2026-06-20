@@ -35,6 +35,14 @@
     "show_more": "Voir plus",
     "show_less": "Voir moins"
   },
+  "explore_page": {
+    "title": "Explorer",
+    "search_placeholder": "Rechercher des posts, personnes, #tags…",
+    "tabs": { "posts": "Posts", "people": "Personnes" },
+    "no_results_posts": "Aucun post trouvé.",
+    "no_results_people": "Aucun compte trouvé.",
+    "no_results_tags": "Aucun post trouvé pour ce tag."
+  },
   "pending": "Chargement...",
   "profile": {
     "no_bio": "Aucune biographie pour le moment.",

@@ -35,6 +35,14 @@
     "show_more": "Показать больше",
     "show_less": "Показать меньше"
   },
+  "explore_page": {
+    "title": "Поиск",
+    "search_placeholder": "Искать посты, людей, #теги…",
+    "tabs": { "posts": "Публикации", "people": "Люди" },
+    "no_results_posts": "Публикации не найдены.",
+    "no_results_people": "Аккаунты не найдены.",
+    "no_results_tags": "Публикации по этому тегу не найдены."
+  },
   "pending": "Загрузка...",
   "profile": {
     "no_bio": "Биография ещё не добавлена.",

@@ -33,7 +33,15 @@
     "reply_placeholder": "הגב לפוסט זה...",
     "reply_button": "הגב",
     "show_more": "הצג עוד",
-    "show_less": "הצג פחות
+    "show_less": "הצג פחות"
+  },
+  "explore_page": {
+    "title": "חיפוש",
+    "search_placeholder": "חפש פוסטים, אנשים, #תגיות…",
+    "tabs": { "posts": "פוסטים", "people": "אנשים" },
+    "no_results_posts": "לא נמצאו פוסטים.",
+    "no_results_people": "לא נמצאו חשבונות.",
+    "no_results_tags": "לא נמצאו פוסטים עבור תגית זו."
   },
   "pending": "טוען...",
   "profile": {

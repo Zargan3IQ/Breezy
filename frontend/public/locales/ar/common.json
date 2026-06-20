@@ -35,6 +35,14 @@
     "show_more": "شوف أكثر",
     "show_less": "شوف أقل"
   },
+  "explore_page": {
+    "title": "اكتشف",
+    "search_placeholder": "حوس على منشورات، أشخاص، #وسوم…",
+    "tabs": { "posts": "المنشورات", "people": "الأشخاص" },
+    "no_results_posts": "ما كانش منشورات.",
+    "no_results_people": "ما كانش حسابات.",
+    "no_results_tags": "ما كانش منشورات لهاد الوسم."
+  },
   "pending": "جارٍ التحميل...",
   "profile": {
     "no_bio": "ما كانش وصف بعد.",

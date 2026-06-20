@@ -35,6 +35,14 @@
     "show_more": "Hō'ata hou",
     "show_less": "Hō'ata iti"
   },
+  "explore_page": {
+    "title": "Tāha'amana'o",
+    "search_placeholder": "Paha'imi i te tātā'ura'a, ta'āto'ara'a, #labels…",
+    "tabs": { "posts": "Tātā'ura'a", "people": "Ta'āto'ara'a" },
+    "no_results_posts": "Aore tātā'ura'a.",
+    "no_results_people": "Aore pūpū.",
+    "no_results_tags": "Aore tātā'ura'a no tei'a label."
+  },
   "pending": "E tā'ata...",
   "profile": {
     "no_bio": "Aita pāpa'ira'a parau.",

@@ -35,6 +35,14 @@
     "show_more": "Show more",
     "show_less": "Show less"
   },
+  "explore_page": {
+    "title": "Explore",
+    "search_placeholder": "Search posts, people, #tags…",
+    "tabs": { "posts": "Posts", "people": "People" },
+    "no_results_posts": "No posts found.",
+    "no_results_people": "No accounts found.",
+    "no_results_tags": "No posts found for this tag."
+  },
   "pending": "Loading...",
   "profile": {
     "no_bio": "No bio yet.",
