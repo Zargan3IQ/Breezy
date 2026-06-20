@@ -12,5 +12,15 @@
     "follow": "Follow",
     "unfollow": "Unfollow"
   },
-  "empty_posts_message": "This user hasn't posted anything yet."
+  "empty_posts_message": "This user hasn't posted anything yet.",
+  "avatar": {
+    "uploading": "Uploading...",
+    "change": "Change",
+    "error_format": "Unsupported format. Use JPG, PNG, WebP or GIF.",
+    "error_size": "Image too large. Maximum 15 MB.",
+    "error_upload": "Upload failed. Please try again.",
+    "error_server_with_msg": "Error {{status}}: {{message}}",
+    "error_server_no_msg": "HTTP Error {{status}}.",
+    "error_network": "Network error: {{message}}"
+  }
 }

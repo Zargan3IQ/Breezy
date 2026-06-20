@@ -12,5 +12,15 @@
     "follow": "Подписаться",
     "unfollow": "Отписаться"
   },
-  "empty_posts_message": "Этот пользователь ещё ничего не опубликовал."
+  "empty_posts_message": "Этот пользователь ещё ничего не опубликовал.",
+  "avatar": {
+    "uploading": "Загрузка...",
+    "change": "Изменить",
+    "error_format": "Формат не поддерживается. Используйте JPG, PNG, WebP или GIF.",
+    "error_size": "Изображение слишком большое. Максимум 15 МБ.",
+    "error_upload": "Ошибка загрузки. Попробуйте ещё раз.",
+    "error_server_with_msg": "Ошибка {{status}}: {{message}}",
+    "error_server_no_msg": "HTTP ошибка {{status}}.",
+    "error_network": "Сетевая ошибка: {{message}}"
+  }
 }

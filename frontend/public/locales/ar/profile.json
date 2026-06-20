@@ -12,5 +12,15 @@
     "follow": "متابعة",
     "unfollow": "إلغاء المتابعة"
   },
-  "empty_posts_message": "لم ينشر هذا المستخدم أي منشور بعد."
+  "empty_posts_message": "لم ينشر هذا المستخدم أي منشور بعد.",
+  "avatar": {
+    "uploading": "جارٍ الرفع...",
+    "change": "تغيير",
+    "error_format": "تنسيق غير مدعوم. استخدم JPG أو PNG أو WebP أو GIF.",
+    "error_size": "الصورة كبيرة جداً. الحد الأقصى 15 ميجابايت.",
+    "error_upload": "فشل الرفع. يرجى المحاولة مجدداً.",
+    "error_server_with_msg": "خطأ {{status}}: {{message}}",
+    "error_server_no_msg": "خطأ HTTP {{status}}.",
+    "error_network": "خطأ في الشبكة: {{message}}"
+  }
 }

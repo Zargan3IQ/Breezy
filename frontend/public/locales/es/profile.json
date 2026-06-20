@@ -12,5 +12,15 @@
     "follow": "Seguir",
     "unfollow": "Dejar de seguir"
   },
-  "empty_posts_message": "Este usuario aún no ha publicado ninguna publicación."
+  "empty_posts_message": "Este usuario aún no ha publicado ninguna publicación.",
+  "avatar": {
+    "uploading": "Subiendo...",
+    "change": "Cambiar",
+    "error_format": "Formato no compatible. Use JPG, PNG, WebP o GIF.",
+    "error_size": "Imagen demasiado grande. Máximo 15 MB.",
+    "error_upload": "Error al subir. Por favor, inténtelo de nuevo.",
+    "error_server_with_msg": "Error {{status}}: {{message}}",
+    "error_server_no_msg": "Error HTTP {{status}}.",
+    "error_network": "Error de red: {{message}}"
+  }
 }

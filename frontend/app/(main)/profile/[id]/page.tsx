@@ -18,7 +18,7 @@ export default function ProfilePage() {
   const params = useParams<{ id: string }>();
   const routeUsername = Array.isArray(params.id) ? params.id[0] : params.id;
   const { user, isLoading: authLoading, updateUser } = useAuth();
-  const { t } = useTranslation('common');
+  const { t } = useTranslation(['common', 'profile']);
   const isProfileUnavailable = !authLoading && (!user || !routeUsername);
   const [profileUser, setProfileUser] = useState<User | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
@@ -80,7 +80,7 @@ export default function ProfilePage() {
       } catch {
         setProfileUser(null);
         setPosts([]);
-        setError('Impossible de charger ce profil.');
+        setError(t('profile:error_message'));
       } finally {
         setIsLoading(false);
       }
@@ -212,12 +212,12 @@ export default function ProfilePage() {
     setAvatarError(null);
 
     if (!(ALLOWED_AVATAR_TYPES as readonly string[]).includes(file.type)) {
-      setAvatarError('Format non supporté. Utilisez JPG, PNG, WebP ou GIF.');
+      setAvatarError(t('profile:avatar.error_format'));
       e.target.value = '';
       return;
     }
     if (file.size > MAX_UPLOAD_SIZE_BYTES) {
-      setAvatarError('Image trop lourde. Maximum 15 Mo.');
+      setAvatarError(t('profile:avatar.error_size'));
       e.target.value = '';
       return;
     }
@@ -237,16 +237,16 @@ export default function ProfilePage() {
       updateUser({ avatarUrl: url });
     } catch (err: unknown) {
       console.error('[Avatar upload]', err);
-      let msg = 'Échec du téléchargement. Veuillez réessayer.';
+      let msg = t('profile:avatar.error_upload');
       if (err && typeof err === 'object') {
         const axErr = err as { response?: { status?: number; data?: { message?: string } }; message?: string };
         if (axErr.response) {
           const serverMsg = axErr.response.data?.message;
           msg = serverMsg
-            ? `Erreur ${axErr.response.status} : ${serverMsg}`
-            : `Erreur HTTP ${axErr.response.status}.`;
+            ? t('profile:avatar.error_server_with_msg', { status: axErr.response.status, message: serverMsg })
+            : t('profile:avatar.error_server_no_msg', { status: axErr.response.status });
         } else if (axErr.message) {
-          msg = `Erreur réseau : ${axErr.message}`;
+          msg = t('profile:avatar.error_network', { message: axErr.message });
         }
       }
       setAvatarError(msg);
@@ -259,12 +259,12 @@ export default function ProfilePage() {
   return (
     <main className="w-full max-w-150 border-x border-gray-200 min-h-screen bg-white">
       <header className="sticky top-0 z-10 border-b border-gray-200 bg-white/90 px-4 py-4 backdrop-blur-md">
-        <h1 className="text-xl font-bold text-gray-900">Profil</h1>
+        <h1 className="text-xl font-bold text-gray-900">{t('profile:header_title')}</h1>
       </header>
 
-      {isLoading && <p className="px-4 py-8 text-center text-gray-400">Chargement du profil...</p>}
+      {isLoading && <p className="px-4 py-8 text-center text-gray-400">{t('profile:loading_message')}</p>}
 
-      {isProfileUnavailable && <p className="px-4 py-8 text-center text-red-500">Profil indisponible.</p>}
+      {isProfileUnavailable && <p className="px-4 py-8 text-center text-red-500">{t('profile:unavailable_message')}</p>}
 
       {error && <p className="px-4 py-8 text-center text-red-500">{error}</p>}
 
@@ -278,7 +278,7 @@ export default function ProfilePage() {
                     <Avatar src={profileUser.avatarUrl} alt={profileUser.username} size="xl" />
                     <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity">
                       <span className="text-white text-xs font-semibold text-center leading-tight px-1">
-                        {isUploadingAvatar ? 'Envoi...' : 'Changer'}
+                        {isUploadingAvatar ? t('profile:avatar.uploading') : t('profile:avatar.change')}
                       </span>
                     </div>
                     <input
@@ -308,19 +308,19 @@ export default function ProfilePage() {
                   onClick={handleToggleFollow}
                   className="sm:self-start"
                 >
-                  {isFollowPending ? 'Chargement...' : isFollowing ? 'Ne plus suivre' : 'Suivre'}
+                  {isFollowPending ? t('pending') : isFollowing ? t('profile:follow_button.unfollow') : t('profile:follow_button.follow')}
                 </Button>
               )}
 
               <div className="flex gap-6 text-sm text-gray-600">
                 <p>
-                  <span className="font-bold text-gray-900">{posts.length}</span> posts
+                  <span className="font-bold text-gray-900">{posts.length}</span> {t('profile:stats.posts')}
                 </p>
                 <p>
-                  <span className="font-bold text-gray-900">{profileUser.followersCount ?? 0}</span> abonnés
+                  <span className="font-bold text-gray-900">{profileUser.followersCount ?? 0}</span> {t('profile:stats.followers')}
                 </p>
                 <p>
-                  <span className="font-bold text-gray-900">{profileUser.followingCount ?? 0}</span> abonnements
+                  <span className="font-bold text-gray-900">{profileUser.followingCount ?? 0}</span> {t('profile:stats.following')}
                 </p>
               </div>
             </div>
@@ -374,7 +374,7 @@ export default function ProfilePage() {
 
           <section>
             {posts.length === 0 && (
-              <p className="px-4 py-10 text-center text-gray-500">Cet utilisateur n&apos;a pas encore publié de post.</p>
+              <p className="px-4 py-10 text-center text-gray-500">{t('profile:empty_posts_message')}</p>
             )}
 
             {posts.map((post) => {

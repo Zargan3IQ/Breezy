@@ -12,5 +12,15 @@
     "follow": "Aru",
     "unfollow": "Ārahi ore"
   },
-  "empty_posts_message": "Aore te tao'a ua fa'aite'ite'ahia e tei'a feia."
+  "empty_posts_message": "Aore te tao'a ua fa'aite'ite'ahia e tei'a feia.",
+  "avatar": {
+    "uploading": "Fa'ahou...",
+    "change": "Huri",
+    "error_format": "Aita i nehenehe. Fa'aohipa JPG, PNG, WebP, GIF.",
+    "error_size": "Te ata e rahi roa. 15 MB mau.",
+    "error_upload": "Aore i mana te fa'ahou. Tāmau.",
+    "error_server_with_msg": "Hape {{status}}: {{message}}",
+    "error_server_no_msg": "HTTP hape {{status}}.",
+    "error_network": "Hape réseau: {{message}}"
+  }
 }

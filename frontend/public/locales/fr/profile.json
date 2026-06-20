@@ -12,5 +12,15 @@
     "follow": "Suivre",
     "unfollow": "Ne plus suivre"
   },
-  "empty_posts_message": "Cet utilisateur n'a pas encore publié de post."
+  "empty_posts_message": "Cet utilisateur n'a pas encore publié de post.",
+  "avatar": {
+    "uploading": "Envoi...",
+    "change": "Changer",
+    "error_format": "Format non supporté. Utilisez JPG, PNG, WebP ou GIF.",
+    "error_size": "Image trop lourde. Maximum 15 Mo.",
+    "error_upload": "Échec du téléchargement. Veuillez réessayer.",
+    "error_server_with_msg": "Erreur {{status}} : {{message}}",
+    "error_server_no_msg": "Erreur HTTP {{status}}.",
+    "error_network": "Erreur réseau : {{message}}"
+  }
 }

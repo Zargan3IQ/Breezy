@@ -12,5 +12,15 @@
     "follow": "עקוב",
     "unfollow": "הפסק לעקוב"
   },
-  "empty_posts_message": "משתמש זה עדיין לא פרסם אף פוסט."
+  "empty_posts_message": "משתמש זה עדיין לא פרסם אף פוסט.",
+  "avatar": {
+    "uploading": "מעלה...",
+    "change": "שנה",
+    "error_format": "פורמט לא נתמך. השתמש ב-JPG, PNG, WebP או GIF.",
+    "error_size": "התמונה גדולה מדי. מקסימום 15 MB.",
+    "error_upload": "ההעלאה נכשלה. אנא נסה שוב.",
+    "error_server_with_msg": "שגיאה {{status}}: {{message}}",
+    "error_server_no_msg": "שגיאת HTTP {{status}}.",
+    "error_network": "שגיאת רשת: {{message}}"
+  }
 }
