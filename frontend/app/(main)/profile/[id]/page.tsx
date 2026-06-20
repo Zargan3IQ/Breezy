@@ -8,10 +8,10 @@ import Button from '@/components/ui/Button';
 import PostCard from '@/components/feed/PostCard';
 import FollowListModal from '@/components/profile/FollowListModal';
 import { useAuth } from '@/context/AuthContext';
-import { createComment, fetchPosts, fetchUserLikedPostIds, likePost, unlikePost, updatePost, deletePost, fetchCommentsByUser, fetchPostById } from '@/lib/api/posts';
+import { createComment, fetchPosts, fetchPostsByIds, fetchUserLikedPostIds, likePost, unlikePost, updatePost, deletePost, fetchCommentsByUser, fetchPostById } from '@/lib/api/posts';
 import { fetchFollowingById, fetchProfileById, followUser, unfollowUser, updateProfile } from '@/lib/api/profile';
 import { uploadMedia, deleteMedia, ALLOWED_AVATAR_TYPES, MAX_UPLOAD_SIZE_BYTES } from '@/lib/api/media';
-import { fetchPublicUserByUsername } from '@/lib/api/users';
+import { fetchPublicUserById, fetchPublicUserByUsername } from '@/lib/api/users';
 import { Post, Reply, BackendComment, BackendPost, mapBackendComment, mapBackendPost } from '@/types/post';
 import { User } from '@/types/user';
 
@@ -33,12 +33,15 @@ export default function ProfilePage() {
   const [isEditingBio, setIsEditingBio] = useState(false);
   const [bioInput, setBioInput] = useState('');
   const [isSavingBio, setIsSavingBio] = useState(false);
-  const [activeTab, setActiveTab] = useState<'posts' | 'replies'>('posts');
+  const [activeTab, setActiveTab] = useState<'posts' | 'replies' | 'likes'>('posts');
   const [followModal, setFollowModal] = useState<'followers' | 'following' | null>(null);
   const [userComments, setUserComments] = useState<BackendComment[]>([]);
   const [postMap, setPostMap] = useState<Map<string, BackendPost>>(new Map());
   const [isLoadingReplies, setIsLoadingReplies] = useState(false);
   const [repliesLoaded, setRepliesLoaded] = useState(false);
+  const [likedPosts, setLikedPosts] = useState<Post[]>([]);
+  const [isLoadingLikes, setIsLoadingLikes] = useState(false);
+  const [likesLoaded, setLikesLoaded] = useState(false);
 
   useEffect(() => {
     if (authLoading || !user || !routeUsername) {
@@ -55,6 +58,8 @@ export default function ProfilePage() {
         setRepliesLoaded(false);
         setUserComments([]);
         setPostMap(new Map());
+        setLikesLoaded(false);
+        setLikedPosts([]);
 
         const publicUser = await fetchPublicUserByUsername(routeUsername);
         const profileId = publicUser.id;
@@ -195,10 +200,75 @@ export default function ProfilePage() {
     }
   };
 
-  const handleTabChange = (tab: 'posts' | 'replies') => {
+  const loadLikedPosts = async (profileId: string) => {
+    setIsLoadingLikes(true);
+    try {
+      const likedIds = await fetchUserLikedPostIds(profileId);
+      const backendPosts = await fetchPostsByIds(likedIds);
+
+      const uniqueAuthorIds = [...new Set(backendPosts.map(p => p.authorId))];
+      const [userResults, profileResults] = await Promise.all([
+        Promise.allSettled(uniqueAuthorIds.map(fetchPublicUserById)),
+        Promise.allSettled(uniqueAuthorIds.map(fetchProfileById)),
+      ]);
+
+      const authorMap = new Map<string, string>();
+      const avatarMap = new Map<string, string>();
+      uniqueAuthorIds.forEach((id, i) => {
+        if (userResults[i].status === 'fulfilled') authorMap.set(id, userResults[i].value.username);
+        if (profileResults[i].status === 'fulfilled') avatarMap.set(id, profileResults[i].value.avatar_url ?? '');
+      });
+
+      const likedSet = new Set(likedIds);
+      const mapped = backendPosts.map(bp => {
+        const username = authorMap.get(bp.authorId) ?? bp.authorId;
+        const avatarUrl = avatarMap.get(bp.authorId) ?? '';
+        const post = mapBackendPost(bp, likedSet, user!, authorMap);
+        return { ...post, author: { id: bp.authorId, name: username, username, avatarUrl } };
+      });
+
+      setLikedPosts(mapped);
+      setLikesLoaded(true);
+    } catch {
+      // fail silently
+    } finally {
+      setIsLoadingLikes(false);
+    }
+  };
+
+  const handleTabChange = (tab: 'posts' | 'replies' | 'likes') => {
     setActiveTab(tab);
     if (tab === 'replies' && !repliesLoaded && profileUser) {
       loadReplies(profileUser.id);
+    }
+    if (tab === 'likes' && !likesLoaded && profileUser) {
+      loadLikedPosts(profileUser.id);
+    }
+  };
+
+  const handleToggleLikedPost = async (postId: string) => {
+    const post = likedPosts.find(p => p.id === postId);
+    if (!post) return;
+    const wasLiked = post.isLiked ?? true;
+
+    setLikedPosts(prev =>
+      wasLiked
+        ? prev.filter(p => p.id !== postId)
+        : prev.map(p => p.id === postId ? { ...p, isLiked: true, likesCount: p.likesCount + 1 } : p)
+    );
+
+    try {
+      if (wasLiked) {
+        await unlikePost(postId);
+      } else {
+        await likePost(postId);
+      }
+    } catch {
+      setLikedPosts(prev =>
+        wasLiked
+          ? [post, ...prev]
+          : prev.map(p => p.id === postId ? { ...p, isLiked: false, likesCount: p.likesCount - 1 } : p)
+      );
     }
   };
 
@@ -442,6 +512,12 @@ export default function ProfilePage() {
             >
               {t('profile:tabs.posts_replies')}
             </button>
+            <button
+              onClick={() => handleTabChange('likes')}
+              className={`flex-1 py-3 text-sm font-semibold transition-colors ${activeTab === 'likes' ? 'border-b-2 border-teal-600 text-teal-600' : 'text-gray-500 hover:text-gray-700'}`}
+            >
+              {t('profile:tabs.likes')}
+            </button>
           </div>
 
           {activeTab === 'posts' && (
@@ -456,6 +532,25 @@ export default function ProfilePage() {
                   onLike={() => handleToggleLike(post.id)}
                   onReply={(content: string) => handleReply(post.id, content)}
                   {...(isOwnProfile && { onEdit: handleEditPost, onDelete: handleDeletePost })}
+                />
+              ))}
+            </section>
+          )}
+
+          {activeTab === 'likes' && (
+            <section>
+              {isLoadingLikes && (
+                <p className="px-4 py-10 text-center text-gray-400">{t('pending')}</p>
+              )}
+              {!isLoadingLikes && likedPosts.length === 0 && (
+                <p className="px-4 py-10 text-center text-gray-500">{t('profile:empty_likes_message')}</p>
+              )}
+              {!isLoadingLikes && likedPosts.map((post) => (
+                <PostCard
+                  key={post.id}
+                  post={post}
+                  onLike={() => handleToggleLikedPost(post.id)}
+                  onReply={(content: string) => handleReply(post.id, content)}
                 />
               ))}
             </section>

@@ -50,6 +50,14 @@ export async function fetchPostsByTag(tag: string): Promise<BackendPost[]> {
   return res.data;
 }
 
+export async function fetchPostsByIds(ids: string[]): Promise<BackendPost[]> {
+  if (ids.length === 0) return [];
+  const res = await api.get<BackendPost[]>('/posts/batch', {
+    params: { ids: ids.join(',') },
+  });
+  return res.data;
+}
+
 export async function fetchPostById(postId: string): Promise<{ post: BackendPost; replies: BackendPost[] }> {
   const res = await api.get<{ post: BackendPost; replies: BackendPost[] }>(`/posts/${postId}`);
   return res.data;

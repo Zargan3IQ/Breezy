@@ -14,9 +14,11 @@
   },
   "empty_posts_message": "Aore te tao'a ua fa'aite'ite'ahia e tei'a feia.",
   "empty_replies_message": "Aore pāhono.",
+  "empty_likes_message": "Aore ni tao'a maitai.",
   "tabs": {
     "posts": "Tātā'ura'a",
-    "posts_replies": "Tātā'ura'a & Pāhono"
+    "posts_replies": "Tātā'ura'a & Pāhono",
+    "likes": "Maitai"
   },
   "follow_list": {
     "followers_title": "Ia aru ia'na",

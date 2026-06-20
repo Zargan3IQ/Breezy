@@ -14,9 +14,11 @@
   },
   "empty_posts_message": "Cet utilisateur n'a pas encore publié de post.",
   "empty_replies_message": "Aucune réponse pour l'instant.",
+  "empty_likes_message": "Aucun post aimé pour l'instant.",
   "tabs": {
     "posts": "Posts",
-    "posts_replies": "Posts & Réponses"
+    "posts_replies": "Posts & Réponses",
+    "likes": "J'aime"
   },
   "follow_list": {
     "followers_title": "Abonnés",

@@ -14,9 +14,11 @@
   },
   "empty_posts_message": "لم ينشر هذا المستخدم أي منشور بعد.",
   "empty_replies_message": "ما كانش ردود بعد.",
+  "empty_likes_message": "لا توجد منشورات معجب بها بعد.",
   "tabs": {
     "posts": "المنشورات",
-    "posts_replies": "المنشورات والردود"
+    "posts_replies": "المنشورات والردود",
+    "likes": "الإعجابات"
   },
   "follow_list": {
     "followers_title": "المتابعون",

@@ -14,9 +14,11 @@
   },
   "empty_posts_message": "This user hasn't posted anything yet.",
   "empty_replies_message": "No replies yet.",
+  "empty_likes_message": "No liked posts yet.",
   "tabs": {
     "posts": "Posts",
-    "posts_replies": "Posts & Replies"
+    "posts_replies": "Posts & Replies",
+    "likes": "Likes"
   },
   "follow_list": {
     "followers_title": "Followers",

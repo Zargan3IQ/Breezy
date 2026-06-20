@@ -14,9 +14,11 @@
   },
   "empty_posts_message": "משתמש זה עדיין לא פרסם אף פוסט.",
   "empty_replies_message": "אין תגובות עדיין.",
+  "empty_likes_message": "אין פוסטים שאהבת עדיין.",
   "tabs": {
     "posts": "פוסטים",
-    "posts_replies": "פוסטים ותגובות"
+    "posts_replies": "פוסטים ותגובות",
+    "likes": "אהבות"
   },
   "follow_list": {
     "followers_title": "עוקבים",

@@ -14,9 +14,11 @@
   },
   "empty_posts_message": "Этот пользователь ещё ничего не опубликовал.",
   "empty_replies_message": "Ответов пока нет.",
+  "empty_likes_message": "Нет понравившихся публикаций.",
   "tabs": {
     "posts": "Публикации",
-    "posts_replies": "Публикации и ответы"
+    "posts_replies": "Публикации и ответы",
+    "likes": "Понравилось"
   },
   "follow_list": {
     "followers_title": "Подписчики",
