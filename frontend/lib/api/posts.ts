@@ -65,7 +65,34 @@ export async function fetchComments(postId: string): Promise<BackendComment[]> {
   return res.data;
 }
 
-export async function createComment(postId: string, content: string): Promise<BackendComment> {
-  const res = await api.post<BackendComment>('/comments', { post_id: postId, content });
+export async function createComment(postId: string, content: string, parentCommentId?: string): Promise<BackendComment> {
+  const res = await api.post<BackendComment>('/comments', {
+    post_id: postId,
+    content,
+    ...(parentCommentId ? { parent_comment_id: parentCommentId } : {}),
+  });
   return res.data;
+}
+
+export async function fetchCommentById(commentId: string): Promise<BackendComment> {
+  const res = await api.get<BackendComment>(`/comments/${commentId}`);
+  return res.data;
+}
+
+export async function fetchCommentReplies(commentId: string): Promise<BackendComment[]> {
+  const res = await api.get<BackendComment[]>(`/comments/${commentId}/replies`);
+  return res.data;
+}
+
+export async function fetchUserLikedCommentIds(userId: string): Promise<string[]> {
+  const res = await api.get<{ liked_comments: string[] }>(`/comment-likes/user/${userId}`);
+  return res.data.liked_comments.map(String);
+}
+
+export async function likeComment(commentId: string): Promise<void> {
+  await api.post('/comment-likes', { comment_id: commentId });
+}
+
+export async function unlikeComment(commentId: string): Promise<void> {
+  await api.delete('/comment-likes', { data: { comment_id: commentId } });
 }

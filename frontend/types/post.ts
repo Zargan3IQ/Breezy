@@ -5,6 +5,11 @@ export interface Reply {
   id: string;
   author: User;
   content: string;
+  postId: string;
+  parentCommentId?: string | null;
+  likesCount: number;
+  commentsCount: number;
+  isLiked: boolean;
 }
 
 export interface Post {
@@ -38,6 +43,9 @@ export interface BackendComment {
   post_id: string;
   content: string;
   createdAt: string;
+  likesCount: number;
+  commentsCount: number;
+  parent_comment_id?: string | null;
 }
 
 export function mapBackendPost(
@@ -87,5 +95,10 @@ export function mapBackendComment(
     id: bc._id,
     author: { id: bc.user_id, name: username, username, avatarUrl },
     content: bc.content,
+    postId: bc.post_id,
+    parentCommentId: bc.parent_comment_id,
+    likesCount: bc.likesCount ?? 0,
+    commentsCount: bc.commentsCount ?? 0,
+    isLiked: false,
   };
 }
