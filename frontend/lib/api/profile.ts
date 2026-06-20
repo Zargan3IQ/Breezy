@@ -1,5 +1,5 @@
 import api from '../api';
-import type { BackendFollowing, BackendProfile } from '@/types/profile';
+import type { BackendFollowers, BackendFollowing, BackendProfile } from '@/types/profile';
 
 export async function fetchProfileById(userId: string): Promise<BackendProfile> {
   const res = await api.get<BackendProfile>(`/profile/${userId}`);
@@ -9,6 +9,11 @@ export async function fetchProfileById(userId: string): Promise<BackendProfile> 
 export async function fetchFollowingById(userId: string): Promise<string[]> {
   const res = await api.get<BackendFollowing>(`/profile/${userId}/following`);
   return res.data.following;
+}
+
+export async function fetchFollowersById(userId: string): Promise<string[]> {
+  const res = await api.get<BackendFollowers>(`/profile/${userId}/followers`);
+  return res.data.followers.map(String);
 }
 
 export async function followUser(followerId: string, followingId: string): Promise<void> {

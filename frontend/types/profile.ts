@@ -14,3 +14,8 @@ export interface BackendFollowing {
   user_id: string;
   following: string[];
 }
+
+export interface BackendFollowers {
+  user_id: string;
+  followers: string[];
+}
