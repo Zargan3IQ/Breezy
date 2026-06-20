@@ -50,6 +50,16 @@ export async function fetchPostsByTag(tag: string): Promise<BackendPost[]> {
   return res.data;
 }
 
+export async function fetchPostById(postId: string): Promise<{ post: BackendPost; replies: BackendPost[] }> {
+  const res = await api.get<{ post: BackendPost; replies: BackendPost[] }>(`/posts/${postId}`);
+  return res.data;
+}
+
+export async function fetchCommentsByUser(userId: string): Promise<BackendComment[]> {
+  const res = await api.get<BackendComment[]>(`/comments/user/${userId}`);
+  return res.data;
+}
+
 export async function fetchComments(postId: string): Promise<BackendComment[]> {
   const res = await api.get<BackendComment[]>(`/comments/post/${postId}`);
   return res.data;

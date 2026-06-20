@@ -35,6 +35,7 @@ export interface BackendPost {
 export interface BackendComment {
   _id: string;
   user_id: string;
+  post_id: string;
   content: string;
   createdAt: string;
 }
@@ -71,13 +72,20 @@ export function mapBackendPost(
   };
 }
 
-export function mapBackendComment(bc: BackendComment, currentUser: AuthUser): Reply {
+export function mapBackendComment(
+  bc: BackendComment,
+  currentUser: AuthUser,
+  authorMap: Map<string, string> = new Map(),
+  avatarMap: Map<string, string | null | undefined> = new Map(),
+): Reply {
   const isCurrentUser = bc.user_id === currentUser.id;
+  const username = isCurrentUser
+    ? currentUser.username
+    : (authorMap.get(bc.user_id) ?? bc.user_id);
+  const avatarUrl = isCurrentUser ? currentUser.avatarUrl : avatarMap.get(bc.user_id);
   return {
     id: bc._id,
-    author: isCurrentUser
-      ? { id: currentUser.id, name: currentUser.username, username: currentUser.username, avatarUrl: currentUser.avatarUrl }
-      : { id: bc.user_id, name: bc.user_id, username: bc.user_id, avatarUrl: undefined },
+    author: { id: bc.user_id, name: username, username, avatarUrl },
     content: bc.content,
   };
 }

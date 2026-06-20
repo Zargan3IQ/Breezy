@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { MessageCircle, Heart, MoreHorizontal } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import Avatar from "@/components/ui/Avatar";
@@ -14,11 +15,13 @@ interface PostCardProps {
   onReply: (content: string) => void;
   onEdit?: (postId: string, newContent: string) => Promise<void>;
   onDelete?: (postId: string) => Promise<void>;
+  disableNavigation?: boolean;
 }
 
-export default function PostCard({ post, onLike, onReply, onEdit, onDelete }: PostCardProps) {
+export default function PostCard({ post, onLike, onReply, onEdit, onDelete, disableNavigation }: PostCardProps) {
   const { t } = useTranslation('common');
   const { user } = useAuth();
+  const router = useRouter();
   const [isReplying, setIsReplying] = useState(false);
   const [replyText, setReplyText] = useState('');
   const [expanded, setExpanded] = useState(false);
@@ -54,6 +57,12 @@ export default function PostCard({ post, onLike, onReply, onEdit, onDelete }: Po
     setIsEditing(false);
   };
 
+  const handleCardClick = (e: React.MouseEvent) => {
+    if (disableNavigation) return;
+    if ((e.target as HTMLElement).closest('button, a, input, textarea')) return;
+    router.push(`/posts/${post.id}`);
+  };
+
   const handleDelete = async () => {
     setIsMenuOpen(false);
     if (!onDelete) return;
@@ -62,7 +71,10 @@ export default function PostCard({ post, onLike, onReply, onEdit, onDelete }: Po
   };
 
   return (
-    <article className="relative bg-white border border-gray-200 p-4 hover:bg-gray-50 transition-colors rounded-lg">
+    <article
+      className={`relative bg-white border border-gray-200 p-4 hover:bg-gray-50 transition-colors rounded-lg${disableNavigation ? '' : ' cursor-pointer'}`}
+      onClick={handleCardClick}
+    >
       <div className="flex gap-3">
         <div className="shrink-0">
           <Link href={profileHref} aria-label={`Voir le profil de ${post.author.username}`}>
