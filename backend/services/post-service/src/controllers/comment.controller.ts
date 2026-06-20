@@ -75,7 +75,7 @@ export const getCommentsForPost = async (req: Request, res: Response) => {
   const postId = Array.isArray(req.params.postId) ? req.params.postId[0] : req.params.postId;
   if (!isValidObjectId(postId)) throw new AppError(400, 'Post ID is invalid.');
 
-    const comments = await Comment.find({ post_id: postId }).sort({ createdAt: -1 });
+    const comments = await Comment.find({ post_id: postId, parent_comment_id: null }).sort({ createdAt: -1 });
     return res.status(200).json(await attachCommentTags(comments));
  
 };
