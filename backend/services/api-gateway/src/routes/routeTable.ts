@@ -69,12 +69,9 @@ export const routeTable: RouteRule[] = [
   { method: 'post', path: '/api/profile/follow', target: 'profile', auth: 'required' },
   { method: 'post', path: '/api/profile/unfollow', target: 'profile', auth: 'required' },
   { method: 'delete', path: '/api/profile/follow', target: 'profile', auth: 'required' },
-  { method: 'post', path: '/api/profile/likes', target: 'profile', auth: 'required' },
-  { method: 'delete', path: '/api/profile/likes', target: 'profile', auth: 'required' },
 
   { method: 'get', path: '/api/profile/:userId/followers', target: 'profile', auth: 'required' },
   { method: 'get', path: '/api/profile/:userId/following', target: 'profile', auth: 'required' },
-  { method: 'get', path: '/api/profile/:userId/likes', target: 'profile', auth: 'required' },
 
   { method: 'post', path: '/api/profile', target: 'profile', auth: 'required' },
   { method: 'get', path: '/api/profile/:userId', target: 'profile', auth: 'required' },
