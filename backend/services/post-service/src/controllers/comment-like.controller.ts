@@ -10,10 +10,11 @@ const isValidObjectId = (id: string) => mongoose.Types.ObjectId.isValid(id);
  * Like a comment
  */
 export const likeComment = async (req: Request, res: Response) => {
-  const { user_id, comment_id } = req.body;
+  const user_id = req.headers['x-user-id'] as string;
+  const { comment_id } = req.body;
 
   if (!user_id || !comment_id) {
-    throw new AppError(400, 'user_id and comment_id are required.');
+    throw new AppError(400, 'comment_id is required.');
   }
 
   if (!isValidObjectId(comment_id)) {
@@ -25,6 +26,7 @@ export const likeComment = async (req: Request, res: Response) => {
     if (!comment) throw new AppError(404, 'Comment not found.');
 
     await CommentLike.create({ user_id, comment_id });
+    await Comment.findByIdAndUpdate(comment_id, { $inc: { likesCount: 1 } });
     return res.status(200).json({ message: 'Comment liked successfully.' });
   } catch (error: any) {
     if (error.code === 11000) {
@@ -38,15 +40,17 @@ export const likeComment = async (req: Request, res: Response) => {
  * Unlike a comment
  */
 export const unlikeComment = async (req: Request, res: Response) => {
-  const { user_id, comment_id } = req.body;
+  const user_id = req.headers['x-user-id'] as string;
+  const { comment_id } = req.body;
 
   if (!user_id || !comment_id) {
-    throw new AppError(400, 'user_id and comment_id are required.');
+    throw new AppError(400, 'comment_id is required.');
   }
 
     const deleted = await CommentLike.findOneAndDelete({ user_id, comment_id });
     if (!deleted) throw new AppError(404, 'Like not found.');
 
+    await Comment.findByIdAndUpdate(comment_id, { $inc: { likesCount: -1 } });
     return res.status(200).json({ message: 'Comment unliked successfully.' });
 };
 

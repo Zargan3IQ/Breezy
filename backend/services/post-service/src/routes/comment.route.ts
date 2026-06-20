@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
   createComment,
+  getCommentById,
   getCommentsByUser,
   getCommentsForPost,
   getRepliesForComment,
@@ -18,6 +19,7 @@ router.get('/tags/:tag', getCommentsByTag);
 router.get('/post/:postId', getCommentsForPost);
 router.get('/user/:userId', getCommentsByUser);
 router.get('/:id/replies', getRepliesForComment);
+router.get('/:id', getCommentById);
 router.put('/:id', updateComment);
 router.delete('/:id', deleteComment);
 

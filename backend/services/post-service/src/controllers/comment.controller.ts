@@ -39,6 +39,10 @@ export const createComment = async (req: Request, res: Response) => {
 
     await Post.findByIdAndUpdate(post_id, { $inc: { commentsCount: 1 } });
 
+    if (parent_comment_id) {
+      await Comment.findByIdAndUpdate(parent_comment_id, { $inc: { commentsCount: 1 } });
+    }
+
     return res.status(201).json({ ...comment.toObject(), tags: tags ?? [] });
  
 };
@@ -132,8 +136,20 @@ export const deleteComment = async (req: Request, res: Response) => {
     await CommentTag.deleteMany({ comment_id: id });
     await Post.findByIdAndUpdate(comment.post_id, { $inc: { commentsCount: -1 } });
 
+    if (comment.parent_comment_id) {
+      await Comment.findByIdAndUpdate(comment.parent_comment_id, { $inc: { commentsCount: -1 } });
+    }
+
     return res.status(200).json({ message: 'Comment deleted successfully.' });
  
+};
+
+export const getCommentById = async (req: Request, res: Response) => {
+  const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+  if (!isValidObjectId(id)) throw new AppError(400, 'Comment ID is invalid.');
+  const comment = await Comment.findById(id);
+  if (!comment) throw new AppError(404, 'Comment not found.');
+  return res.status(200).json((await attachCommentTags([comment]))[0]);
 };
 
 /**
