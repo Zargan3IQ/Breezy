@@ -60,6 +60,13 @@ const attachCommentTags = async (comments: any[]) => {
   }));
 };
 
+export const getCommentsByUser = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  const comments = await Comment.find({ user_id: userId, parent_comment_id: null })
+    .sort({ createdAt: -1 });
+  return res.status(200).json(await attachCommentTags(comments));
+};
+
 export const getCommentsForPost = async (req: Request, res: Response) => {
   const postId = Array.isArray(req.params.postId) ? req.params.postId[0] : req.params.postId;
   if (!isValidObjectId(postId)) throw new AppError(400, 'Post ID is invalid.');

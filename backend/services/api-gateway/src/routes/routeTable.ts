@@ -49,6 +49,7 @@ export const routeTable: RouteRule[] = [
   { method: 'post', path: '/api/comments', target: 'post', auth: 'required' },
   { method: 'get', path: '/api/comments/tags/:tag', target: 'post', auth: 'required' },
   { method: 'get', path: '/api/comments/post/:postId', target: 'post', auth: 'required' },
+  { method: 'get', path: '/api/comments/user/:userId', target: 'post', auth: 'required' },
   { method: 'get', path: '/api/comments/:id/replies', target: 'post', auth: 'required' },
   { method: 'get', path: '/api/comments/search', target: 'post', auth: 'required' },
   { method: 'put', path: '/api/comments/:id', target: 'post', auth: 'required' },
