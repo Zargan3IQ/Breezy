@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { Role } from '@prisma/client';
 import prisma from '../config/db';
 import { AppError } from '../utils/AppError';
+import { redis } from '../config/redis';
 
 const VALID_ROLES = Object.values(Role);
 
@@ -175,6 +176,8 @@ export const suspendUser = async (req: Request<{ id: string }>, res: Response) =
       where: { id },
       data: { status: 'suspended', suspendedUntil, statusReason: reason ?? null },
     });
+    const ttlSeconds = Math.ceil((suspendedUntil.getTime() - Date.now()) / 1000);
+    await redis.set(`revoked:${id}`, Date.now().toString(), 'EX', ttlSeconds); 
     return res.status(200).json(user);
   } catch (error) {
     if ((error as { code?: string }).code === 'P2025') throw new AppError(404, 'User not found.');
@@ -191,6 +194,7 @@ export const banUser = async (req: Request<{ id: string }>, res: Response) => {
       where: { id },
       data: { status: 'banned', suspendedUntil: null, statusReason: reason ?? null },
     });
+    await redis.set(`revoked:${id}`, Date.now().toString());
     return res.status(200).json(user);
   } catch (error) {
     if ((error as { code?: string }).code === 'P2025') throw new AppError(404, 'User not found.');
@@ -206,6 +210,7 @@ export const reinstateUser = async (req: Request<{ id: string }>, res: Response)
       where: { id },
       data: { status: 'active', suspendedUntil: null, statusReason: null },
     });
+    await redis.del(`revoked:${id}`);
     return res.status(200).json(user);
   } catch (error) {
     if ((error as { code?: string }).code === 'P2025') throw new AppError(404, 'User not found.');

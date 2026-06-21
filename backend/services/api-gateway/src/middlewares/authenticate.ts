@@ -2,14 +2,16 @@ import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../config/env';
 import { isRole } from '../utils/roles';
+import { redis } from '../config/redis';
 
 interface AccessTokenPayload {
   user_id: string;
   email: string;
   role: string;
+  iat: number;
 }
 
-export const authenticate = (req: Request, res: Response, next: NextFunction): void => {
+export const authenticate = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   // Scrub any spoofed identity headers from the incoming request
   delete req.headers['x-user-id'];
   delete req.headers['x-user-email'];
@@ -30,6 +32,13 @@ export const authenticate = (req: Request, res: Response, next: NextFunction): v
 
   try {
     const payload = jwt.verify(token, JWT_SECRET) as AccessTokenPayload;
+
+    const revokedAt = await redis.get(`revoked:${payload.user_id}`);
+    if (revokedAt && Number(revokedAt) > payload.iat * 1000) {
+      next(); // token émis avant la sanction -> traité comme non authentifié
+      return;
+    }
+
 
     if (!isRole(payload.role)) {
       next();
