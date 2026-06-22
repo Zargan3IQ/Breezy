@@ -23,7 +23,7 @@ export default function I18nProvider({ children }: { children: React.ReactNode }
         fallbackLng: 'fr',
         load: 'languageOnly',
         debug: process.env.NODE_ENV === 'development',
-        ns: ['common', 'auth'],
+        ns: ['common', 'auth', 'staff'],
         defaultNS: 'common',
         backend: {
           loadPath: '/locales/{{lng}}/{{ns}}.json',

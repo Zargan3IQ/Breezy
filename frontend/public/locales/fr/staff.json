@@ -1,0 +1,87 @@
+{
+  "roles": {
+    "user": "Utilisateur",
+    "moderator": "Moderateur",
+    "admin": "Administrateur"
+  },
+  "statuses": {
+    "active": "Actif",
+    "suspended": "Suspendu",
+    "banned": "Banni"
+  },
+  "guard": {
+    "title": "Espace moderation",
+    "description": "Cette page est reservee aux moderateurs et administrateurs.",
+    "back_home": "Retour a l'accueil"
+  },
+  "header": {
+    "eyebrow": "Staff Console",
+    "title": "Gestion des roles et sanctions",
+    "description": "Les administrateurs peuvent attribuer les roles utilisateur, moderateur et administrateur. Les moderateurs peuvent uniquement promouvoir un utilisateur standard au role moderateur.",
+    "connected_as": "Connecte en tant que"
+  },
+  "search": {
+    "placeholder": "Rechercher par username",
+    "loading": "Recherche...",
+    "submit": "Chercher un compte"
+  },
+  "reports": {
+    "title": "Posts signales",
+    "description": "Les nouveaux signalements de posts apparaissent ici pour moderation.",
+    "pending_count_one": "{{count}} en attente",
+    "pending_count_other": "{{count}} en attente",
+    "count_one": "{{count}} signalement",
+    "count_other": "{{count}} signalements",
+    "loading": "Chargement des signalements...",
+    "empty": "Aucun post signale en attente.",
+    "author_missing": "Post introuvable",
+    "reported_at": "Signale le {{date}}",
+    "view_post": "Voir le post",
+    "content_missing": "Le contenu de ce post n'est plus disponible.",
+    "dismiss": "Ignorer",
+    "delete_post": "Supprimer le post",
+    "deleting": "Suppression...",
+    "delete_confirm": "Supprimer ce post signale ?"
+  },
+  "report_reasons": {
+    "spam": "Spam",
+    "harassment": "Harcelement",
+    "hate_speech": "Discours haineux",
+    "violence": "Violence",
+    "nudity": "Nudite",
+    "misinformation": "Desinformation",
+    "other": "Autre"
+  },
+  "accounts": {
+    "empty": "Lance une recherche pour afficher les comptes actifs, suspendus ou bannis.",
+    "target_role": "Role cible",
+    "update_role": "Mettre a jour le role",
+    "suspend_until": "Fin de suspension",
+    "reason": "Raison",
+    "reason_placeholder": "Ex: spam, usurpation, propos haineux",
+    "suspend": "Suspendre",
+    "ban": "Bannir",
+    "reinstate": "Reactiver"
+  },
+  "messages": {
+    "role_updated": "Role mis a jour pour @{{username}}.",
+    "account_suspended": "Compte @{{username}} suspendu.",
+    "account_banned": "Compte @{{username}} banni.",
+    "account_reinstated": "Compte @{{username}} reactive.",
+    "report_dismissed_one": "{{count}} signalement ignore.",
+    "report_dismissed_other": "{{count}} signalements ignores.",
+    "post_deleted": "Post supprime depuis la moderation."
+  },
+  "errors": {
+    "load_reports": "Impossible de charger les posts signales.",
+    "load_accounts": "Impossible de charger les comptes.",
+    "update_role": "Impossible de modifier le role.",
+    "suspend_until_required": "Choisis une date de fin de suspension.",
+    "suspend_account": "Impossible de suspendre ce compte.",
+    "ban_account": "Impossible de bannir ce compte.",
+    "reinstate_account": "Impossible de reactiver ce compte.",
+    "update_report": "Impossible de mettre a jour ce signalement.",
+    "reported_post_missing": "Le post signale est introuvable.",
+    "delete_post": "Impossible de supprimer ce post."
+  }
+}

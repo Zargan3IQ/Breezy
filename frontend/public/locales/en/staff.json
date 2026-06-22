@@ -1,0 +1,87 @@
+{
+  "roles": {
+    "user": "User",
+    "moderator": "Moderator",
+    "admin": "Administrator"
+  },
+  "statuses": {
+    "active": "Active",
+    "suspended": "Suspended",
+    "banned": "Banned"
+  },
+  "guard": {
+    "title": "Moderation area",
+    "description": "This page is reserved for moderators and administrators.",
+    "back_home": "Back to home"
+  },
+  "header": {
+    "eyebrow": "Staff Console",
+    "title": "Role and sanctions management",
+    "description": "Administrators can assign user, moderator, and administrator roles. Moderators can only promote a standard user to moderator.",
+    "connected_as": "Signed in as"
+  },
+  "search": {
+    "placeholder": "Search by username",
+    "loading": "Searching...",
+    "submit": "Search account"
+  },
+  "reports": {
+    "title": "Reported posts",
+    "description": "New post reports appear here for moderation.",
+    "pending_count_one": "{{count}} pending",
+    "pending_count_other": "{{count}} pending",
+    "count_one": "{{count}} report",
+    "count_other": "{{count}} reports",
+    "loading": "Loading reports...",
+    "empty": "No pending reported posts.",
+    "author_missing": "Post unavailable",
+    "reported_at": "Reported on {{date}}",
+    "view_post": "View post",
+    "content_missing": "This post content is no longer available.",
+    "dismiss": "Dismiss",
+    "delete_post": "Delete post",
+    "deleting": "Deleting...",
+    "delete_confirm": "Delete this reported post?"
+  },
+  "report_reasons": {
+    "spam": "Spam",
+    "harassment": "Harassment",
+    "hate_speech": "Hate speech",
+    "violence": "Violence",
+    "nudity": "Nudity",
+    "misinformation": "Misinformation",
+    "other": "Other"
+  },
+  "accounts": {
+    "empty": "Run a search to display active, suspended, or banned accounts.",
+    "target_role": "Target role",
+    "update_role": "Update role",
+    "suspend_until": "Suspend until",
+    "reason": "Reason",
+    "reason_placeholder": "Example: spam, impersonation, hate speech",
+    "suspend": "Suspend",
+    "ban": "Ban",
+    "reinstate": "Reinstate"
+  },
+  "messages": {
+    "role_updated": "Role updated for @{{username}}.",
+    "account_suspended": "Account @{{username}} suspended.",
+    "account_banned": "Account @{{username}} banned.",
+    "account_reinstated": "Account @{{username}} reinstated.",
+    "report_dismissed_one": "{{count}} report dismissed.",
+    "report_dismissed_other": "{{count}} reports dismissed.",
+    "post_deleted": "Post deleted from moderation."
+  },
+  "errors": {
+    "load_reports": "Unable to load reported posts.",
+    "load_accounts": "Unable to load accounts.",
+    "update_role": "Unable to update role.",
+    "suspend_until_required": "Choose a suspension end date.",
+    "suspend_account": "Unable to suspend this account.",
+    "ban_account": "Unable to ban this account.",
+    "reinstate_account": "Unable to reinstate this account.",
+    "update_report": "Unable to update this report.",
+    "reported_post_missing": "The reported post could not be found.",
+    "delete_post": "Unable to delete this post."
+  }
+}

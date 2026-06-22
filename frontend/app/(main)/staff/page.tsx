@@ -1,24 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Shield, Search } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import Button from '@/components/ui/Button';
 import { useAuth } from '@/context/AuthContext';
 import type { AccountStatus, UserRole, UserSearchResult } from '@/types/user';
+import type { BackendPost, BackendReport } from '@/types/post';
 import { banUser, reinstateUser, searchUsers, suspendUser, updateUserRole } from '@/lib/api/users';
-
-const ROLE_LABELS: Record<UserRole, string> = {
-  user: 'Utilisateur',
-  moderator: 'Moderateur',
-  admin: 'Administrateur',
-};
-
-const STATUS_LABELS: Record<AccountStatus, string> = {
-  active: 'Actif',
-  suspended: 'Suspendu',
-  banned: 'Banni',
-};
+import { deletePost, fetchPostsByIds, fetchReports, updateReportStatus } from '@/lib/api/posts';
+import { fetchPublicUserById } from '@/lib/api/users';
 
 const statusBadgeClass: Record<AccountStatus, string> = {
   active: 'bg-emerald-50 text-emerald-700 border-emerald-200',
@@ -39,17 +31,95 @@ const toDefaultSuspendUntil = () => {
 
 export default function StaffPage() {
   const { user } = useAuth();
+  const { t, i18n } = useTranslation('staff');
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<UserSearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [pendingUserId, setPendingUserId] = useState<string | null>(null);
+  const [pendingReportId, setPendingReportId] = useState<string | null>(null);
+  const [deletingPostId, setDeletingPostId] = useState<string | null>(null);
   const [roleSelections, setRoleSelections] = useState<Record<string, UserRole>>({});
   const [reasons, setReasons] = useState<Record<string, string>>({});
   const [suspendUntilByUser, setSuspendUntilByUser] = useState<Record<string, string>>({});
+  const [reports, setReports] = useState<BackendReport[]>([]);
+  const [isLoadingReports, setIsLoadingReports] = useState(false);
+  const [reportPostMap, setReportPostMap] = useState<Record<string, BackendPost>>({});
+  const [reportAuthorMap, setReportAuthorMap] = useState<Record<string, string>>({});
 
   const isStaff = user?.role === 'admin' || user?.role === 'moderator';
+  const resolvedLanguage = i18n.resolvedLanguage ?? i18n.language ?? 'fr';
+
+  const ROLE_LABELS: Record<UserRole, string> = {
+    user: t('roles.user'),
+    moderator: t('roles.moderator'),
+    admin: t('roles.admin'),
+  };
+
+  const STATUS_LABELS: Record<AccountStatus, string> = {
+    active: t('statuses.active'),
+    suspended: t('statuses.suspended'),
+    banned: t('statuses.banned'),
+  };
+
+  const groupedReports = Object.values(
+    reports.reduce<Record<string, { latestReport: BackendReport; reportCount: number }>>((accumulator, report) => {
+      const currentEntry = accumulator[report.target_id];
+
+      if (!currentEntry) {
+        accumulator[report.target_id] = {
+          latestReport: report,
+          reportCount: 1,
+        };
+        return accumulator;
+      }
+
+      const currentDate = new Date(currentEntry.latestReport.createdAt).getTime();
+      const nextDate = new Date(report.createdAt).getTime();
+
+      accumulator[report.target_id] = {
+        latestReport: nextDate > currentDate ? report : currentEntry.latestReport,
+        reportCount: currentEntry.reportCount + 1,
+      };
+
+      return accumulator;
+    }, {})
+  );
+
+  useEffect(() => {
+    if (!isStaff) return;
+
+    const loadReports = async () => {
+      setIsLoadingReports(true);
+
+      try {
+        const pendingReports = (await fetchReports('pending')).filter((entry) => entry.target_type === 'post');
+        setReports(pendingReports);
+
+        const uniquePostIds = [...new Set(pendingReports.map((entry) => entry.target_id))];
+        const posts = await fetchPostsByIds(uniquePostIds);
+        const nextPostMap = Object.fromEntries(posts.map((post) => [post._id, post]));
+        setReportPostMap(nextPostMap);
+
+        const uniqueAuthorIds = [...new Set(posts.map((post) => post.authorId))];
+        const users = await Promise.allSettled(uniqueAuthorIds.map(fetchPublicUserById));
+        const nextAuthorMap: Record<string, string> = {};
+        users.forEach((result, index) => {
+          if (result.status === 'fulfilled') {
+            nextAuthorMap[uniqueAuthorIds[index]] = result.value.username;
+          }
+        });
+        setReportAuthorMap(nextAuthorMap);
+      } catch {
+        setError(t('errors.load_reports'));
+      } finally {
+        setIsLoadingReports(false);
+      }
+    };
+
+    void loadReports();
+  }, [isStaff, t]);
 
   const applyUserUpdate = (updatedUser: UserSearchResult) => {
     setResults((currentResults) =>
@@ -85,7 +155,7 @@ export default function StaffPage() {
         return nextMap;
       });
     } catch {
-      setError('Impossible de charger les comptes.');
+      setError(t('errors.load_accounts'));
     } finally {
       setIsLoading(false);
     }
@@ -115,9 +185,9 @@ export default function StaffPage() {
         role: updatedUser.role,
         status: updatedUser.status,
       });
-      setMessage(`Role mis a jour pour @${updatedUser.username}.`);
+      setMessage(t('messages.role_updated', { username: updatedUser.username }));
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? caughtError.message : 'Impossible de modifier le role.');
+      setError(caughtError instanceof Error ? caughtError.message : t('errors.update_role'));
     } finally {
       setPendingUserId(null);
     }
@@ -126,7 +196,7 @@ export default function StaffPage() {
   const handleSuspend = async (targetUser: UserSearchResult) => {
     const until = suspendUntilByUser[targetUser.id];
     if (!until) {
-      setError('Choisis une date de fin de suspension.');
+      setError(t('errors.suspend_until_required'));
       return;
     }
 
@@ -143,9 +213,9 @@ export default function StaffPage() {
         role: updatedUser.role,
         status: updatedUser.status,
       });
-      setMessage(`Compte @${updatedUser.username} suspendu.`);
+      setMessage(t('messages.account_suspended', { username: updatedUser.username }));
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? caughtError.message : 'Impossible de suspendre ce compte.');
+      setError(caughtError instanceof Error ? caughtError.message : t('errors.suspend_account'));
     } finally {
       setPendingUserId(null);
     }
@@ -165,9 +235,9 @@ export default function StaffPage() {
         role: updatedUser.role,
         status: updatedUser.status,
       });
-      setMessage(`Compte @${updatedUser.username} banni.`);
+      setMessage(t('messages.account_banned', { username: updatedUser.username }));
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? caughtError.message : 'Impossible de bannir ce compte.');
+      setError(caughtError instanceof Error ? caughtError.message : t('errors.ban_account'));
     } finally {
       setPendingUserId(null);
     }
@@ -187,11 +257,63 @@ export default function StaffPage() {
         role: updatedUser.role,
         status: updatedUser.status,
       });
-      setMessage(`Compte @${updatedUser.username} reactive.`);
+      setMessage(t('messages.account_reinstated', { username: updatedUser.username }));
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? caughtError.message : 'Impossible de reactiver ce compte.');
+      setError(caughtError instanceof Error ? caughtError.message : t('errors.reinstate_account'));
     } finally {
       setPendingUserId(null);
+    }
+  };
+
+  const handleDismissReport = async (targetId: string) => {
+    const reportsToDismiss = reports.filter((entry) => entry.target_id === targetId);
+    if (reportsToDismiss.length === 0) {
+      return;
+    }
+
+    setPendingReportId(targetId);
+    setError(null);
+    setMessage(null);
+
+    try {
+      await Promise.all(reportsToDismiss.map((report) => updateReportStatus(report._id, 'dismissed')));
+      setReports((currentReports) => currentReports.filter((entry) => entry.target_id !== targetId));
+      setMessage(t('messages.report_dismissed', { count: reportsToDismiss.length }));
+    } catch (caughtError) {
+      setError(caughtError instanceof Error ? caughtError.message : t('errors.update_report'));
+    } finally {
+      setPendingReportId(null);
+    }
+  };
+
+  const handleDeleteReportedPost = async (report: BackendReport) => {
+    const relatedPost = reportPostMap[report.target_id];
+    if (!relatedPost) {
+      setError(t('errors.reported_post_missing'));
+      return;
+    }
+
+    if (!window.confirm(t('reports.delete_confirm'))) {
+      return;
+    }
+
+    setDeletingPostId(relatedPost._id);
+    setError(null);
+    setMessage(null);
+
+    try {
+      await deletePost(relatedPost._id);
+      setReports((currentReports) => currentReports.filter((entry) => entry.target_id !== relatedPost._id));
+      setReportPostMap((currentMap) => {
+        const nextMap = { ...currentMap };
+        delete nextMap[relatedPost._id];
+        return nextMap;
+      });
+      setMessage(t('messages.post_deleted'));
+    } catch (caughtError) {
+      setError(caughtError instanceof Error ? caughtError.message : t('errors.delete_post'));
+    } finally {
+      setDeletingPostId(null);
     }
   };
 
@@ -204,10 +326,10 @@ export default function StaffPage() {
       <main className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(13,148,136,0.16),_transparent_42%),linear-gradient(180deg,_#f8fafc_0%,_#eefdf8_100%)] px-4 py-12 sm:px-6">
         <section className="mx-auto max-w-3xl rounded-[2rem] border border-white/70 bg-white/85 p-10 text-center shadow-[0_30px_80px_rgba(15,23,42,0.08)] backdrop-blur">
           <Shield className="mx-auto mb-4 text-teal-600" size={36} />
-          <h1 className="text-3xl font-black text-slate-900">Espace moderation</h1>
-          <p className="mt-3 text-sm text-slate-600">Cette page est reservee aux moderateurs et administrateurs.</p>
+          <h1 className="text-3xl font-black text-slate-900">{t('guard.title')}</h1>
+          <p className="mt-3 text-sm text-slate-600">{t('guard.description')}</p>
           <Link href="/" className="mt-6 inline-flex rounded-full bg-teal-600 px-5 py-2 text-sm font-bold text-white hover:bg-teal-700">
-            Retour a l&apos;accueil
+            {t('guard.back_home')}
           </Link>
         </section>
       </main>
@@ -219,15 +341,15 @@ export default function StaffPage() {
       <section className="mx-auto max-w-6xl rounded-[2rem] border border-white/70 bg-white/90 p-6 shadow-[0_30px_80px_rgba(15,23,42,0.08)] backdrop-blur sm:p-8">
         <div className="flex flex-col gap-4 border-b border-slate-200 pb-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.32em] text-teal-700">Staff Console</p>
-            <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-900">Gestion des roles et sanctions</h1>
+            <p className="text-xs font-bold uppercase tracking-[0.32em] text-teal-700">{t('header.eyebrow')}</p>
+            <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-900">{t('header.title')}</h1>
             <p className="mt-2 max-w-2xl text-sm text-slate-600">
-              Les administrateurs peuvent attribuer les roles utilisateur, moderateur et administrateur. Les moderateurs peuvent uniquement promouvoir un utilisateur standard au role moderateur.
+              {t('header.description')}
             </p>
           </div>
 
           <div className="rounded-2xl border border-teal-100 bg-teal-50/70 px-4 py-3 text-sm text-teal-900">
-            Connecte en tant que <span className="font-bold">{ROLE_LABELS[user.role]}</span>
+            {t('header.connected_as')} <span className="font-bold">{ROLE_LABELS[user.role]}</span>
           </div>
         </div>
 
@@ -237,22 +359,97 @@ export default function StaffPage() {
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Rechercher par username"
+              placeholder={t('search.placeholder')}
               className="w-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400"
             />
           </label>
 
           <Button type="submit" size="md" className="sm:min-w-44" disabled={isLoading}>
-            {isLoading ? 'Recherche...' : 'Chercher un compte'}
+            {isLoading ? t('search.loading') : t('search.submit')}
           </Button>
         </form>
 
         {error && <p className="mt-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
         {message && <p className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">{message}</p>}
 
+        <section className="mt-6 rounded-[1.5rem] border border-slate-200 bg-slate-50/80 p-4 sm:p-5">
+          <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h2 className="text-xl font-black text-slate-900">{t('reports.title')}</h2>
+              <p className="text-sm text-slate-600">{t('reports.description')}</p>
+            </div>
+            <span className="text-sm font-semibold text-slate-500">{t('reports.pending_count', { count: groupedReports.length })}</span>
+          </div>
+
+          {isLoadingReports && (
+            <p className="mt-4 text-sm text-slate-500">{t('reports.loading')}</p>
+          )}
+
+          {!isLoadingReports && groupedReports.length === 0 && (
+            <div className="mt-4 rounded-2xl border border-dashed border-slate-300 px-4 py-8 text-center text-sm text-slate-500">
+              {t('reports.empty')}
+            </div>
+          )}
+
+          <div className="mt-4 grid gap-4 xl:grid-cols-2">
+            {groupedReports.map(({ latestReport, reportCount }) => {
+              const report = latestReport;
+              const relatedPost = reportPostMap[report.target_id];
+              const isPending = pendingReportId === report.target_id;
+              const isDeleting = deletingPostId === report.target_id;
+              const authorName = relatedPost ? (reportAuthorMap[relatedPost.authorId] ?? relatedPost.authorId) : t('reports.author_missing');
+
+              return (
+                <article key={report._id} className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-sm">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-[0.24em] text-red-600">{t(`report_reasons.${report.reason}`)}</p>
+                      <h3 className="mt-2 text-lg font-black text-slate-900">@{authorName}</h3>
+                      <p className="mt-1 text-xs text-slate-400">{t('reports.reported_at', { date: new Date(report.createdAt).toLocaleString(resolvedLanguage) })}</p>
+                    </div>
+                    <div className="flex flex-col items-end gap-2">
+                      <span className="rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs font-bold text-red-700">
+                        {t('reports.count', { count: reportCount })}
+                      </span>
+                      <Link href={`/posts/${report.target_id}`} className="text-sm font-semibold text-teal-700 hover:underline">
+                        {t('reports.view_post')}
+                      </Link>
+                    </div>
+                  </div>
+
+                  <p className="mt-4 rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-700">
+                    {relatedPost ? relatedPost.content : t('reports.content_missing')}
+                  </p>
+
+                  <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      className="w-full sm:w-auto"
+                      onClick={() => handleDismissReport(report.target_id)}
+                      disabled={isPending || isDeleting}
+                    >
+                      {t('reports.dismiss')}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="danger"
+                      className="w-full sm:w-auto"
+                      onClick={() => handleDeleteReportedPost(report)}
+                      disabled={!relatedPost || isPending || isDeleting}
+                    >
+                      {isDeleting ? t('reports.deleting') : t('reports.delete_post')}
+                    </Button>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
         {results.length === 0 && !isLoading && !error && (
           <div className="mt-6 rounded-[1.5rem] border border-dashed border-slate-300 px-6 py-12 text-center text-sm text-slate-500">
-            Lance une recherche pour afficher les comptes actifs, suspendus ou bannis.
+            {t('accounts.empty')}
           </div>
         )}
 
@@ -289,7 +486,7 @@ export default function StaffPage() {
                 <div className="mt-5 grid gap-4 border-t border-slate-100 pt-5">
                   <div className="grid gap-3 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-end">
                     <label className="grid min-w-0 gap-2 text-sm font-semibold text-slate-700">
-                      Role cible
+                      {t('accounts.target_role')}
                       <select
                         value={currentRoleSelection}
                         onChange={(event) => setRoleSelections((current) => ({ ...current, [entry.id]: event.target.value as UserRole }))}
@@ -303,13 +500,13 @@ export default function StaffPage() {
                     </label>
 
                     <Button type="button" className="w-full xl:w-auto" onClick={() => handleRoleUpdate(entry)} disabled={!canEditRole || isPending || currentRoleSelection === entry.role}>
-                      Mettre a jour le role
+                      {t('accounts.update_role')}
                     </Button>
                   </div>
 
                   <div className="grid gap-3 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
                     <label className="grid min-w-0 gap-2 text-sm font-semibold text-slate-700">
-                      Fin de suspension
+                      {t('accounts.suspend_until')}
                       <input
                         type="datetime-local"
                         value={suspendUntilByUser[entry.id] ?? ''}
@@ -320,12 +517,12 @@ export default function StaffPage() {
                     </label>
 
                     <label className="grid min-w-0 gap-2 text-sm font-semibold text-slate-700">
-                      Raison
+                      {t('accounts.reason')}
                       <input
                         type="text"
                         value={reasons[entry.id] ?? ''}
                         onChange={(event) => setReasons((current) => ({ ...current, [entry.id]: event.target.value }))}
-                        placeholder="Ex: spam, usurpation, propos haineux"
+                        placeholder={t('accounts.reason_placeholder')}
                         disabled={!canModerate || isPending}
                         className="min-w-0 w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none focus:border-teal-500 disabled:cursor-not-allowed disabled:bg-slate-100"
                       />
@@ -334,13 +531,13 @@ export default function StaffPage() {
 
                   <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                     <Button type="button" variant="secondary" className="w-full sm:w-auto" onClick={() => handleSuspend(entry)} disabled={!canModerate || isPending}>
-                      Suspendre
+                      {t('accounts.suspend')}
                     </Button>
                     <Button type="button" variant="danger" className="w-full sm:w-auto" onClick={() => handleBan(entry)} disabled={!canModerate || isPending}>
-                      Bannir
+                      {t('accounts.ban')}
                     </Button>
                     <Button type="button" variant="ghost" className="w-full sm:w-auto" onClick={() => handleReinstate(entry)} disabled={!canModerate || isPending || entry.status === 'active'}>
-                      Reactiver
+                      {t('accounts.reinstate')}
                     </Button>
                   </div>
                 </div>

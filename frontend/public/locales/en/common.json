@@ -35,12 +35,28 @@
     "reply_button": "Reply",
     "show_more": "Show more",
     "show_less": "Show less",
+    "report": "Report",
+    "report_title": "Report this post",
+    "report_description": "Choose the main reason for this report.",
+    "report_reason_label": "Reason",
+    "report_submit": "Submit report",
+    "report_success": "This post was reported successfully.",
+    "report_error": "Unable to report this post.",
     "edit": "Edit",
     "delete": "Delete",
     "save": "Save",
     "cancel_edit": "Cancel",
     "delete_confirm": "Are you sure you want to delete this post?",
-    "no_comments": "No comments yet."
+    "no_comments": "No comments yet.",
+    "report_reasons": {
+      "spam": "Spam",
+      "harassment": "Harassment",
+      "hate_speech": "Hate speech",
+      "violence": "Violence",
+      "nudity": "Nudity",
+      "misinformation": "Misinformation",
+      "other": "Other"
+    }
   },
   "explore_page": {
     "title": "Explore",

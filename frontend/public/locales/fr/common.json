@@ -35,12 +35,28 @@
     "reply_button": "Répondre",
     "show_more": "Voir plus",
     "show_less": "Voir moins",
+    "report": "Signaler",
+    "report_title": "Signaler ce post",
+    "report_description": "Choisissez la raison principale du signalement.",
+    "report_reason_label": "Raison",
+    "report_submit": "Envoyer le signalement",
+    "report_success": "Le post a bien été signalé.",
+    "report_error": "Impossible de signaler ce post.",
     "edit": "Modifier",
     "delete": "Supprimer",
     "save": "Enregistrer",
     "cancel_edit": "Annuler",
     "delete_confirm": "Êtes-vous sûr de vouloir supprimer ce post ?",
-    "no_comments": "Aucun commentaire pour l'instant."
+    "no_comments": "Aucun commentaire pour l'instant.",
+    "report_reasons": {
+      "spam": "Spam",
+      "harassment": "Harcèlement",
+      "hate_speech": "Discours haineux",
+      "violence": "Violence",
+      "nudity": "Nudité",
+      "misinformation": "Désinformation",
+      "other": "Autre"
+    }
   },
   "explore_page": {
     "title": "Explorer",

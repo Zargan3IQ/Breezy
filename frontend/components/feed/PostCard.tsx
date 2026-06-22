@@ -8,7 +8,10 @@ import { useTranslation } from 'react-i18next';
 import Avatar from "@/components/ui/Avatar";
 import ContextMenu from "@/components/ui/ContextMenu";
 import { useAuth } from '@/context/AuthContext';
-import { Post } from '@/types/post';
+import { createPostReport } from '@/lib/api/posts';
+import { Post, ReportReason } from '@/types/post';
+
+const REPORT_REASONS: ReportReason[] = ['spam', 'harassment', 'hate_speech', 'violence', 'nudity', 'misinformation', 'other'];
 
 interface PostCardProps {
   post: Post;
@@ -28,10 +31,16 @@ export default function PostCard({ post, onLike, onReply, onEdit, onDelete, disa
   const [expanded, setExpanded] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(post.content);
+  const [isReporting, setIsReporting] = useState(false);
+  const [reportReason, setReportReason] = useState<ReportReason>('spam');
+  const [isSubmittingReport, setIsSubmittingReport] = useState(false);
+  const [reportFeedback, setReportFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const profileHref = `/profile/${encodeURIComponent(post.author.username)}`;
   const avatarSrc = post.author.id === user?.id ? (user.avatarUrl ?? post.author.avatarUrl) : post.author.avatarUrl;
   const isAuthor = post.author.id === user?.id;
   const showAuthorMenu = isAuthor && (onEdit !== undefined || onDelete !== undefined);
+  const canReport = !!user && !isAuthor;
+  const showMenu = showAuthorMenu || canReport;
 
   const TRUNCATE_LIMIT = 140;
   const isTruncatable = post.content.length > TRUNCATE_LIMIT;
@@ -63,6 +72,38 @@ export default function PostCard({ post, onLike, onReply, onEdit, onDelete, disa
     router.push(`/posts/${post.id}`);
   };
 
+  const openReportDialog = () => {
+    setReportReason('spam');
+    setReportFeedback(null);
+    setIsReporting(true);
+  };
+
+  const handleSubmitReport = async () => {
+    setIsSubmittingReport(true);
+    setReportFeedback(null);
+
+    try {
+      await createPostReport(post.id, reportReason);
+      setIsReporting(false);
+      setReportFeedback({ type: 'success', message: t('post_card.report_success') });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : t('post_card.report_error');
+      setReportFeedback({ type: 'error', message });
+    } finally {
+      setIsSubmittingReport(false);
+    }
+  };
+
+  const menuActions = [
+    ...(showAuthorMenu
+      ? [
+          ...(onEdit ? [{ label: t('post_card.edit'), onClick: () => { setIsEditing(true); setEditContent(post.content); } }] : []),
+          ...(onDelete ? [{ label: t('post_card.delete'), onClick: () => { if (window.confirm(t('post_card.delete_confirm'))) onDelete(post.id); }, danger: true }] : []),
+        ]
+      : []),
+    ...(canReport ? [{ label: t('post_card.report'), onClick: openReportDialog, danger: true }] : []),
+  ];
+
   return (
     <article
       className={`relative app-surface-elevated border app-border p-4 app-hover-surface transition-colors rounded-lg${disableNavigation ? '' : ' cursor-pointer'}`}
@@ -82,13 +123,10 @@ export default function PostCard({ post, onLike, onReply, onEdit, onDelete, disa
               <span className="app-text-muted">@{post.author.username}</span>
             </Link>
 
-            {showAuthorMenu && (
+            {showMenu && (
               <ContextMenu
                 ariaLabel="Post options"
-                actions={[
-                  ...(onEdit ? [{ label: t('post_card.edit'), onClick: () => { setIsEditing(true); setEditContent(post.content); } }] : []),
-                  ...(onDelete ? [{ label: t('post_card.delete'), onClick: () => { if (window.confirm(t('post_card.delete_confirm'))) onDelete(post.id); }, danger: true }] : []),
-                ]}
+                actions={menuActions}
               />
             )}
           </div>
@@ -170,6 +208,12 @@ export default function PostCard({ post, onLike, onReply, onEdit, onDelete, disa
             </div>
           )}
 
+          {reportFeedback && (
+            <p className={`mt-3 text-sm ${reportFeedback.type === 'success' ? 'text-emerald-600' : 'text-red-500'}`}>
+              {reportFeedback.message}
+            </p>
+          )}
+
           {post.replies && post.replies.length > 0 && (
             <div className="mt-4 pl-4 border-l-2 app-border space-y-3">
               {post.replies.map((reply) => (
@@ -182,6 +226,50 @@ export default function PostCard({ post, onLike, onReply, onEdit, onDelete, disa
           )}
         </div>
       </div>
+
+      {isReporting && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4" onClick={() => setIsReporting(false)}>
+          <div className="w-full max-w-sm rounded-2xl border app-border app-surface-elevated p-5 shadow-xl" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-lg font-bold app-text">{t('post_card.report_title')}</h3>
+            <p className="mt-1 text-sm app-text-muted">{t('post_card.report_description')}</p>
+
+            <label className="mt-4 block text-sm font-medium app-text">
+              {t('post_card.report_reason_label')}
+              <select
+                value={reportReason}
+                onChange={(e) => setReportReason(e.target.value as ReportReason)}
+                className="mt-2 w-full rounded-xl border app-input px-3 py-2 text-sm outline-none focus:border-teal-500"
+                disabled={isSubmittingReport}
+              >
+                {REPORT_REASONS.map((reason) => (
+                  <option key={reason} value={reason}>
+                    {t(`post_card.report_reasons.${reason}`)}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <div className="mt-4 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setIsReporting(false)}
+                className="rounded-full border app-border px-4 py-2 text-sm font-semibold app-text app-hover-surface"
+                disabled={isSubmittingReport}
+              >
+                {t('post_card.cancel_edit')}
+              </button>
+              <button
+                type="button"
+                onClick={handleSubmitReport}
+                disabled={isSubmittingReport}
+                className="rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
+              >
+                {isSubmittingReport ? t('pending') : t('post_card.report_submit')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </article>
   );
 }

@@ -1,5 +1,5 @@
 import api from '../api';
-import type { BackendPost, BackendComment } from '@/types/post';
+import type { BackendPost, BackendComment, BackendReport, ReportReason, ReportStatus } from '@/types/post';
 
 export async function fetchPosts(): Promise<BackendPost[]> {
   const res = await api.get<BackendPost[]>('/posts');
@@ -112,4 +112,23 @@ export async function likeComment(commentId: string): Promise<void> {
 
 export async function unlikeComment(commentId: string): Promise<void> {
   await api.delete('/comment-likes', { data: { comment_id: commentId } });
+}
+
+export async function createPostReport(postId: string, reason: ReportReason): Promise<BackendReport> {
+  const res = await api.post<BackendReport>('/reports', {
+    target_type: 'post',
+    target_id: postId,
+    reason,
+  });
+  return res.data;
+}
+
+export async function fetchReports(status: ReportStatus = 'pending'): Promise<BackendReport[]> {
+  const res = await api.get<BackendReport[]>('/reports', { params: { status } });
+  return res.data;
+}
+
+export async function updateReportStatus(reportId: string, status: Exclude<ReportStatus, 'pending'>): Promise<BackendReport> {
+  const res = await api.patch<BackendReport>(`/reports/${reportId}`, { status });
+  return res.data;
 }
