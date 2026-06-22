@@ -1,7 +1,8 @@
 ﻿{
   "home_page": {
     "title": "Home",
-    "empty_message": "No posts to display. Try following some accounts to see content here."
+    "empty_message": "No posts to display. Try following some accounts to see content here.",
+    "load_error": "Unable to load posts."
   },
   "sidebar": {
     "nav": {
@@ -11,7 +12,8 @@
       "messages": "Messages",
       "profile": "Profile",
       "preferences": "Preferences",
-      "more": "More"
+      "more": "More",
+      "staff": "Moderation"
     },
     "post_button": "Post",
     "logout_button": "Log out"
@@ -72,7 +74,25 @@
     "tabs": { "posts": "Posts", "people": "People" },
     "no_results_posts": "No posts found.",
     "no_results_people": "No accounts found.",
-    "no_results_tags": "No posts found for this tag."
+    "no_results_tags": "No posts found for this tag.",
+    "search_error": "Search failed. Please try again."
+  },
+  "post_detail": {
+    "title": "Post",
+    "load_error": "Unable to load this post."
+  },
+  "comment_detail": {
+    "title": "Comment",
+    "load_error": "Unable to load this comment."
+  },
+  "accessibility": {
+    "options": "Options",
+    "post_options": "Post options",
+    "comment_options": "Comment options",
+    "close": "Close",
+    "go_back": "Go back",
+    "avatar_self": "My avatar",
+    "view_profile": "View profile of {{username}}"
   },
   "pending": "Loading...",
   "profile": {
@@ -92,7 +112,16 @@
     "language": {
       "title": "Language",
       "description": "Your selection is applied immediately in the interface.",
-      "label": "Application language"
+      "label": "Application language",
+      "options": {
+        "french": "French",
+        "english": "English",
+        "spanish": "Spanish",
+        "arabic": "Arabic",
+        "hebrew": "Hebrew",
+        "russian": "Russian",
+        "tahitian": "Tahitian"
+      }
     },
     "theme": {
       "title": "Theme",

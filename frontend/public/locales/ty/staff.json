@@ -1,0 +1,87 @@
+{
+  "roles": {
+    "user": "Ta'ata",
+    "moderator": "Moderateur",
+    "admin": "Administrateur"
+  },
+  "statuses": {
+    "active": "E tere nei",
+    "suspended": "Ua tape'ahia",
+    "banned": "Ua opanihia"
+  },
+  "guard": {
+    "title": "Vahi moderation",
+    "description": "Ua fa'ataehia teie api no te mau moderateur e te mau administrateur ana'e.",
+    "back_home": "Ho'i i te fare"
+  },
+  "header": {
+    "eyebrow": "Staff Console",
+    "title": "Fa'anahoraa o te mau role e te mau fa'autu'araa",
+    "description": "E nehenehe i te administrateur e horo'a i te role ta'ata, moderateur e administrateur. E nehenehe i te moderateur e fa'ateitei noa i te ta'ata matau i te role moderateur.",
+    "connected_as": "Ua tu'ati mai ei"
+  },
+  "search": {
+    "placeholder": "Imi ma te username",
+    "loading": "Te imi ra...",
+    "submit": "Imi i te account"
+  },
+  "reports": {
+    "title": "Mau parau i fa'ahapa hia",
+    "description": "E fā mai te mau fa'ahaparaa apī no te mau parau i'onei no te moderation.",
+    "pending_count_one": "{{count}} e tia'i ra",
+    "pending_count_other": "{{count}} e tia'i ra",
+    "count_one": "{{count}} fa'ahaparaa",
+    "count_other": "{{count}} mau fa'ahaparaa",
+    "loading": "Te fa'a'ī ra i te mau fa'ahaparaa...",
+    "empty": "Aore e parau i fa'ahapa hia e tia'i ra.",
+    "author_missing": "Aita te parau e vai nei",
+    "reported_at": "Ua fa'ahapa hia i te {{date}}",
+    "view_post": "Hi'o i te parau",
+    "content_missing": "Aita teie parau e vai fa'ahou nei.",
+    "dismiss": "Fāriu ore",
+    "delete_post": "Tāmi i te parau",
+    "deleting": "Te tāmi ra...",
+    "delete_confirm": "Tāmi i teie parau i fa'ahapa hia?"
+  },
+  "report_reasons": {
+    "spam": "Spam",
+    "harassment": "Ha'afifiraa",
+    "hate_speech": "Parau riri",
+    "violence": "Fa'a'ino'ino",
+    "nudity": "Ta'oto tahanga",
+    "misinformation": "Parau hape",
+    "other": "Tahi atu"
+  },
+  "accounts": {
+    "empty": "Ha'amata i te imi no te fa'a'ite i te mau account e tere nei, ua tape'ahia aore rā ua opanihia.",
+    "target_role": "Role i fa'ataahia",
+    "update_role": "Fa'ahou i te role",
+    "suspend_until": "Tape'a e tae atu i",
+    "reason": "Tumu",
+    "reason_placeholder": "Hi'oraa: spam, ha'avare, parau riri",
+    "suspend": "Tape'a",
+    "ban": "Opani",
+    "reinstate": "Fa'aho'i mai"
+  },
+  "messages": {
+    "role_updated": "Ua fa'ahouhia te role no @{{username}}.",
+    "account_suspended": "Ua tape'ahia te account @{{username}}.",
+    "account_banned": "Ua opanihia te account @{{username}}.",
+    "account_reinstated": "Ua fa'aho'ihia te account @{{username}}.",
+    "report_dismissed_one": "Ua fāriu-ore-hia {{count}} fa'ahaparaa.",
+    "report_dismissed_other": "Ua fāriu-ore-hia {{count}} mau fa'ahaparaa.",
+    "post_deleted": "Ua tāmihia te parau mai te moderation."
+  },
+  "errors": {
+    "load_reports": "Aita i manuia te fa'a'īraa i te mau parau i fa'ahapa hia.",
+    "load_accounts": "Aita i manuia te fa'a'īraa i te mau account.",
+    "update_role": "Aita i manuia te fa'ahou i te role.",
+    "suspend_until_required": "Ma'iti i te mahana hope'a no te tape'araa.",
+    "suspend_account": "Aita i manuia te tape'a i teie account.",
+    "ban_account": "Aita i manuia te opani i teie account.",
+    "reinstate_account": "Aita i manuia te fa'aho'i mai i teie account.",
+    "update_report": "Aita i manuia te fa'ahou i teie fa'ahaparaa.",
+    "reported_post_missing": "Aita teie parau i fa'ahapa hia i itehia.",
+    "delete_post": "Aita i manuia te tāmi i teie parau."
+  }
+}

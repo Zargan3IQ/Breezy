@@ -2,10 +2,12 @@
 
 import Link from 'next/link';
 import { Home, Search, Bell, LogOut, Settings } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import PublishPostModal from '../feed/PublishPostModal';
 import { useAuth } from '@/context/AuthContext';
 
 export default function MobileBottomNav() {
+  const { t } = useTranslation('common');
   const { logout } = useAuth();
 
   return (
@@ -24,11 +26,11 @@ export default function MobileBottomNav() {
           <Bell size={24} />
         </Link>
 
-        <Link href="/preferences" className="app-text-muted hover:text-brand transition-colors p-2" aria-label="Preferences">
+        <Link href="/preferences" className="app-text-muted hover:text-brand transition-colors p-2" aria-label={t('sidebar.nav.preferences')}>
           <Settings size={24} />
         </Link>
 
-        <button onClick={logout} className="app-text-muted hover:text-red-500 transition-colors p-2" aria-label="Log out">
+        <button onClick={logout} className="app-text-muted hover:text-red-500 transition-colors p-2" aria-label={t('sidebar.logout_button')}>
           <LogOut size={24} />
         </button>
       </div>

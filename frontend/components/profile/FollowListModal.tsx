@@ -79,7 +79,7 @@ export default function FollowListModal({ userId, type, onClose }: FollowListMod
           <button
             onClick={onClose}
             className="app-text-muted hover:app-text transition-colors p-1 rounded-full app-hover-surface"
-            aria-label="Close"
+            aria-label={t('follow_list.close', { defaultValue: 'Close' })}
           >
             <X size={18} />
           </button>

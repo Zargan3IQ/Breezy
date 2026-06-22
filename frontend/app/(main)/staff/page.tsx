@@ -19,9 +19,9 @@ const statusBadgeClass: Record<AccountStatus, string> = {
 };
 
 const roleBadgeClass: Record<UserRole, string> = {
-  user: 'bg-slate-100 text-slate-700 border-slate-200',
-  moderator: 'bg-sky-50 text-sky-700 border-sky-200',
-  admin: 'bg-fuchsia-50 text-fuchsia-700 border-fuchsia-200',
+  user: 'app-surface-muted app-text border app-border-subtle',
+  moderator: 'bg-sky-500/12 text-sky-700 border-sky-200 dark:border-sky-900 dark:text-sky-300',
+  admin: 'bg-fuchsia-500/12 text-fuchsia-700 border-fuchsia-200 dark:border-fuchsia-900 dark:text-fuchsia-300',
 };
 
 const toDefaultSuspendUntil = () => {
@@ -323,11 +323,11 @@ export default function StaffPage() {
 
   if (!isStaff) {
     return (
-      <main className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(13,148,136,0.16),_transparent_42%),linear-gradient(180deg,_#f8fafc_0%,_#eefdf8_100%)] px-4 py-12 sm:px-6">
-        <section className="mx-auto max-w-3xl rounded-[2rem] border border-white/70 bg-white/85 p-10 text-center shadow-[0_30px_80px_rgba(15,23,42,0.08)] backdrop-blur">
+      <main className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(13,148,136,0.16),_transparent_42%)] px-4 py-12 sm:px-6 app-page">
+        <section className="mx-auto max-w-3xl rounded-[2rem] border app-border app-surface-elevated p-10 text-center shadow-[0_30px_80px_rgba(15,23,42,0.16)] backdrop-blur">
           <Shield className="mx-auto mb-4 text-teal-600" size={36} />
-          <h1 className="text-3xl font-black text-slate-900">{t('guard.title')}</h1>
-          <p className="mt-3 text-sm text-slate-600">{t('guard.description')}</p>
+          <h1 className="text-3xl font-black app-text">{t('guard.title')}</h1>
+          <p className="mt-3 text-sm app-text-muted">{t('guard.description')}</p>
           <Link href="/" className="mt-6 inline-flex rounded-full bg-teal-600 px-5 py-2 text-sm font-bold text-white hover:bg-teal-700">
             {t('guard.back_home')}
           </Link>
@@ -337,30 +337,30 @@ export default function StaffPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(13,148,136,0.16),_transparent_42%),linear-gradient(180deg,_#f8fafc_0%,_#eefdf8_100%)] px-4 py-8 sm:px-6 lg:px-10">
-      <section className="mx-auto max-w-6xl rounded-[2rem] border border-white/70 bg-white/90 p-6 shadow-[0_30px_80px_rgba(15,23,42,0.08)] backdrop-blur sm:p-8">
-        <div className="flex flex-col gap-4 border-b border-slate-200 pb-6 lg:flex-row lg:items-end lg:justify-between">
+    <main className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(13,148,136,0.16),_transparent_42%)] px-4 py-8 sm:px-6 lg:px-10 app-page">
+      <section className="mx-auto max-w-6xl rounded-[2rem] border app-border app-surface-elevated p-6 shadow-[0_30px_80px_rgba(15,23,42,0.16)] backdrop-blur sm:p-8">
+        <div className="flex flex-col gap-4 border-b app-border pb-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.32em] text-teal-700">{t('header.eyebrow')}</p>
-            <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-900">{t('header.title')}</h1>
-            <p className="mt-2 max-w-2xl text-sm text-slate-600">
+            <h1 className="mt-2 text-3xl font-black tracking-tight app-text">{t('header.title')}</h1>
+            <p className="mt-2 max-w-2xl text-sm app-text-muted">
               {t('header.description')}
             </p>
           </div>
 
-          <div className="rounded-2xl border border-teal-100 bg-teal-50/70 px-4 py-3 text-sm text-teal-900">
+          <div className="rounded-2xl border border-teal-500/20 bg-teal-500/10 px-4 py-3 text-sm text-teal-700 dark:text-teal-300">
             {t('header.connected_as')} <span className="font-bold">{ROLE_LABELS[user.role]}</span>
           </div>
         </div>
 
-        <form onSubmit={handleSearch} className="mt-6 flex flex-col gap-3 rounded-[1.5rem] border border-slate-200 bg-slate-50/80 p-4 sm:flex-row">
-          <label className="flex flex-1 items-center gap-3 rounded-full bg-white px-4 py-3 shadow-sm">
-            <Search size={18} className="text-slate-400" />
+        <form onSubmit={handleSearch} className="mt-6 flex flex-col gap-3 rounded-[1.5rem] border app-border app-surface-muted p-4 sm:flex-row">
+          <label className="flex flex-1 items-center gap-3 rounded-full app-surface px-4 py-3 shadow-sm">
+            <Search size={18} className="app-text-soft" />
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder={t('search.placeholder')}
-              className="w-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400"
+              className="w-full bg-transparent text-sm app-text outline-none placeholder:app-text-muted"
             />
           </label>
 
@@ -369,24 +369,24 @@ export default function StaffPage() {
           </Button>
         </form>
 
-        {error && <p className="mt-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
-        {message && <p className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">{message}</p>}
+        {error && <p className="mt-4 rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-700 dark:text-red-300">{error}</p>}
+        {message && <p className="mt-4 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700 dark:text-emerald-300">{message}</p>}
 
-        <section className="mt-6 rounded-[1.5rem] border border-slate-200 bg-slate-50/80 p-4 sm:p-5">
+        <section className="mt-6 rounded-[1.5rem] border app-border app-surface-muted p-4 sm:p-5">
           <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <h2 className="text-xl font-black text-slate-900">{t('reports.title')}</h2>
-              <p className="text-sm text-slate-600">{t('reports.description')}</p>
+              <h2 className="text-xl font-black app-text">{t('reports.title')}</h2>
+              <p className="text-sm app-text-muted">{t('reports.description')}</p>
             </div>
-            <span className="text-sm font-semibold text-slate-500">{t('reports.pending_count', { count: groupedReports.length })}</span>
+            <span className="text-sm font-semibold app-text-muted">{t('reports.pending_count', { count: groupedReports.length })}</span>
           </div>
 
           {isLoadingReports && (
-            <p className="mt-4 text-sm text-slate-500">{t('reports.loading')}</p>
+            <p className="mt-4 text-sm app-text-muted">{t('reports.loading')}</p>
           )}
 
           {!isLoadingReports && groupedReports.length === 0 && (
-            <div className="mt-4 rounded-2xl border border-dashed border-slate-300 px-4 py-8 text-center text-sm text-slate-500">
+            <div className="mt-4 rounded-2xl border border-dashed app-border px-4 py-8 text-center text-sm app-text-muted">
               {t('reports.empty')}
             </div>
           )}
@@ -400,15 +400,15 @@ export default function StaffPage() {
               const authorName = relatedPost ? (reportAuthorMap[relatedPost.authorId] ?? relatedPost.authorId) : t('reports.author_missing');
 
               return (
-                <article key={report._id} className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-sm">
+                <article key={report._id} className="rounded-[1.5rem] border app-border app-surface p-5 shadow-sm">
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <p className="text-xs font-bold uppercase tracking-[0.24em] text-red-600">{t(`report_reasons.${report.reason}`)}</p>
-                      <h3 className="mt-2 text-lg font-black text-slate-900">@{authorName}</h3>
-                      <p className="mt-1 text-xs text-slate-400">{t('reports.reported_at', { date: new Date(report.createdAt).toLocaleString(resolvedLanguage) })}</p>
+                      <h3 className="mt-2 text-lg font-black app-text">@{authorName}</h3>
+                      <p className="mt-1 text-xs app-text-soft">{t('reports.reported_at', { date: new Date(report.createdAt).toLocaleString(resolvedLanguage) })}</p>
                     </div>
                     <div className="flex flex-col items-end gap-2">
-                      <span className="rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs font-bold text-red-700">
+                      <span className="rounded-full border border-red-500/20 bg-red-500/10 px-3 py-1 text-xs font-bold text-red-700 dark:text-red-300">
                         {t('reports.count', { count: reportCount })}
                       </span>
                       <Link href={`/posts/${report.target_id}`} className="text-sm font-semibold text-teal-700 hover:underline">
@@ -417,7 +417,7 @@ export default function StaffPage() {
                     </div>
                   </div>
 
-                  <p className="mt-4 rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-700">
+                  <p className="mt-4 rounded-2xl app-surface-muted px-4 py-3 text-sm app-text">
                     {relatedPost ? relatedPost.content : t('reports.content_missing')}
                   </p>
 
@@ -448,7 +448,7 @@ export default function StaffPage() {
         </section>
 
         {results.length === 0 && !isLoading && !error && (
-          <div className="mt-6 rounded-[1.5rem] border border-dashed border-slate-300 px-6 py-12 text-center text-sm text-slate-500">
+          <div className="mt-6 rounded-[1.5rem] border border-dashed app-border px-6 py-12 text-center text-sm app-text-muted">
             {t('accounts.empty')}
           </div>
         )}
@@ -461,13 +461,13 @@ export default function StaffPage() {
             const canModerate = user.role === 'admin' || entry.role === 'user';
 
             return (
-              <article key={entry.id} className="overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-sm">
+              <article key={entry.id} className="overflow-hidden rounded-[1.75rem] border app-border app-surface p-5 shadow-sm">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div className="min-w-0 flex-1">
-                    <Link href={`/profile/${encodeURIComponent(entry.username)}`} className="block break-all text-lg font-black text-slate-900 hover:text-teal-700">
+                    <Link href={`/profile/${encodeURIComponent(entry.username)}`} className="block break-all text-lg font-black app-text hover:text-teal-700">
                       @{entry.username}
                     </Link>
-                    <p className="mt-1 break-all text-sm text-slate-500">{entry.email}</p>
+                    <p className="mt-1 break-all text-sm app-text-muted">{entry.email}</p>
                     <div className="mt-3 flex flex-wrap gap-2">
                       <span className={`rounded-full border px-3 py-1 text-xs font-bold ${roleBadgeClass[entry.role]}`}>
                         {ROLE_LABELS[entry.role]}
@@ -478,20 +478,20 @@ export default function StaffPage() {
                     </div>
                   </div>
 
-                  <div className="max-w-full break-all text-left text-xs font-semibold uppercase tracking-[0.2em] text-slate-400 sm:max-w-[13rem] sm:text-right">
+                  <div className="max-w-full break-all text-left text-xs font-semibold uppercase tracking-[0.2em] app-text-soft sm:max-w-[13rem] sm:text-right">
                     {entry.id}
                   </div>
                 </div>
 
-                <div className="mt-5 grid gap-4 border-t border-slate-100 pt-5">
+                <div className="mt-5 grid gap-4 border-t app-border-subtle pt-5">
                   <div className="grid gap-3 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-end">
-                    <label className="grid min-w-0 gap-2 text-sm font-semibold text-slate-700">
+                    <label className="grid min-w-0 gap-2 text-sm font-semibold app-text">
                       {t('accounts.target_role')}
                       <select
                         value={currentRoleSelection}
                         onChange={(event) => setRoleSelections((current) => ({ ...current, [entry.id]: event.target.value as UserRole }))}
                         disabled={!canEditRole || isPending}
-                        className="min-w-0 w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-900 outline-none focus:border-teal-500 disabled:cursor-not-allowed disabled:bg-slate-100"
+                        className="min-w-0 w-full rounded-2xl border app-input px-4 py-3 text-sm font-medium outline-none focus:border-teal-500 disabled:cursor-not-allowed disabled:opacity-60"
                       >
                         {availableRoleOptions.map((roleOption) => (
                           <option key={roleOption} value={roleOption}>{ROLE_LABELS[roleOption]}</option>
@@ -505,18 +505,18 @@ export default function StaffPage() {
                   </div>
 
                   <div className="grid gap-3 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-                    <label className="grid min-w-0 gap-2 text-sm font-semibold text-slate-700">
+                    <label className="grid min-w-0 gap-2 text-sm font-semibold app-text">
                       {t('accounts.suspend_until')}
                       <input
                         type="datetime-local"
                         value={suspendUntilByUser[entry.id] ?? ''}
                         onChange={(event) => setSuspendUntilByUser((current) => ({ ...current, [entry.id]: event.target.value }))}
                         disabled={!canModerate || isPending}
-                        className="min-w-0 w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none focus:border-teal-500 disabled:cursor-not-allowed disabled:bg-slate-100"
+                        className="min-w-0 w-full rounded-2xl border app-input px-4 py-3 text-sm outline-none focus:border-teal-500 disabled:cursor-not-allowed disabled:opacity-60"
                       />
                     </label>
 
-                    <label className="grid min-w-0 gap-2 text-sm font-semibold text-slate-700">
+                    <label className="grid min-w-0 gap-2 text-sm font-semibold app-text">
                       {t('accounts.reason')}
                       <input
                         type="text"

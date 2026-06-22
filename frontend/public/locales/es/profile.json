@@ -41,5 +41,27 @@
     "error_server_with_msg": "Error {{status}}: {{message}}",
     "error_server_no_msg": "Error HTTP {{status}}.",
     "error_network": "Error de red: {{message}}"
+  },
+  "account_modal": {
+    "open": "Editar el perfil",
+    "title": "Editar la cuenta",
+    "description": "Actualiza tu nombre de usuario, tu correo electrónico o tu contraseña.",
+    "username": "Nombre de usuario",
+    "email": "Correo electrónico",
+    "current_password": "Contraseña actual",
+    "new_password": "Nueva contraseña",
+    "confirm_password": "Confirmar la nueva contraseña",
+    "password_hint": "Necesaria para cambiar el correo o la contraseña.",
+    "close": "Cerrar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "saving": "Guardando...",
+    "success": "Información actualizada.",
+    "password_success": "Contraseña actualizada. Debes volver a iniciar sesión.",
+    "error_no_changes": "No hay cambios para guardar.",
+    "error_required_password": "La contraseña actual es obligatoria para cambiar el correo o la contraseña.",
+    "error_password_mismatch": "Las nuevas contraseñas no coinciden.",
+    "error_password_length": "La nueva contraseña debe tener al menos 8 caracteres.",
+    "error_username_required": "El nombre de usuario no puede estar vacío."
   }
 }

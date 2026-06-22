@@ -24,7 +24,8 @@
     "followers_title": "Followers",
     "following_title": "Following",
     "empty_followers": "No followers yet.",
-    "empty_following": "Not following anyone yet."
+    "empty_following": "Not following anyone yet.",
+    "close": "Close"
   },
   "comment": {
     "edit": "Edit",
@@ -52,6 +53,7 @@
     "new_password": "New password",
     "confirm_password": "Confirm new password",
     "password_hint": "Required to change your email or password.",
+    "close": "Close",
     "cancel": "Cancel",
     "save": "Save",
     "saving": "Saving...",

@@ -131,7 +131,7 @@ export default function EditAccountModal({ user, onClose, onSaved }: EditAccount
             type="button"
             onClick={onClose}
             className="rounded-full p-1 app-text-muted transition-colors hover:app-text app-hover-surface"
-            aria-label="Close"
+            aria-label={t('account_modal.close', { defaultValue: 'Close' })}
           >
             <X size={18} />
           </button>

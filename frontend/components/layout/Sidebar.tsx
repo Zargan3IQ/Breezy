@@ -39,7 +39,7 @@ export default function Sidebar() {
         {navItems.map(({ key, icon: Icon, href }) => (
           <Link key={key} href={key === 'profile' ? profileHref : href} className="nav-link">
             <Icon size={22} className="shrink-0" />
-            <span className="hidden lg:block font-semibold">{key === 'staff' ? 'Moderation' : t(`sidebar.nav.${key}`)}</span>
+            <span className="hidden lg:block font-semibold">{t(`sidebar.nav.${key}`)}</span>
           </Link>
         ))}
       </nav>

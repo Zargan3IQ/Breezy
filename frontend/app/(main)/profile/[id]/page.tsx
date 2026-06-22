@@ -488,7 +488,7 @@ export default function ProfilePage() {
                     onClick={() => setIsEditAccountModalOpen(true)}
                     className="shrink-0 self-start text-xs text-teal-600 hover:underline sm:self-end"
                   >
-                    {t('profile:account_modal.open', { defaultValue: 'Edit account' })}
+                    {t('profile:account_modal.open')}
                   </button>
                 )}
               </div>
@@ -651,7 +651,7 @@ export default function ProfilePage() {
                           </div>
                           {isOwnProfile && !isEditing && (
                             <ContextMenu
-                              ariaLabel="Comment options"
+                              ariaLabel={t('common:accessibility.comment_options')}
                               actions={[
                                 { label: t('profile:comment.edit'), onClick: () => { setEditingCommentId(comment._id); setEditingCommentContent(comment.content); } },
                                 { label: t('profile:comment.delete'), onClick: () => handleDeleteComment(comment._id), danger: true },

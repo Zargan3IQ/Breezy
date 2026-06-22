@@ -11,7 +11,8 @@
       "messages": "Karere",
       "profile": "Pāpa’ira’a parau",
       "preferences": "Preferences",
-      "more": "Hā’uti ā"
+      "more": "Hā’uti ā",
+      "staff": "Moderation"
     },
     "post_button": "Piha’iho",
     "logout_button": "Haere atu"
@@ -28,7 +29,15 @@
   },
   "compose_post": {
     "placeholder": "E aha te parau hou?",
-    "submit_button": "Piha’iho"
+    "submit_button": "Piha’iho",
+    "modal_title": "Hanga i te parau",
+    "modal_description": "Tufa i te mana’o, te parau apī, aore rā te poroi i tō oe huira’atira.",
+    "cancel": "Ha'uti",
+    "close": "Pani",
+    "publishing": "Te fa'aterehia nei...",
+    "publish_error": "Aita i manuia te nene'iraa o te parau.",
+    "characters_left_one": "{{count}} reta toe",
+    "characters_left_other": "{{count}} mau reta toe"
   },
   "post_card": {
     "reply_placeholder": "Pāhono i teie parau...",
@@ -49,6 +58,15 @@
     "no_results_posts": "Aore tātā'ura'a.",
     "no_results_people": "Aore pūpū.",
     "no_results_tags": "Aore tātā'ura'a no tei'a label."
+  },
+  "accessibility": {
+    "options": "Mau ma'itiraa",
+    "post_options": "Mau ma'itiraa no te parau",
+    "comment_options": "Mau ma'itiraa no te pāhono",
+    "close": "Pani",
+    "go_back": "Ho'i atu",
+    "avatar_self": "Tō'u avatar",
+    "view_profile": "Hi'o i te profile o {{username}}"
   },
   "pending": "E tā'ata...",
   "profile": {

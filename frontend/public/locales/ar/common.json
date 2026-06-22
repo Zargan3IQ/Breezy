@@ -11,7 +11,8 @@
       "messages": "الرسائل",
       "profile": "البروفايل",
       "preferences": "التفضيلات",
-      "more": "بزاف"
+      "more": "بزاف",
+      "staff": "الاشراف"
     },
     "post_button": "انشر",
     "logout_button": "تسجيل الخروج"
@@ -28,7 +29,15 @@
   },
   "compose_post": {
     "placeholder": "واش كاين جديد؟",
-    "submit_button": "انشر"
+    "submit_button": "انشر",
+    "modal_title": "اكتب منشور",
+    "modal_description": "شارك فكرة ولا خبر ولا رسالة مع المجتمع تاعك.",
+    "cancel": "إلغاء",
+    "close": "اغلاق",
+    "publishing": "جارٍ النشر...",
+    "publish_error": "ما قدرناش ننشرو المنشور.",
+    "characters_left_one": "باقي {{count}} حرف",
+    "characters_left_other": "باقي {{count}} حروف"
   },
     "post_card": {
     "reply_placeholder": "رجع على هاد المنشور...",
@@ -49,6 +58,15 @@
     "no_results_posts": "ما كانش منشورات.",
     "no_results_people": "ما كانش حسابات.",
     "no_results_tags": "ما كانش منشورات لهاد الوسم."
+  },
+  "accessibility": {
+    "options": "خيارات",
+    "post_options": "خيارات المنشور",
+    "comment_options": "خيارات التعليق",
+    "close": "اغلاق",
+    "go_back": "ارجع",
+    "avatar_self": "صورتي",
+    "view_profile": "شوف بروفايل {{username}}"
   },
   "pending": "جارٍ التحميل...",
   "profile": {

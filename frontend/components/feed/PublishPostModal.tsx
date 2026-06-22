@@ -5,11 +5,11 @@ import { useState } from 'react';
 import { Image as ImageIcon, Plus, X } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
-import Avatar from '@/components/ui/Avatar';
-import Button from '@/components/ui/Button';
-import { useAuth } from '@/context/AuthContext';
-import { createPost } from '@/lib/api/posts';
-import type { BackendPost } from '@/types/post';
+import Avatar from '../ui/Avatar';
+import Button from '../ui/Button';
+import { useAuth } from '../../context/AuthContext';
+import { createPost } from '../../lib/api/posts';
+import type { BackendPost } from '../../types/post';
 
 type TriggerVariant = 'sidebar' | 'mobile';
 
@@ -30,6 +30,7 @@ export default function PublishPostModal({ triggerVariant }: PublishPostModalPro
   const [content, setContent] = useState('');
   const [isPosting, setIsPosting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const remainingCharacters = 280 - content.length;
 
   const closeModal = () => {
     if (isPosting) return;
@@ -110,7 +111,7 @@ export default function PublishPostModal({ triggerVariant }: PublishPostModalPro
 
             <form onSubmit={handleSubmit} className="px-6 py-5">
               <div className="flex gap-4">
-                <Avatar src={user.avatarUrl} alt="My Avatar" size="md" />
+                <Avatar src={user.avatarUrl} alt={t('accessibility.avatar_self')} size="md" />
                 <div className="min-w-0 flex-1">
                   <textarea
                     value={content}
@@ -124,7 +125,14 @@ export default function PublishPostModal({ triggerVariant }: PublishPostModalPro
                   <div className="mt-4 flex items-center justify-between gap-4 rounded-[1.5rem] border app-border-subtle app-surface-muted px-4 py-3">
                     <div className="flex items-center gap-3 text-sm app-text-muted">
                       <ImageIcon size={18} className="text-brand" />
-                      <span>{t('compose_post.characters_left', { count: 280 - content.length })}</span>
+                      <span>
+                        {t(
+                          remainingCharacters === 1
+                            ? 'compose_post.characters_left_one'
+                            : 'compose_post.characters_left_other',
+                          { count: remainingCharacters }
+                        )}
+                      </span>
                     </div>
 
                     <div className="flex items-center gap-3">

@@ -41,5 +41,27 @@
     "error_server_with_msg": "Ошибка {{status}}: {{message}}",
     "error_server_no_msg": "HTTP ошибка {{status}}.",
     "error_network": "Сетевая ошибка: {{message}}"
+  },
+  "account_modal": {
+    "open": "Редактировать профиль",
+    "title": "Редактировать аккаунт",
+    "description": "Обновите имя пользователя, адрес электронной почты или пароль.",
+    "username": "Имя пользователя",
+    "email": "Электронная почта",
+    "current_password": "Текущий пароль",
+    "new_password": "Новый пароль",
+    "confirm_password": "Подтвердите новый пароль",
+    "password_hint": "Требуется для смены почты или пароля.",
+    "close": "Закрыть",
+    "cancel": "Отмена",
+    "save": "Сохранить",
+    "saving": "Сохранение...",
+    "success": "Информация обновлена.",
+    "password_success": "Пароль обновлён. Требуется повторный вход.",
+    "error_no_changes": "Нет изменений для сохранения.",
+    "error_required_password": "Текущий пароль обязателен для смены почты или пароля.",
+    "error_password_mismatch": "Новые пароли не совпадают.",
+    "error_password_length": "Новый пароль должен содержать не менее 8 символов.",
+    "error_username_required": "Имя пользователя не может быть пустым."
   }
 }

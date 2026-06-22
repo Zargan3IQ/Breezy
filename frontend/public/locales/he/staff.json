@@ -1,0 +1,87 @@
+{
+  "roles": {
+    "user": "משתמש",
+    "moderator": "מנהל",
+    "admin": "אדמין"
+  },
+  "statuses": {
+    "active": "פעיל",
+    "suspended": "מושעה",
+    "banned": "חסום"
+  },
+  "guard": {
+    "title": "אזור ניהול",
+    "description": "העמוד הזה מיועד למנהלים ולאדמינים בלבד.",
+    "back_home": "חזרה לבית"
+  },
+  "header": {
+    "eyebrow": "Staff Console",
+    "title": "ניהול תפקידים וסנקציות",
+    "description": "אדמינים יכולים להקצות תפקידי משתמש, מנהל ואדמין. מנהלים יכולים לקדם רק משתמש רגיל לתפקיד מנהל.",
+    "connected_as": "מחובר בתור"
+  },
+  "search": {
+    "placeholder": "חיפוש לפי שם משתמש",
+    "loading": "מחפש...",
+    "submit": "חפש חשבון"
+  },
+  "reports": {
+    "title": "פוסטים מדווחים",
+    "description": "דיווחים חדשים על פוסטים מופיעים כאן לצורך ניהול.",
+    "pending_count_one": "{{count}} ממתין",
+    "pending_count_other": "{{count}} ממתינים",
+    "count_one": "דיווח אחד",
+    "count_other": "{{count}} דיווחים",
+    "loading": "טוען דיווחים...",
+    "empty": "אין פוסטים מדווחים בהמתנה.",
+    "author_missing": "הפוסט לא זמין",
+    "reported_at": "דווח בתאריך {{date}}",
+    "view_post": "הצג פוסט",
+    "content_missing": "תוכן הפוסט הזה כבר לא זמין.",
+    "dismiss": "התעלם",
+    "delete_post": "מחק פוסט",
+    "deleting": "מוחק...",
+    "delete_confirm": "למחוק את הפוסט המדווח הזה?"
+  },
+  "report_reasons": {
+    "spam": "ספאם",
+    "harassment": "הטרדה",
+    "hate_speech": "שיח שנאה",
+    "violence": "אלימות",
+    "nudity": "עירום",
+    "misinformation": "מידע שגוי",
+    "other": "אחר"
+  },
+  "accounts": {
+    "empty": "בצע חיפוש כדי להציג חשבונות פעילים, מושעים או חסומים.",
+    "target_role": "תפקיד יעד",
+    "update_role": "עדכן תפקיד",
+    "suspend_until": "השעיה עד",
+    "reason": "סיבה",
+    "reason_placeholder": "לדוגמה: ספאם, התחזות, שיח שנאה",
+    "suspend": "השעיה",
+    "ban": "חסימה",
+    "reinstate": "הפעלה מחדש"
+  },
+  "messages": {
+    "role_updated": "התפקיד עודכן עבור @{{username}}.",
+    "account_suspended": "החשבון @{{username}} הושעה.",
+    "account_banned": "החשבון @{{username}} נחסם.",
+    "account_reinstated": "החשבון @{{username}} הופעל מחדש.",
+    "report_dismissed_one": "דיווח אחד נדחה.",
+    "report_dismissed_other": "{{count}} דיווחים נדחו.",
+    "post_deleted": "הפוסט נמחק ממסך הניהול."
+  },
+  "errors": {
+    "load_reports": "לא ניתן לטעון את הפוסטים המדווחים.",
+    "load_accounts": "לא ניתן לטעון את החשבונות.",
+    "update_role": "לא ניתן לעדכן את התפקיד.",
+    "suspend_until_required": "בחר תאריך סיום להשעיה.",
+    "suspend_account": "לא ניתן להשעות את החשבון הזה.",
+    "ban_account": "לא ניתן לחסום את החשבון הזה.",
+    "reinstate_account": "לא ניתן להפעיל מחדש את החשבון הזה.",
+    "update_report": "לא ניתן לעדכן את הדיווח הזה.",
+    "reported_post_missing": "הפוסט המדווח לא נמצא.",
+    "delete_post": "לא ניתן למחוק את הפוסט הזה."
+  }
+}

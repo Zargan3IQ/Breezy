@@ -11,7 +11,8 @@
       "messages": "הודעות",
       "profile": "פרופיל",
       "preferences": "העדפות",
-      "more": "עוד"
+      "more": "עוד",
+      "staff": "ניהול"
     },
     "post_button": "פרסם",
     "logout_button": "התנתקות"
@@ -28,7 +29,15 @@
   },
   "compose_post": {
     "placeholder": "מה חדש?",
-    "submit_button": "פרסם"
+    "submit_button": "פרסם",
+    "modal_title": "צור פוסט",
+    "modal_description": "שתף רעיון, עדכון או הודעה עם הקהילה שלך.",
+    "cancel": "ביטול",
+    "close": "סגור",
+    "publishing": "מפרסם...",
+    "publish_error": "לא ניתן לפרסם את הפוסט.",
+    "characters_left_one": "נותר תו אחד",
+    "characters_left_other": "נותרו {{count}} תווים"
   },
     "post_card": {
     "reply_placeholder": "הגב לפוסט זה...",
@@ -49,6 +58,15 @@
     "no_results_posts": "לא נמצאו פוסטים.",
     "no_results_people": "לא נמצאו חשבונות.",
     "no_results_tags": "לא נמצאו פוסטים עבור תגית זו."
+  },
+  "accessibility": {
+    "options": "אפשרויות",
+    "post_options": "אפשרויות הפוסט",
+    "comment_options": "אפשרויות התגובה",
+    "close": "סגור",
+    "go_back": "חזור",
+    "avatar_self": "האווטאר שלי",
+    "view_profile": "הצג את הפרופיל של {{username}}"
   },
   "pending": "טוען...",
   "profile": {

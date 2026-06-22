@@ -89,14 +89,14 @@ export default function PostDetailPage() {
           return mapped;
         }));
       } catch {
-        setError('Failed to load post.');
+        setError(t('post_detail.load_error'));
       } finally {
         setIsLoading(false);
       }
     }
 
     load();
-  }, [user, authLoading, postId]);
+  }, [user, authLoading, postId, t]);
 
   const handleToggleLike = async () => {
     if (!post) return;
@@ -171,11 +171,11 @@ export default function PostDetailPage() {
         <button
           onClick={() => router.back()}
           className="app-text-muted hover:app-text transition-colors"
-          aria-label="Go back"
+          aria-label={t('accessibility.go_back')}
         >
           <ArrowLeft size={20} />
         </button>
-        <h1 className="text-xl font-bold">Post</h1>
+        <h1 className="text-xl font-bold">{t('post_detail.title')}</h1>
       </header>
 
       {isPageLoading && <p className="text-center app-text-soft py-8">{t('pending')}</p>}

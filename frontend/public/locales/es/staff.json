@@ -1,0 +1,87 @@
+{
+  "roles": {
+    "user": "Usuario",
+    "moderator": "Moderador",
+    "admin": "Administrador"
+  },
+  "statuses": {
+    "active": "Activo",
+    "suspended": "Suspendido",
+    "banned": "Baneado"
+  },
+  "guard": {
+    "title": "Area de moderacion",
+    "description": "Esta pagina esta reservada para moderadores y administradores.",
+    "back_home": "Volver al inicio"
+  },
+  "header": {
+    "eyebrow": "Staff Console",
+    "title": "Gestion de roles y sanciones",
+    "description": "Los administradores pueden asignar los roles de usuario, moderador y administrador. Los moderadores solo pueden promocionar a un usuario estandar al rol de moderador.",
+    "connected_as": "Conectado como"
+  },
+  "search": {
+    "placeholder": "Buscar por nombre de usuario",
+    "loading": "Buscando...",
+    "submit": "Buscar cuenta"
+  },
+  "reports": {
+    "title": "Publicaciones reportadas",
+    "description": "Los nuevos reportes de publicaciones aparecen aqui para moderacion.",
+    "pending_count_one": "{{count}} pendiente",
+    "pending_count_other": "{{count}} pendientes",
+    "count_one": "{{count}} reporte",
+    "count_other": "{{count}} reportes",
+    "loading": "Cargando reportes...",
+    "empty": "No hay publicaciones reportadas pendientes.",
+    "author_missing": "Publicacion no disponible",
+    "reported_at": "Reportado el {{date}}",
+    "view_post": "Ver la publicacion",
+    "content_missing": "El contenido de esta publicacion ya no esta disponible.",
+    "dismiss": "Ignorar",
+    "delete_post": "Eliminar publicacion",
+    "deleting": "Eliminando...",
+    "delete_confirm": "¿Eliminar esta publicacion reportada?"
+  },
+  "report_reasons": {
+    "spam": "Spam",
+    "harassment": "Acoso",
+    "hate_speech": "Discurso de odio",
+    "violence": "Violencia",
+    "nudity": "Desnudez",
+    "misinformation": "Desinformacion",
+    "other": "Otro"
+  },
+  "accounts": {
+    "empty": "Inicia una busqueda para mostrar cuentas activas, suspendidas o baneadas.",
+    "target_role": "Rol de destino",
+    "update_role": "Actualizar rol",
+    "suspend_until": "Suspender hasta",
+    "reason": "Motivo",
+    "reason_placeholder": "Ej: spam, suplantacion, discurso de odio",
+    "suspend": "Suspender",
+    "ban": "Banear",
+    "reinstate": "Reactivar"
+  },
+  "messages": {
+    "role_updated": "Rol actualizado para @{{username}}.",
+    "account_suspended": "La cuenta @{{username}} fue suspendida.",
+    "account_banned": "La cuenta @{{username}} fue baneada.",
+    "account_reinstated": "La cuenta @{{username}} fue reactivada.",
+    "report_dismissed_one": "{{count}} reporte ignorado.",
+    "report_dismissed_other": "{{count}} reportes ignorados.",
+    "post_deleted": "Publicacion eliminada desde moderacion."
+  },
+  "errors": {
+    "load_reports": "No se pudieron cargar las publicaciones reportadas.",
+    "load_accounts": "No se pudieron cargar las cuentas.",
+    "update_role": "No se pudo actualizar el rol.",
+    "suspend_until_required": "Elige una fecha de fin de suspension.",
+    "suspend_account": "No se pudo suspender esta cuenta.",
+    "ban_account": "No se pudo banear esta cuenta.",
+    "reinstate_account": "No se pudo reactivar esta cuenta.",
+    "update_report": "No se pudo actualizar este reporte.",
+    "reported_post_missing": "No se encontro la publicacion reportada.",
+    "delete_post": "No se pudo eliminar esta publicacion."
+  }
+}

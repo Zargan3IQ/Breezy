@@ -41,5 +41,27 @@
     "error_server_with_msg": "خطأ {{status}}: {{message}}",
     "error_server_no_msg": "خطأ HTTP {{status}}.",
     "error_network": "خطأ في الشبكة: {{message}}"
+  },
+  "account_modal": {
+    "open": "تعديل الملف الشخصي",
+    "title": "تعديل الحساب",
+    "description": "حدّث اسم المستخدم أو البريد الإلكتروني أو كلمة المرور الخاصة بك.",
+    "username": "اسم المستخدم",
+    "email": "البريد الإلكتروني",
+    "current_password": "كلمة المرور الحالية",
+    "new_password": "كلمة المرور الجديدة",
+    "confirm_password": "تأكيد كلمة المرور الجديدة",
+    "password_hint": "مطلوبة لتغيير البريد الإلكتروني أو كلمة المرور.",
+    "close": "إغلاق",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "saving": "جارٍ الحفظ...",
+    "success": "تم تحديث المعلومات.",
+    "password_success": "تم تحديث كلمة المرور. يجب إعادة تسجيل الدخول.",
+    "error_no_changes": "لا توجد تغييرات للحفظ.",
+    "error_required_password": "كلمة المرور الحالية مطلوبة لتغيير البريد الإلكتروني أو كلمة المرور.",
+    "error_password_mismatch": "كلمتا المرور الجديدتان غير متطابقتين.",
+    "error_password_length": "يجب أن تحتوي كلمة المرور الجديدة على 8 أحرف على الأقل.",
+    "error_username_required": "اسم المستخدم لا يمكن أن يكون فارغاً."
   }
 }

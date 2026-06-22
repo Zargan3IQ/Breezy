@@ -245,7 +245,7 @@ export default function PostCard({ post, onLike, onReply, onEdit, onDelete, disa
     >
       <div className="flex gap-3">
         <div className="shrink-0">
-          <Link href={profileHref} aria-label={`Voir le profil de ${post.author.username}`}>
+          <Link href={profileHref} aria-label={t('accessibility.view_profile', { username: post.author.username })}>
             <Avatar src={avatarSrc} alt={post.author.username} size="md" />
           </Link>
         </div>
@@ -259,7 +259,7 @@ export default function PostCard({ post, onLike, onReply, onEdit, onDelete, disa
 
             {showMenu && (
               <ContextMenu
-                ariaLabel="Post options"
+                ariaLabel={t('accessibility.post_options')}
                 actions={menuActions}
               />
             )}

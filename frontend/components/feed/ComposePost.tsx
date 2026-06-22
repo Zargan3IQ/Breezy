@@ -146,7 +146,7 @@ export default function ComposePost({ onPost, isPosting = false }: ComposePostPr
       <div className="flex gap-3">
         <Avatar
           src={user?.avatarUrl}
-          alt="My Avatar"
+          alt={t('accessibility.avatar_self')}
           size="md"
         />
         <form onSubmit={handleSubmit} className="flex-1">
@@ -221,7 +221,7 @@ export default function ComposePost({ onPost, isPosting = false }: ComposePostPr
               disabled={(content.trim().length === 0 && !selectedFile) || isPosting}
               className="bg-brand hover:bg-brand-hover text-white font-bold py-1.5 px-4 rounded-full disabled:opacity-50"
             >
-              {isPosting ? '...' : t('compose_post.submit_button')}
+              {isPosting ? t('compose_post.publishing') : t('compose_post.submit_button')}
             </Button>
           </div>
         </form>

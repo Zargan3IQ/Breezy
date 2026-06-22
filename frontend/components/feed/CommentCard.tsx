@@ -165,7 +165,7 @@ export default function CommentCard({ comment, onLike, onUnlike, onReply, disabl
     >
       <div className="flex gap-3">
         <div className="shrink-0">
-          <Link href={profileHref} aria-label={`View profile of ${comment.author.username}`}>
+          <Link href={profileHref} aria-label={t('accessibility.view_profile', { username: comment.author.username })}>
             <Avatar src={comment.author.avatarUrl} alt={comment.author.username} size="sm" />
           </Link>
         </div>

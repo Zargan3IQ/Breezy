@@ -7,11 +7,10 @@ import Backend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 export default function I18nProvider({ children }: { children: React.ReactNode }) {
-  const [isInitialized, setIsInitialized] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(i18n.isInitialized);
 
   useEffect(() => {
     if (i18n.isInitialized) {
-      setIsInitialized(true);
       return;
     }
 
@@ -23,7 +22,7 @@ export default function I18nProvider({ children }: { children: React.ReactNode }
         fallbackLng: 'fr',
         load: 'languageOnly',
         debug: process.env.NODE_ENV === 'development',
-        ns: ['common', 'auth', 'staff'],
+        ns: ['common', 'auth', 'profile', 'staff'],
         defaultNS: 'common',
         backend: {
           loadPath: '/locales/{{lng}}/{{ns}}.json',

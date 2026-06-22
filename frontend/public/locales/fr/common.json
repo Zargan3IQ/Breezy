@@ -1,7 +1,8 @@
 ﻿{
   "home_page": {
     "title": "Accueil",
-    "empty_message": "Aucun post à afficher. Essayez de suivre des comptes pour voir du contenu ici."
+    "empty_message": "Aucun post à afficher. Essayez de suivre des comptes pour voir du contenu ici.",
+    "load_error": "Impossible de charger les posts."
   },
   "sidebar": {
     "nav": {
@@ -11,7 +12,8 @@
       "messages": "Messages",
       "profile": "Profil",
       "preferences": "Preferences",
-      "more": "Plus"
+      "more": "Plus",
+      "staff": "Moderation"
     },
     "post_button": "Publier",
     "logout_button": "Se déconnecter"
@@ -72,7 +74,25 @@
     "tabs": { "posts": "Posts", "people": "Personnes" },
     "no_results_posts": "Aucun post trouvé.",
     "no_results_people": "Aucun compte trouvé.",
-    "no_results_tags": "Aucun post trouvé pour ce tag."
+    "no_results_tags": "Aucun post trouvé pour ce tag.",
+    "search_error": "La recherche a échoué. Veuillez réessayer."
+  },
+  "post_detail": {
+    "title": "Post",
+    "load_error": "Impossible de charger ce post."
+  },
+  "comment_detail": {
+    "title": "Commentaire",
+    "load_error": "Impossible de charger ce commentaire."
+  },
+  "accessibility": {
+    "options": "Options",
+    "post_options": "Options du post",
+    "comment_options": "Options du commentaire",
+    "close": "Fermer",
+    "go_back": "Retour",
+    "avatar_self": "Mon avatar",
+    "view_profile": "Voir le profil de {{username}}"
   },
   "pending": "Chargement...",
   "profile": {
@@ -92,7 +112,16 @@
     "language": {
       "title": "Langue",
       "description": "La langue choisie est appliquee immediatement dans l'interface.",
-      "label": "Langue de l'application"
+      "label": "Langue de l'application",
+      "options": {
+        "french": "Francais",
+        "english": "English",
+        "spanish": "Espanol",
+        "arabic": "العربية",
+        "hebrew": "עברית",
+        "russian": "Русский",
+        "tahitian": "Reo Tahiti"
+      }
     },
     "theme": {
       "title": "Theme",

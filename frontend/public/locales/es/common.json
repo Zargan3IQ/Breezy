@@ -11,7 +11,8 @@
       "messages": "Mensajes",
       "profile": "Perfil",
       "preferences": "Preferencias",
-      "more": "Más"
+      "more": "Más",
+      "staff": "Moderación"
     },
     "post_button": "Publicar",
     "logout_button": "Cerrar sesión"
@@ -28,7 +29,15 @@
   },
   "compose_post": {
     "placeholder": "¿Qué está pasando?",
-    "submit_button": "Publicar"
+    "submit_button": "Publicar",
+    "modal_title": "Crear una publicación",
+    "modal_description": "Comparte una idea, una novedad o un mensaje con tu comunidad.",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "publishing": "Publicando...",
+    "publish_error": "No se pudo publicar la publicación.",
+    "characters_left_one": "{{count}} carácter restante",
+    "characters_left_other": "{{count}} caracteres restantes"
   },
   "post_card": {
     "reply_placeholder": "Responder a esta publicación...",
@@ -49,6 +58,15 @@
     "no_results_posts": "No se encontraron posts.",
     "no_results_people": "No se encontraron cuentas.",
     "no_results_tags": "No se encontraron posts para este tag."
+  },
+  "accessibility": {
+    "options": "Opciones",
+    "post_options": "Opciones de la publicación",
+    "comment_options": "Opciones del comentario",
+    "close": "Cerrar",
+    "go_back": "Volver",
+    "avatar_self": "Mi avatar",
+    "view_profile": "Ver el perfil de {{username}}"
   },
   "pending": "Cargando...",
   "profile": {

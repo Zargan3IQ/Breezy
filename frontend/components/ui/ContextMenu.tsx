@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { MoreHorizontal } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export interface ContextMenuAction {
   label: string;
@@ -14,7 +15,8 @@ interface ContextMenuProps {
   ariaLabel?: string;
 }
 
-export default function ContextMenu({ actions, ariaLabel = 'Options' }: ContextMenuProps) {
+export default function ContextMenu({ actions, ariaLabel }: ContextMenuProps) {
+  const { t } = useTranslation('common');
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -34,7 +36,7 @@ export default function ContextMenu({ actions, ariaLabel = 'Options' }: ContextM
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         className="app-text-muted hover:app-text p-1 rounded-full app-hover-surface transition-colors"
-        aria-label={ariaLabel}
+        aria-label={ariaLabel ?? t('accessibility.options')}
       >
         <MoreHorizontal size={16} />
       </button>

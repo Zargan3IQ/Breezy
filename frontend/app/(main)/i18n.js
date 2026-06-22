@@ -15,7 +15,7 @@ i18n
     load: 'languageOnly',
     debug: true,       // Pratique en développement pour voir ce qui se passe dans la console
     
-    ns: ['common', 'auth', 'staff'],          
+    ns: ['common', 'auth', 'profile', 'staff'],          
     defaultNS: 'common',
     
     backend: {

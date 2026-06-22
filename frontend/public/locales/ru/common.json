@@ -11,7 +11,8 @@
       "messages": "Сообщения",
       "profile": "Профиль",
       "preferences": "Настройки",
-      "more": "Еще"
+      "more": "Еще",
+      "staff": "Модерация"
     },
     "post_button": "Опубликовать",
     "logout_button": "Выйти"
@@ -28,7 +29,15 @@
   },
   "compose_post": {
     "placeholder": "Что происходит?",
-    "submit_button": "Опубликовать"
+    "submit_button": "Опубликовать",
+    "modal_title": "Создать публикацию",
+    "modal_description": "Поделитесь идеей, новостью или сообщением со своим сообществом.",
+    "cancel": "Отмена",
+    "close": "Закрыть",
+    "publishing": "Публикация...",
+    "publish_error": "Не удалось опубликовать пост.",
+    "characters_left_one": "Остался {{count}} символ",
+    "characters_left_other": "Осталось {{count}} символов"
   },
   "post_card": {
     "reply_placeholder": "Ответить на этот пост...",
@@ -49,6 +58,15 @@
     "no_results_posts": "Публикации не найдены.",
     "no_results_people": "Аккаунты не найдены.",
     "no_results_tags": "Публикации по этому тегу не найдены."
+  },
+  "accessibility": {
+    "options": "Опции",
+    "post_options": "Опции публикации",
+    "comment_options": "Опции комментария",
+    "close": "Закрыть",
+    "go_back": "Назад",
+    "avatar_self": "Мой аватар",
+    "view_profile": "Открыть профиль {{username}}"
   },
   "pending": "Загрузка...",
   "profile": {

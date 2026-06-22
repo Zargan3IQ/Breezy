@@ -41,5 +41,27 @@
     "error_server_with_msg": "שגיאה {{status}}: {{message}}",
     "error_server_no_msg": "שגיאת HTTP {{status}}.",
     "error_network": "שגיאת רשת: {{message}}"
+  },
+  "account_modal": {
+    "open": "ערוך פרופיל",
+    "title": "ערוך חשבון",
+    "description": "עדכן את שם המשתמש, כתובת האימייל או הסיסמה שלך.",
+    "username": "שם משתמש",
+    "email": "אימייל",
+    "current_password": "סיסמה נוכחית",
+    "new_password": "סיסמה חדשה",
+    "confirm_password": "אשר סיסמה חדשה",
+    "password_hint": "נדרש כדי לשנות אימייל או סיסמה.",
+    "close": "סגור",
+    "cancel": "ביטול",
+    "save": "שמור",
+    "saving": "שומר...",
+    "success": "המידע עודכן.",
+    "password_success": "הסיסמה עודכנה. יש להתחבר מחדש.",
+    "error_no_changes": "אין שינויים לשמירה.",
+    "error_required_password": "הסיסמה הנוכחית נדרשת כדי לשנות אימייל או סיסמה.",
+    "error_password_mismatch": "הסיסמאות החדשות אינן תואמות.",
+    "error_password_length": "הסיסמה החדשה חייבת להכיל לפחות 8 תווים.",
+    "error_username_required": "שם המשתמש לא יכול להיות ריק."
   }
 }

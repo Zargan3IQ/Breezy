@@ -24,7 +24,8 @@
     "followers_title": "Abonnés",
     "following_title": "Abonnements",
     "empty_followers": "Aucun abonné pour l'instant.",
-    "empty_following": "Aucun abonnement pour l'instant."
+    "empty_following": "Aucun abonnement pour l'instant.",
+    "close": "Fermer"
   },
   "comment": {
     "edit": "Modifier",
@@ -52,6 +53,7 @@
     "new_password": "Nouveau mot de passe",
     "confirm_password": "Confirmer le nouveau mot de passe",
     "password_hint": "Requis pour changer l'email ou le mot de passe.",
+    "close": "Fermer",
     "cancel": "Annuler",
     "save": "Enregistrer",
     "saving": "Enregistrement...",

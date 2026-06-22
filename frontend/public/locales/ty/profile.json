@@ -41,5 +41,28 @@
     "error_server_with_msg": "Hape {{status}}: {{message}}",
     "error_server_no_msg": "HTTP hape {{status}}.",
     "error_network": "Hape réseau: {{message}}"
+  },
+  "account_modal": {
+    "open": "Taui i te profile",
+    "title": "Taui i te account",
+    "description": "Faahou i to oe username, email aore ra password.",
+    "username": "Username",
+    "email": "Email",
+    "current_password": "Password o teie nei",
+    "new_password": "Password apî",
+    "confirm_password": "Haapapu i te password apî",
+    "password_hint": "E titauhia no te taui i te email aore ra te password.",
+    "close": "Pani",
+    "cancel": "Fa'a'ore",
+    "save": "Fa'a'ite",
+    "saving": "Te faahereherehia nei...",
+    "success": "Ua faahouhia te mau haamaramaramaraa.",
+    "password_success": "Ua faahouhia te password. E titauhia te tomoraa faahou.",
+    "error_no_changes": "Aore e tauiraa no te faaherehere.",
+    "error_required_password": "E titauhia te password o teie nei no te taui i te email aore ra te password.",
+    "error_password_mismatch": "Aita te mau password apî e tuea.",
+    "error_password_length": "E titauhia ia vai i te password apî e 8 reta i te iti roa.",
+    "error_username_required": "Eita e nehenehe te username e vai mo'e.",
+    "error_email_required": "Eita e nehenehe te email e vai mo'e."
   }
 }

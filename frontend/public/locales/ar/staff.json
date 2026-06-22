@@ -1,0 +1,87 @@
+{
+  "roles": {
+    "user": "مستخدم",
+    "moderator": "مشرف",
+    "admin": "ادمن"
+  },
+  "statuses": {
+    "active": "نشط",
+    "suspended": "موقوف",
+    "banned": "محظور"
+  },
+  "guard": {
+    "title": "مساحة الاشراف",
+    "description": "هذه الصفحة مخصصة للمشرفين والادمن فقط.",
+    "back_home": "الرجوع للرئيسية"
+  },
+  "header": {
+    "eyebrow": "Staff Console",
+    "title": "ادارة الرتب والعقوبات",
+    "description": "الادمن يقدر يعيّن رتب مستخدم ومشرف وادمن. المشرف يقدر فقط يرقّي مستخدم عادي الى رتبة مشرف.",
+    "connected_as": "متصل بصفة"
+  },
+  "search": {
+    "placeholder": "ابحث باسم المستخدم",
+    "loading": "جارٍ البحث...",
+    "submit": "ابحث عن حساب"
+  },
+  "reports": {
+    "title": "المنشورات المبلغ عنها",
+    "description": "البلاغات الجديدة على المنشورات تظهر هنا من اجل الاشراف.",
+    "pending_count_one": "{{count}} في الانتظار",
+    "pending_count_other": "{{count}} في الانتظار",
+    "count_one": "{{count}} بلاغ",
+    "count_other": "{{count}} بلاغات",
+    "loading": "جارٍ تحميل البلاغات...",
+    "empty": "ماكانش منشورات مبلّغ عنها في الانتظار.",
+    "author_missing": "المنشور غير موجود",
+    "reported_at": "تم التبليغ يوم {{date}}",
+    "view_post": "شوف المنشور",
+    "content_missing": "محتوى هذا المنشور لم يعد متوفرا.",
+    "dismiss": "تجاهل",
+    "delete_post": "حذف المنشور",
+    "deleting": "جارٍ الحذف...",
+    "delete_confirm": "تحب تحذف هذا المنشور المبلغ عنه؟"
+  },
+  "report_reasons": {
+    "spam": "سبام",
+    "harassment": "تحرش",
+    "hate_speech": "خطاب كراهية",
+    "violence": "عنف",
+    "nudity": "عري",
+    "misinformation": "معلومات مضللة",
+    "other": "اخرى"
+  },
+  "accounts": {
+    "empty": "ابدأ البحث لعرض الحسابات النشطة او الموقوفة او المحظورة.",
+    "target_role": "الرتبة المستهدفة",
+    "update_role": "تحديث الرتبة",
+    "suspend_until": "تعليق حتى",
+    "reason": "السبب",
+    "reason_placeholder": "مثال: سبام، انتحال، خطاب كراهية",
+    "suspend": "تعليق",
+    "ban": "حظر",
+    "reinstate": "اعادة التفعيل"
+  },
+  "messages": {
+    "role_updated": "تم تحديث الرتبة لـ @{{username}}.",
+    "account_suspended": "تم تعليق الحساب @{{username}}.",
+    "account_banned": "تم حظر الحساب @{{username}}.",
+    "account_reinstated": "تم اعادة تفعيل الحساب @{{username}}.",
+    "report_dismissed_one": "تم تجاهل بلاغ واحد.",
+    "report_dismissed_other": "تم تجاهل {{count}} بلاغات.",
+    "post_deleted": "تم حذف المنشور من صفحة الاشراف."
+  },
+  "errors": {
+    "load_reports": "تعذر تحميل المنشورات المبلغ عنها.",
+    "load_accounts": "تعذر تحميل الحسابات.",
+    "update_role": "تعذر تحديث الرتبة.",
+    "suspend_until_required": "اختر تاريخ نهاية التعليق.",
+    "suspend_account": "تعذر تعليق هذا الحساب.",
+    "ban_account": "تعذر حظر هذا الحساب.",
+    "reinstate_account": "تعذر اعادة تفعيل هذا الحساب.",
+    "update_report": "تعذر تحديث هذا البلاغ.",
+    "reported_post_missing": "المنشور المبلغ عنه غير موجود.",
+    "delete_post": "تعذر حذف هذا المنشور."
+  }
+}

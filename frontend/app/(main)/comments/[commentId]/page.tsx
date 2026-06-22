@@ -87,14 +87,14 @@ export default function CommentDetailPage() {
           return mapped;
         }));
       } catch {
-        setError('Failed to load comment.');
+        setError(t('comment_detail.load_error'));
       } finally {
         setIsLoading(false);
       }
     }
 
     load();
-  }, [user, authLoading, commentId]);
+  }, [user, authLoading, commentId, t]);
 
   const handleLikeComment = async () => {
     if (!comment) return;
@@ -157,11 +157,11 @@ export default function CommentDetailPage() {
         <button
           onClick={() => router.back()}
           className="app-text-muted hover:app-text transition-colors"
-          aria-label="Go back"
+          aria-label={t('accessibility.go_back')}
         >
           <ArrowLeft size={20} />
         </button>
-        <h1 className="text-xl font-bold">Comment</h1>
+        <h1 className="text-xl font-bold">{t('comment_detail.title')}</h1>
       </header>
 
       {isPageLoading && <p className="text-center app-text-soft py-8">{t('pending')}</p>}

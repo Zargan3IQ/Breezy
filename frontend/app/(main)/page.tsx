@@ -69,14 +69,14 @@ export default function HomeFeed() {
 
         setPosts(backendPosts.map((bp) => mapBackendPost(bp, likedSet, user!, authorMap, avatarMap)));
       } catch {
-        setError('Failed to load posts.');
+        setError(t('home_page.load_error'));
       } finally {
         setIsLoading(false);
       }
     }
 
     loadFeed();
-  }, [user, authLoading]);
+  }, [user, authLoading, t]);
 
   useEffect(() => {
     if (!user) {
@@ -112,7 +112,7 @@ export default function HomeFeed() {
     } catch (err: unknown) {
       const message = err instanceof AxiosError && typeof err.response?.data === 'object' && err.response?.data !== null && 'message' in err.response.data
         ? String(err.response.data.message)
-        : 'Failed to publish post.';
+        : t('compose_post.publish_error');
       setPostError(message);
     } finally {
       setIsPosting(false);
@@ -187,7 +187,7 @@ export default function HomeFeed() {
       )}
 
       {isPageLoading && (
-        <p className="text-center app-text-soft py-8">Loading...</p>
+        <p className="text-center app-text-soft py-8">{t('pending')}</p>
       )}
 
       {error && (

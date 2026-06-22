@@ -2,19 +2,19 @@
 
 import { Languages, MonitorCog, Moon, Sun } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useTheme, type ThemeMode } from '@/context/ThemeContext';
+import { useTheme } from '@/context/ThemeContext';
 
 const LANGUAGE_OPTIONS = [
-  { code: 'fr', label: 'Francais' },
-  { code: 'en', label: 'English' },
-  { code: 'es', label: 'Espanol' },
-  { code: 'ar', label: 'العربية' },
-  { code: 'he', label: 'עברית' },
-  { code: 'ru', label: 'Русский' },
-  { code: 'ty', label: 'Reo Tahiti' },
-];
+  { code: 'fr', key: 'french' },
+  { code: 'en', key: 'english' },
+  { code: 'es', key: 'spanish' },
+  { code: 'ar', key: 'arabic' },
+  { code: 'he', key: 'hebrew' },
+  { code: 'ru', key: 'russian' },
+  { code: 'ty', key: 'tahitian' },
+] as const;
 
-const THEME_OPTIONS: Array<{ value: ThemeMode; icon: typeof Sun }> = [
+const THEME_OPTIONS: Array<{ value: 'light' | 'dark'; icon: typeof Sun }> = [
   { value: 'light', icon: Sun },
   { value: 'dark', icon: Moon },
 ];
@@ -68,7 +68,7 @@ export default function PreferencesPage() {
           >
             {LANGUAGE_OPTIONS.map((language) => (
               <option key={language.code} value={language.code}>
-                {language.label}
+                {t(`preferences_page.language.options.${language.key}`)}
               </option>
             ))}
           </select>
