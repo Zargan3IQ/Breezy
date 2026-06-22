@@ -41,5 +41,26 @@
     "error_server_with_msg": "Error {{status}}: {{message}}",
     "error_server_no_msg": "HTTP Error {{status}}.",
     "error_network": "Network error: {{message}}"
+  },
+  "account_modal": {
+    "open": "Edit account",
+    "title": "Edit account details",
+    "description": "Update your username, email, or password.",
+    "username": "Username",
+    "email": "Email",
+    "current_password": "Current password",
+    "new_password": "New password",
+    "confirm_password": "Confirm new password",
+    "password_hint": "Required to change your email or password.",
+    "cancel": "Cancel",
+    "save": "Save",
+    "saving": "Saving...",
+    "success": "Account updated.",
+    "password_success": "Password updated. Please log in again.",
+    "error_no_changes": "No changes to save.",
+    "error_required_password": "Current password is required to change email or password.",
+    "error_password_mismatch": "New passwords do not match.",
+    "error_password_length": "The new password must contain at least 8 characters.",
+    "error_username_required": "Username cannot be empty."
   }
 }

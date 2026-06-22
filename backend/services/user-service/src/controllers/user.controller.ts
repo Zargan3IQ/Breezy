@@ -125,7 +125,7 @@ export const getPublicUserSummaryByUsername = async (req: Request<{ username: st
 
 export const updateUserInfos = async (req: Request<{ id: string }>, res: Response) => {
   const { id } = req.params;
-  const { language_preference, theme_preference, username, avatar_url } = req.body;
+  const { language_preference, theme_preference, username, avatar_url, email } = req.body;
 
   try {
     const user = await prisma.user.update({
@@ -135,6 +135,7 @@ export const updateUserInfos = async (req: Request<{ id: string }>, res: Respons
         themePreference: theme_preference ?? undefined,
         username: username ?? undefined,
         avatarUrl: avatar_url ?? undefined,
+        email: email ?? undefined,
       },
     });
 
@@ -142,6 +143,9 @@ export const updateUserInfos = async (req: Request<{ id: string }>, res: Respons
   } catch (error) {
     if ((error as { code?: string }).code === 'P2025') {
       throw new AppError(404, 'User not found.');
+    }
+    if ((error as { code?: string }).code === 'P2002') {
+      throw new AppError(409, 'Username or email already in use.');
     }
     throw error;
   }

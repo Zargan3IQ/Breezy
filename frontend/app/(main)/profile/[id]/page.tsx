@@ -8,6 +8,7 @@ import ContextMenu from '@/components/ui/ContextMenu';
 import Button from '@/components/ui/Button';
 import PostCard from '@/components/feed/PostCard';
 import FollowListModal from '@/components/profile/FollowListModal';
+import EditAccountModal from '@/components/profile/EditAccountModal';
 import { useAuth } from '@/context/AuthContext';
 import { createComment, fetchPosts, fetchPostsByIds, fetchUserLikedPostIds, likePost, unlikePost, updatePost, deletePost, fetchCommentsByUser, fetchPostById, updateComment, deleteComment } from '@/lib/api/posts';
 import { fetchFollowingById, fetchProfileById, followUser, unfollowUser, updateProfile } from '@/lib/api/profile';
@@ -19,7 +20,7 @@ import { User } from '@/types/user';
 export default function ProfilePage() {
   const params = useParams<{ id: string }>();
   const routeUsername = Array.isArray(params.id) ? params.id[0] : params.id;
-  const { user, isLoading: authLoading, updateUser } = useAuth();
+  const { user, isLoading: authLoading, updateUser, logout } = useAuth();
   const router = useRouter();
   const { t } = useTranslation(['common', 'profile']);
   const isProfileUnavailable = !authLoading && (!user || !routeUsername);
@@ -45,6 +46,7 @@ export default function ProfilePage() {
   const [likesLoaded, setLikesLoaded] = useState(false);
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
   const [editingCommentContent, setEditingCommentContent] = useState('');
+  const [isEditAccountModalOpen, setIsEditAccountModalOpen] = useState(false);
 
   useEffect(() => {
     if (authLoading || !user || !routeUsername) {
@@ -108,7 +110,7 @@ export default function ProfilePage() {
     }
 
     loadProfilePage();
-  }, [authLoading, routeUsername, user]);
+  }, [authLoading, routeUsername, t, user]);
 
   const handleToggleLike = async (postId: string) => {
     const post = posts.find((entry) => entry.id === postId);
@@ -392,6 +394,23 @@ export default function ProfilePage() {
     }
   };
 
+  const handleAccountSaved = async ({ username, email, passwordChanged }: { username: string; email: string; passwordChanged: boolean }) => {
+    const previousUsername = user?.username;
+
+    setProfileUser((prev) => (prev ? { ...prev, name: username, username } : prev));
+    updateUser({ username, email });
+    setIsEditAccountModalOpen(false);
+
+    if (passwordChanged) {
+      await logout();
+      return;
+    }
+
+    if (previousUsername && previousUsername !== username) {
+      router.replace(`/profile/${encodeURIComponent(username)}`);
+    }
+  };
+
   return (
     <main className="w-full max-w-150 border-x app-border min-h-screen app-page">
       <header className="sticky top-0 z-10 border-b app-border app-header px-4 py-4 backdrop-blur-md">
@@ -448,22 +467,34 @@ export default function ProfilePage() {
                 </Button>
               )}
 
-              <div className="flex gap-6 text-sm app-text-muted">
-                <p>
-                  <span className="font-bold app-text">{posts.length}</span> {t('profile:stats.posts')}
-                </p>
-                <button
-                  onClick={() => setFollowModal('followers')}
-                  className="hover:underline text-left"
-                >
-                  <span className="font-bold app-text">{profileUser.followersCount ?? 0}</span> {t('profile:stats.followers')}
-                </button>
-                <button
-                  onClick={() => setFollowModal('following')}
-                  className="hover:underline text-left"
-                >
-                  <span className="font-bold app-text">{profileUser.followingCount ?? 0}</span> {t('profile:stats.following')}
-                </button>
+              <div className="flex flex-col gap-3 sm:ml-auto sm:items-end">
+                {isOwnProfile && (
+                  <button
+                    type="button"
+                    onClick={() => setIsEditAccountModalOpen(true)}
+                    className="shrink-0 self-end text-xs text-teal-600 hover:underline"
+                  >
+                    {t('profile:account_modal.open', { defaultValue: 'Edit account' })}
+                  </button>
+                )}
+
+                <div className="flex gap-6 text-sm app-text-muted sm:justify-end">
+                  <p>
+                    <span className="font-bold app-text">{posts.length}</span> {t('profile:stats.posts')}
+                  </p>
+                  <button
+                    onClick={() => setFollowModal('followers')}
+                    className="hover:underline text-left"
+                  >
+                    <span className="font-bold app-text">{profileUser.followersCount ?? 0}</span> {t('profile:stats.followers')}
+                  </button>
+                  <button
+                    onClick={() => setFollowModal('following')}
+                    className="hover:underline text-left"
+                  >
+                    <span className="font-bold app-text">{profileUser.followingCount ?? 0}</span> {t('profile:stats.following')}
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -656,6 +687,13 @@ export default function ProfilePage() {
           userId={profileUser.id}
           type={followModal}
           onClose={() => setFollowModal(null)}
+        />
+      )}
+      {isEditAccountModalOpen && user && (
+        <EditAccountModal
+          user={user}
+          onClose={() => setIsEditAccountModalOpen(false)}
+          onSaved={handleAccountSaved}
         />
       )}
     </main>
