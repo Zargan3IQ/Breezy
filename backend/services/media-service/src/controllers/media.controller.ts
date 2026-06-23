@@ -19,7 +19,10 @@ export const uploadMedia = async (req: Request, res: Response) => {
       'Content-Type': req.file.mimetype,
     });
 
-    const publicUrl = `${process.env.MINIO_PUBLIC_URL || 'http://localhost:9000'}/${BUCKET_NAME}/${objectName}`;
+    // MINIO_PUBLIC_URL must already point at the bucket root (e.g. MinIO's
+    // path-style http://host:9000/<bucket>, or R2's per-bucket dev domain
+    // which doesn't take the bucket name in the path).
+    const publicUrl = `${process.env.MINIO_PUBLIC_URL || `http://localhost:9000/${BUCKET_NAME}`}/${objectName}`;
 
     return res.status(201).json({ type: mediaType, url: publicUrl, object_name: objectName });
 };
