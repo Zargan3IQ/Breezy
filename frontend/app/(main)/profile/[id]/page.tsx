@@ -610,7 +610,7 @@ export default function ProfilePage() {
                   key={post.id}
                   post={post}
                   onLike={() => handleToggleLikedPost(post.id)}
-                  onReply={(content: string) => handleReply(post.id, content)}
+                  onReply={(content: string, image: File | null) => handleReply(post.id, content, image)}
                 />
               ))}
             </section>
