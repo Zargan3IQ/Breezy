@@ -79,24 +79,6 @@ services:
       - key: MONGO_URI
         sync: false
 
-  - type: web
-    name: breezy-minio
-    runtime: image
-    plan: starter
-    image:
-      url: docker.io/minio/minio:latest
-    dockerCommand: server /data --console-address ":9001"
-    disk:
-      name: breezy-minio-data
-      mountPath: /data
-      sizeGB: 5
-    envVars:
-      - key: MINIO_ROOT_USER
-        sync: false
-      - key: MINIO_ROOT_PASSWORD
-        sync: false
-    region: oregon
-
   - type: pserv
     name: breezy-media-service
     runtime: docker
@@ -107,13 +89,15 @@ services:
       - key: PORT
         value: 3005
       - key: MINIO_ENDPOINT
-        value: breezy-minio
+        sync: false
       - key: MINIO_PORT
-        value: 9000
+        value: 443
+      - key: MINIO_USE_SSL
+        value: true
       - key: MINIO_BUCKET
-        value: breezy-media
+        sync: false
       - key: MINIO_PUBLIC_URL
-        value: https://breezy-minio.onrender.com
+        sync: false
       - key: MINIO_ACCESS_KEY
         sync: false
       - key: MINIO_SECRET_KEY
