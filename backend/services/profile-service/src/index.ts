@@ -23,6 +23,8 @@ mongoose.connect(MONGO_URI)
     process.exit(1);
   });
 
+app.get('/healthz', (_req, res) => res.status(200).json({ status: 'ok' }));
+
 app.use('/api/profile', profileRoutes);
 app.use('/api/profile', followsRoutes);
 

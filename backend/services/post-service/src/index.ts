@@ -28,6 +28,8 @@ mongoose
     process.exit(1);
   });
 
+app.get('/healthz', (_req, res) => res.status(200).json({ status: 'ok' }));
+
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/post-likes', postLikeRoutes);

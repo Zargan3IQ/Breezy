@@ -16,6 +16,7 @@ services:
     plan: free
     dockerfilePath: ./backend/services/user-service/Dockerfile.prod
     dockerContext: ./backend/services/user-service
+    healthCheckPath: /healthz
     envVars:
       - key: PORT
         value: 3001
@@ -35,6 +36,7 @@ services:
     plan: free
     dockerfilePath: ./backend/services/auth-service/Dockerfile.prod
     dockerContext: ./backend/services/auth-service
+    healthCheckPath: /healthz
     envVars:
       - key: PORT
         value: 5001
@@ -61,6 +63,7 @@ services:
     plan: free
     dockerfilePath: ./backend/services/post-service/Dockerfile.prod
     dockerContext: ./backend/services/post-service
+    healthCheckPath: /healthz
     envVars:
       - key: PORT
         value: 3003
@@ -73,6 +76,7 @@ services:
     plan: free
     dockerfilePath: ./backend/services/profile-service/Dockerfile.prod
     dockerContext: ./backend/services/profile-service
+    healthCheckPath: /healthz
     envVars:
       - key: PORT
         value: 3004
@@ -85,6 +89,7 @@ services:
     plan: free
     dockerfilePath: ./backend/services/media-service/Dockerfile.prod
     dockerContext: ./backend/services/media-service
+    healthCheckPath: /healthz
     envVars:
       - key: PORT
         value: 3005
@@ -109,6 +114,7 @@ services:
     plan: free
     dockerfilePath: ./backend/services/api-gateway/Dockerfile.prod
     dockerContext: ./backend/services/api-gateway
+    healthCheckPath: /healthz
     envVars:
       - key: PORT
         value: 8080
@@ -138,6 +144,7 @@ services:
     plan: free
     dockerfilePath: ./frontend/Dockerfile
     dockerContext: ./frontend
+    healthCheckPath: /auth
     envVars:
       - key: NEXT_PUBLIC_GATEWAY_URL
         value: https://breezy-api-gateway.onrender.com

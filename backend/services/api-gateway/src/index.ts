@@ -14,6 +14,10 @@ app.use(cors({ origin: CORS_ORIGIN, credentials: true }));
 app.use(cookieParser());
 app.use(morgan('dev'));
 
+app.get('/healthz', (_req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
+
 for (const rule of routeTable) {
   const middlewares: RequestHandler[] = [authenticate];
 
