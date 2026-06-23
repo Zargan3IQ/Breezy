@@ -10,7 +10,7 @@ services:
     plan: free
     ipAllowList: []
 
-  - type: pserv
+  - type: web
     name: breezy-user-service
     runtime: docker
     plan: free
@@ -29,7 +29,7 @@ services:
           type: redis
           property: connectionString
 
-  - type: pserv
+  - type: web
     name: breezy-auth-service
     runtime: docker
     plan: free
@@ -55,7 +55,7 @@ services:
       - key: JWT_REFRESH_SECRET
         sync: false
 
-  - type: pserv
+  - type: web
     name: breezy-post-service
     runtime: docker
     plan: free
@@ -67,7 +67,7 @@ services:
       - key: MONGO_URI
         sync: false
 
-  - type: pserv
+  - type: web
     name: breezy-profile-service
     runtime: docker
     plan: free
@@ -79,7 +79,7 @@ services:
       - key: MONGO_URI
         sync: false
 
-  - type: pserv
+  - type: web
     name: breezy-media-service
     runtime: docker
     plan: free
