@@ -3,12 +3,14 @@ databases:
     plan: free
     databaseName: breezy
     user: breezy
+    region: oregon
 
 services:
   - type: redis
     name: breezy-redis
     plan: free
     ipAllowList: []
+    region: oregon
 
   - type: web
     name: breezy-user-service
@@ -16,6 +18,7 @@ services:
     plan: free
     dockerfilePath: ./backend/services/user-service/Dockerfile.prod
     dockerContext: ./backend/services/user-service
+    region: oregon
     healthCheckPath: /healthz
     envVars:
       - key: PORT
@@ -36,6 +39,7 @@ services:
     plan: free
     dockerfilePath: ./backend/services/auth-service/Dockerfile.prod
     dockerContext: ./backend/services/auth-service
+    region: oregon
     healthCheckPath: /healthz
     envVars:
       - key: PORT
@@ -45,9 +49,9 @@ services:
       - key: JWT_REFRESH_EXPIRES_IN
         value: 7d
       - key: USER_SERVICE_URL
-        value: http://breezy-user-service:3001
+        value: https://breezy-user-service.onrender.com
       - key: PROFILE_SERVICE_URL
-        value: http://breezy-profile-service:3004
+        value: https://breezy-profile-service.onrender.com
       - key: DATABASE_URL
         fromDatabase:
           name: breezy-pg
@@ -63,6 +67,7 @@ services:
     plan: free
     dockerfilePath: ./backend/services/post-service/Dockerfile.prod
     dockerContext: ./backend/services/post-service
+    region: oregon
     healthCheckPath: /healthz
     envVars:
       - key: PORT
@@ -76,6 +81,7 @@ services:
     plan: free
     dockerfilePath: ./backend/services/profile-service/Dockerfile.prod
     dockerContext: ./backend/services/profile-service
+    region: oregon
     healthCheckPath: /healthz
     envVars:
       - key: PORT
@@ -89,6 +95,7 @@ services:
     plan: free
     dockerfilePath: ./backend/services/media-service/Dockerfile.prod
     dockerContext: ./backend/services/media-service
+    region: oregon
     healthCheckPath: /healthz
     envVars:
       - key: PORT
@@ -114,22 +121,23 @@ services:
     plan: free
     dockerfilePath: ./backend/services/api-gateway/Dockerfile.prod
     dockerContext: ./backend/services/api-gateway
+    region: oregon
     healthCheckPath: /healthz
     envVars:
       - key: PORT
         value: 8080
       - key: CORS_ORIGIN
-        value: https://breezy-frontend.onrender.com
+        value: https://breezy-frontend-umja.onrender.com
       - key: AUTH_SERVICE_URL
-        value: http://breezy-auth-service:5001
+        value: https://breezy-auth-service.onrender.com
       - key: USER_SERVICE_URL
-        value: http://breezy-user-service:3001
+        value: https://breezy-user-service.onrender.com
       - key: POST_SERVICE_URL
-        value: http://breezy-post-service:3003
+        value: https://breezy-post-service.onrender.com
       - key: PROFILE_SERVICE_URL
-        value: http://breezy-profile-service:3004
+        value: https://breezy-profile-service.onrender.com
       - key: MEDIA_SERVICE_URL
-        value: http://breezy-media-service:3005
+        value: https://breezy-media-service.onrender.com
       - key: REDIS_URL
         fromService:
           name: breezy-redis
@@ -144,6 +152,7 @@ services:
     plan: free
     dockerfilePath: ./frontend/Dockerfile
     dockerContext: ./frontend
+    region: oregon
     healthCheckPath: /auth
     envVars:
       - key: NEXT_PUBLIC_GATEWAY_URL
